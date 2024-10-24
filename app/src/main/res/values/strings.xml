@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Journey Flow</string>
+
+    <string name="screen1">Welcome to Journey Flow</string>
+    <string name="screen2">Save your journey</string>
+    <string name="screen3">Share your journey</string>
+    <string name="screen1desc">An application that tracks your journeys.</string>
+    <string name="screen2desc">Track your journey using GPS and save where you have been. </string>
+    <string name="screen3desc">Each saved trip is private, but if the user wants, he has the option to share a nice trip accompanied by pictures and a description.</string>
+    <string name="startDesc">Before using the application, it is necessary to fill in basic information.</string>
+
+    <string name="screenGetStarted">Start an app</string>
+    <string name="buttonFinish">Finish</string>
+    <string name="buttonBack">Back</string>
+    <string name="buttonNext">Next</string>
 </resources>
