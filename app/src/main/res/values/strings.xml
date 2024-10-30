@@ -11,8 +11,11 @@
     <string name="buttonGetStarted">Get started</string>
 
     <string name="screenGetStarted">Start an app</string>
-    <string name="buttonFinish">Finish</string>
-    <string name="buttonBack">Back</string>
-    <string name="buttonNext">Next</string>
     <string name="just_picture">Just picture</string>
+
+    <!-- Navigation Activity -->
+    <string name="buttonNext">Next</string>
+    <string name="buttonBack">Back</string>
+    <string name="buttonFinish">Finish</string>
+
 </resources>

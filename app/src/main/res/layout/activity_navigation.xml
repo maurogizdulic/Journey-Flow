@@ -7,38 +7,36 @@
     android:layout_height="match_parent"
     android:background="@drawable/background2"
     tools:context=".signup.NavigationActivity">
-
+<!--
     <Button
         android:id="@+id/skipButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Skip"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="15dp"
+        android:text="SKIP INTRODUCTION"
         android:textColor="@color/white"
         android:textSize="14sp"
         app:cornerRadius = "15dp"
-        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/slideViewPager"/> -->
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/slideViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginVertical="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/backButton"/>
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00000000"
-        android:text="Back"
+        android:text="@string/buttonBack"
         android:textSize="18sp"
         android:layout_marginStart="15dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="20dp"
         android:visibility="invisible"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,10 +45,10 @@
         android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="@string/buttonNext"
         android:textSize="16sp"
         android:background="#00000000"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginEnd="15dp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

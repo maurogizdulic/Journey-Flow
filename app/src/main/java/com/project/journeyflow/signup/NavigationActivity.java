@@ -12,6 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.project.journeyflow.MainActivity;
@@ -61,14 +65,12 @@ public class NavigationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_navigation);
-        /*
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-         */
 
         Realm.init(this);
         // on below line we are creating a variable for realm configuration and initializing it.
@@ -87,7 +89,7 @@ public class NavigationActivity extends AppCompatActivity {
 
         backButton = findViewById(R.id.backButton);
         nextButton = findViewById(R.id.nextButton);
-        skipButton = findViewById(R.id.skipButton);
+        //skipButton = findViewById(R.id.skipButton);
 
         slideViewPager = findViewById(R.id.slideViewPager);
         dotIndicator = findViewById(R.id.dotIndicator);
@@ -110,12 +112,6 @@ public class NavigationActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
             }
-        });
-
-        skipButton.setOnClickListener(view -> {
-            Intent i = new Intent(NavigationActivity.this, MainActivity.class);
-            startActivity(i);
-            finish();
         });
     }
 
