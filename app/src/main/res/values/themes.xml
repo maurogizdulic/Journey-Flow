@@ -3,7 +3,21 @@
     <style name="Base.Theme.JourneyFlow" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/dark_green</item>
+        <item name="colorOnPrimary">@color/green</item>
+        <item name="textAppearanceButton">@style/TextAppearance.App.Button</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
     </style>
 
     <style name="Theme.JourneyFlow" parent="Base.Theme.JourneyFlow" />
+
+    <style name="TextAppearance.App.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/aovelsansrounded_rddl</item>
+        <item name="android:fontFamily">@font/aovelsansrounded_rddl</item>
+    </style>
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">4dp</item>
+    </style>
 </resources>

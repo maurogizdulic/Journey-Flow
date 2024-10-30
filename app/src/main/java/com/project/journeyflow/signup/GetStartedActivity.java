@@ -10,9 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.project.journeyflow.MainActivity;
 import com.project.journeyflow.R;
 
+import io.realm.Realm;
+
 public class GetStartedActivity extends AppCompatActivity {
 
-    Button startButton;
+    private Button startButton;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +29,16 @@ public class GetStartedActivity extends AppCompatActivity {
         });
         */
 
+        Realm.init(this);  // Initialize Realm
+        realm = Realm.getDefaultInstance();
+        realm.beginTransaction(); // Get a Realm instance
+        realm.deleteAll();
+        realm.commitTransaction();
+        realm.close();
+
         startButton = findViewById(R.id.startButton);
         startButton.setOnClickListener(view -> {
-            Intent i = new Intent(GetStartedActivity.this, MainActivity.class);
+            Intent i = new Intent(GetStartedActivity.this, SignUpActivity.class);
             startActivity(i);
             finish();
         });

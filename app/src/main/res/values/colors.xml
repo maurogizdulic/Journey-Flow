@@ -4,4 +4,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="lavender">#8692f7</color>
     <color name="grey">#808080</color>
+    <color name="green">#ABC270</color>
+    <color name="yellow">#FEC868</color>
+    <color name="orange">#FDA769</color>
+    <color name="brown">#473C33</color>
+    <color name="darker_gray">#737373</color>
+    <color name="dark_green">#CC273526</color>
+    <color name="cream">#FBFADA</color>
 </resources>

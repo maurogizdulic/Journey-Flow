@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/purple_blue_background_picture"
+    android:background="@drawable/background2"
     tools:context=".signup.GetStartedActivity"
     android:orientation="vertical"
     app:flow_horizontalAlign="center">
@@ -22,7 +22,7 @@
         android:layout_marginTop="50dp"
         android:text="@string/screenGetStarted"
         android:textAlignment="center"
-        android:textColor="@color/lavender"
+        android:textColor="@color/dark_green"
         android:textSize="30sp"
         android:textStyle="bold" />
     <TextView
@@ -32,13 +32,13 @@
         android:text="@string/startDesc"
         android:layout_marginTop="20dp"
         android:textAlignment="center"
-        android:textColor="@color/lavender"
+        android:textColor="@color/dark_green"
         android:textSize="20sp"/>
     <Button
         android:id="@+id/startButton"
         android:layout_width="180dp"
         android:layout_height="60dp"
-        android:text="Get Started"
+        android:text="@string/buttonGetStarted"
         android:padding="8dp"
         android:textSize="20sp"
         android:layout_marginTop="20dp"

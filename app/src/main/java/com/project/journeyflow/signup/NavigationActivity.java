@@ -17,6 +17,9 @@ import androidx.viewpager.widget.ViewPager;
 import com.project.journeyflow.MainActivity;
 import com.project.journeyflow.R;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 public class NavigationActivity extends AppCompatActivity {
 
     ViewPager slideViewPager;
@@ -67,6 +70,21 @@ public class NavigationActivity extends AppCompatActivity {
 
          */
 
+        Realm.init(this);
+        // on below line we are creating a variable for realm configuration and initializing it.
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                // below line is to allow write
+                // data to database on ui thread.
+                .allowWritesOnUiThread(true)
+                // below line is to delete realm
+                // if migration is needed.
+                .deleteRealmIfMigrationNeeded()
+                // at last we are calling a build method to generate the configurations.
+                .build();
+        // on below line we are setting the default
+        // configuration to our realm database.
+        Realm.setDefaultConfiguration(config);
+
         backButton = findViewById(R.id.backButton);
         nextButton = findViewById(R.id.nextButton);
         skipButton = findViewById(R.id.skipButton);
@@ -108,10 +126,10 @@ public class NavigationActivity extends AppCompatActivity {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226", Html.FROM_HTML_MODE_LEGACY));
             dots[i].setTextSize(35);
-            dots[i].setTextColor(getResources().getColor(R.color.grey, getApplicationContext().getTheme()));
+            dots[i].setTextColor(getResources().getColor(R.color.green));
             dotIndicator.addView(dots[i]);
         }
-        dots[position].setTextColor(getResources().getColor(R.color.lavender, getApplicationContext().getTheme()));
+        dots[position].setTextColor(getResources().getColor(R.color.dark_green));
     }
     private int getItem(int i) {
         return slideViewPager.getCurrentItem() + i;
