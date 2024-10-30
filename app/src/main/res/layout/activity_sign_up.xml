@@ -18,7 +18,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:contentDescription="@string/just_picture"
-        android:src="@drawable/people"/>
+        android:src="@drawable/world"/>
 
     <TextView
         android:id="@+id/textViewTitle"
