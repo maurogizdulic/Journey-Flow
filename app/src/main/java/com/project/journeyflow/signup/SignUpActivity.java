@@ -4,68 +4,77 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.project.journeyflow.R;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private Button signUpButton;
     private EditText editTextEmail;
     private EditText editTextPassword;
     private EditText editTextConfirmPassword;
+    private String email, password, confirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up);
-        /*
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-         */
 
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
 
-        signUpButton = findViewById(R.id.buttonSignUp);
+        Button signUpButton = findViewById(R.id.buttonSignUp);
         signUpButton.setOnClickListener(view -> {
-            if (editTextEmail.getText().toString().isEmpty()){
+
+            email = editTextEmail.getText().toString().trim();
+            password = editTextPassword.getText().toString();
+            confirmPassword = editTextConfirmPassword.getText().toString();
+
+            InputCorrectness inputCorrectness = new InputCorrectness();
+            boolean isCorrect = true;
+
+            if (email.isEmpty()) {
                 editTextEmail.setError("Email is required!");
+                isCorrect = false;
             }
 
-            if (editTextPassword.getText().toString().isEmpty()){
+            if (password.isEmpty()) {
                 editTextPassword.setError("Password is required!");
+                isCorrect = false;
             }
 
-            if (editTextConfirmPassword.getText().toString().isEmpty()){
+            if (confirmPassword.isEmpty()) {
                 editTextConfirmPassword.setError("Confirmed password is required!");
+                isCorrect = false;
             }
 
-            if (!(editTextEmail.getText().toString().isEmpty() || editTextPassword.getText().toString().isEmpty() || editTextConfirmPassword.getText().toString().isEmpty())){
-                if (editTextPassword.getText() == editTextConfirmPassword.getText()){
-                    editTextConfirmPassword.setError("Confirmed password isn't same as password!");
-                    Toast.makeText(getApplicationContext(), "Confirmed password isn't same as password!", Toast.LENGTH_LONG).show();
-                }
-                else{
-
-                    Intent intent = new Intent(SignUpActivity.this, PersonalInformationActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+            if (!(inputCorrectness.checkEmailCorrectness(email))){
+                editTextEmail.setError("E-mail incorrect!");
+                isCorrect = false;
             }
 
+            if (!(inputCorrectness.checkPasswordCorrectness(password))){
+                editTextPassword.setError("Password must contain at least one capital letter, number and symbol");
+                editTextPassword.setText("");
+                isCorrect = false;
+            }
+
+            if (inputCorrectness.checkPasswordAndConfirmPasswordCorrectness(password, confirmPassword) && isCorrect) {
+                Intent intent = new Intent(SignUpActivity.this, PersonalInformationActivity.class);
+                intent.putExtra("Email", email);
+                intent.putExtra("Password", password);
+                intent.putExtra("ConfirmPassword", confirmPassword);
+                startActivity(intent);
+                finish();
+            }
+            else {
+                editTextPassword.setText("");
+                editTextConfirmPassword.setText("");
+            }
         });
     }
 }

@@ -5,36 +5,39 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background2"
+    android:background="@drawable/green_main_background"
     tools:context=".signup.PersonalInformationActivity">
 
-   <ImageView
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_alignParentTop="true"
-       android:layout_alignParentStart="true"
-       android:layout_alignParentEnd="true"
-       android:background="@drawable/planetbackground"/>
 
     <ImageView
-        android:id="@+id/imageViewBackgroundUp"
-        android:layout_width="70dp"
-        android:layout_height="160dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginTop="30dp"
+        android:id="@+id/imageViewBackgroundProfile"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/pin"/>
+        android:scaleType="fitXY"
+        android:background="@drawable/text_input_layout_shape"
+        android:src="@drawable/green_background"/>
+
+    <ImageView
+        android:id="@+id/imageViewBackgroundProfile2"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/circle_shape"
+        android:scaleType="centerInside"
+        android:src="@drawable/circle_green_background"/>
 
     <ImageButton
-        android:id="@+id/imageViewProfilePicture"
+        android:id="@+id/imageButtonProfilePicture"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="60dp"
         android:src="@drawable/main"
         android:background="@drawable/circle_shape"
         android:scaleType="centerInside" />
@@ -45,7 +48,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/imageViewBackgroundUp">
+        android:layout_below="@+id/imageViewBackgroundProfile">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,10 +68,10 @@
                     android:id="@+id/firstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="First Name*"
                     android:background="@drawable/text_input_layout_shape"
-                    android:textColor="@color/dark_green"
-                    android:inputType="textEmailAddress"/>
+                    android:hint="First Name"
+                    android:inputType="text"
+                    android:textColor="@color/dark_green" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -84,10 +87,10 @@
                     android:id="@+id/lastName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Last Name*"
                     android:background="@drawable/text_input_layout_shape"
-                    android:textColor="@color/dark_green"
-                    android:inputType="textEmailAddress"/>
+                    android:hint="Last Name"
+                    android:inputType="text"
+                    android:textColor="@color/dark_green" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -97,23 +100,26 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                app:helperText="Public username (everybody can see your username).\nMin length is 4"
+                app:helperText="Public username (everyone see your username)"
                 app:startIconDrawable="@drawable/world_icon">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Username*"
+                    android:hint="Username"
                     android:background="@drawable/text_input_layout_shape"
                     android:textColor="@color/dark_green"
-                    android:inputType="textEmailAddress"/>
+                    android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
                 android:background="@drawable/text_input_layout_shape"
                 android:weightSum="2">
 
@@ -122,24 +128,48 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/world_icon"
                     android:text="Gender"
                     android:gravity="center"
-                    android:textSize="30sp"
-                    android:layout_marginStart="30dp"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/darker_gray"
                     android:fontFamily="@font/aovelsansrounded_rddl"
                     android:background="@drawable/text_input_layout_shape"
                     android:textAlignment="center" />
 
-                <Spinner
-                    android:id="@+id/spinnerGender"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="30dp"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:background="@drawable/text_input_layout_shape"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/text_input_layout_shape">
+
+                    <RadioGroup
+                        android:id="@+id/radioGroupGender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+
+                        <RadioButton
+                            android:id="@+id/radioButtonFemale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Female"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="16dp"/>
+
+                        <RadioButton
+                            android:id="@+id/radioButtonMale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Male"/>
+
+                    </RadioGroup>
+
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -147,33 +177,59 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
+                android:background="@drawable/text_input_layout_shape"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:weightSum="2">
 
                 <TextView
-                    android:id="@+id/textViewSelectedDate"
+                    android:id="@+id/textViewDateOfBirth"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/text_input_layout_shape"
-                    android:textAlignment="center"
+                    android:text="Date of birth"
                     android:gravity="center"
-                    android:hint="Date of birth"/>
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/darker_gray"
+                    android:fontFamily="@font/aovelsansrounded_rddl"
+                    android:background="@drawable/text_input_layout_shape"
+                    android:textAlignment="center" />
 
-
-                <Button
-                    android:id="@+id/buttonPickDate"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="1"
-                    android:text="Pick a date"
-                    android:drawableLeft="@drawable/calendar_icon"
-                    />
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:weightSum="2">
+
+                    <Button
+                        android:id="@+id/buttonPickDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:text="Pick a date"
+                        android:drawableLeft="@drawable/calendar_icon"
+                        />
+
+                    <TextView
+                        android:id="@+id/textViewSelectedDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="20sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:fontFamily="@font/aovelsansrounded_rddl"
+                        android:hint="Date of birth"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -189,6 +245,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
                     android:background="@drawable/text_input_layout_shape"
                     android:weightSum="2">
 
@@ -200,10 +258,10 @@
                         android:layout_marginTop="20dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        android:drawableLeft="@drawable/height_icon"
                         android:text="Weight"
                         android:gravity="center"
-                        android:textSize="30sp"
+                        android:textColor="@color/darker_gray"
+                        android:textSize="25sp"
                         android:textStyle="bold"
                         android:fontFamily="@font/aovelsansrounded_rddl"
                         android:textAlignment="center" />
@@ -212,10 +270,14 @@
                         android:id="@+id/spinnerWeight"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginTop="20dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        android:layout_weight="1"/>
+                        android:layout_marginBottom="20dp"
+                        android:layout_weight="1"
+                        android:spinnerMode="dropdown"
+                        tools:listitem="@layout/drop_down_spinner"
+                        android:popupBackground="@drawable/text_input_layout_shape"
+                        android:background="@drawable/text_input_layout_shape"/>
 
                 </LinearLayout>
 
@@ -225,6 +287,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginTop="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="20dp"
                     android:background="@drawable/text_input_layout_shape"
                     android:weightSum="2">
 
@@ -236,10 +300,10 @@
                         android:layout_marginTop="20dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        android:drawableLeft="@drawable/height_icon"
                         android:text="Height"
                         android:gravity="center"
-                        android:textSize="30sp"
+                        android:textColor="@color/darker_gray"
+                        android:textSize="25sp"
                         android:textStyle="bold"
                         android:fontFamily="@font/aovelsansrounded_rddl"
                         android:textAlignment="center" />
@@ -248,22 +312,27 @@
                         android:id="@+id/spinnerHeight"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginTop="20dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        android:layout_weight="1"/>
+                        android:layout_marginBottom="20dp"
+                        android:layout_weight="1"
+                        android:spinnerMode="dropdown"
+                        tools:listitem="@layout/drop_down_spinner"
+                        android:popupBackground="@drawable/text_input_layout_shape"
+                        android:background="@drawable/text_input_layout_shape"/>
 
                 </LinearLayout>
             </LinearLayout>
 
             <Button
                 android:id="@+id/buttonConfirm"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="50dp"
-                android:text="Confirm"
+                android:textSize="20dp"
+                android:text="Create"
                 />
 
 

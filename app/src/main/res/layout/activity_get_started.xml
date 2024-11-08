@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background2"
+    android:background="@drawable/green_background"
     tools:context=".signup.GetStartedActivity"
     android:orientation="vertical"
     app:flow_horizontalAlign="center">
@@ -24,11 +24,13 @@
         android:textAlignment="center"
         android:textColor="@color/dark_green"
         android:textSize="30sp"
+        android:fontFamily="@font/aovelsansrounded_rddl"
         android:textStyle="bold" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
+        android:fontFamily="@font/aovelsansrounded_rddl"
         android:text="@string/startDesc"
         android:layout_marginTop="20dp"
         android:textAlignment="center"
