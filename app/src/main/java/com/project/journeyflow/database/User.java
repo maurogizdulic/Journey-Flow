@@ -2,6 +2,7 @@ package com.project.journeyflow.database;
 
 import java.util.Date;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -19,6 +20,7 @@ public class User extends RealmObject {
     private double weight;
     private String eMail;
     private String password;
+    private RealmList<TrackingData> trackings;
     //private byte[] imageData;  // Store the original image as a byte array
 
 
@@ -100,6 +102,14 @@ public class User extends RealmObject {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public RealmList<TrackingData> getTrackings() {
+        return trackings;
+    }
+
+    public void setTrackings(RealmList<TrackingData> trackings) {
+        this.trackings = trackings;
     }
 /*
     public byte[] getImageData() {

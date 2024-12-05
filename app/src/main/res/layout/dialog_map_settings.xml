@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <!-- Row 1: TextView and Switch -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Zoom in/out buttons"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/darker_gray"
+            android:fontFamily="@font/aovelsansrounded_rddl" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!-- Row 2: TextView and Switch -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Rotation"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/darker_gray"
+            android:fontFamily="@font/aovelsansrounded_rddl" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switch2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- Row 3: TextView and Switch -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Option 3"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/darker_gray"
+            android:fontFamily="@font/aovelsansrounded_rddl"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switch3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- Row 4: TextView and Switch -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Multi-touch controls"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/darker_gray"
+            android:fontFamily="@font/aovelsansrounded_rddl"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switch4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+</LinearLayout>
