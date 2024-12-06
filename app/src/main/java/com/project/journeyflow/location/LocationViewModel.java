@@ -11,13 +11,11 @@ import java.util.List;
 
 public class LocationViewModel extends ViewModel {
 
-    private MutableLiveData<List<GeoPoint>> pointsList = new MutableLiveData<>();
-    private MutableLiveData<List<Double>> altitudeList = new MutableLiveData<>();
-    private MutableLiveData<List<Float>> speedList = new MutableLiveData<>();
-    private MutableLiveData<List<Float>> accuracyList = new MutableLiveData<>();
+    private final MutableLiveData<List<GeoPoint>> pointsList = new MutableLiveData<>();
+    private final MutableLiveData<List<Double>> altitudeList = new MutableLiveData<>();
+    private final MutableLiveData<List<Float>> speedList = new MutableLiveData<>();
+    private final MutableLiveData<List<Float>> accuracyList = new MutableLiveData<>();
     private double measuredDistance = 0;
-
-    private boolean isTracking;
 
     public LiveData<List<GeoPoint>> getPointsList() {
         return pointsList;
@@ -54,14 +52,6 @@ public class LocationViewModel extends ViewModel {
 
     public void clearPointsList() {
         pointsList.setValue(new ArrayList<>());
-    }
-
-    public boolean isTracking() {
-        return isTracking;
-    }
-
-    public void setTracking(boolean tracking) {
-        isTracking = tracking;
     }
 
     public double getMeasuredDistance() {

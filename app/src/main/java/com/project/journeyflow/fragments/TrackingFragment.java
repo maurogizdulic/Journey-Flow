@@ -1,12 +1,8 @@
 package com.project.journeyflow.fragments;
 
-import com.project.journeyflow.location.map.Map;
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -21,12 +17,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.materialswitch.MaterialSwitch;
 import com.project.journeyflow.R;
 import com.project.journeyflow.location.DataProcessing;
 import com.project.journeyflow.location.GPS;
@@ -91,11 +85,7 @@ public class TrackingFragment extends Fragment {
         textViewSpeed = view.findViewById(R.id.textViewSpeed);
         textViewTrackingTitle = view.findViewById(R.id.textViewJourney);
 
-        //fabCurrentLocation = view.findViewById(R.id.fabCurrentLocation);
-        //fabMapSettings = view.findViewById(R.id.fabSettings);
-
         // Initialize MapView
-
         map = view.findViewById(R.id.osmMapView);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
@@ -104,18 +94,15 @@ public class TrackingFragment extends Fragment {
         map.setVerticalMapRepetitionEnabled(false);
         map.setHorizontalMapRepetitionEnabled(false);
 
-        //map.getController().setZoom(15.0);
-
         // Setup Location Overlay
         myLocationNewOverlay = new MyLocationNewOverlay(map);
-        myLocationNewOverlay.enableMyLocation();
-        map.getOverlays().add(myLocationNewOverlay);
 
         // Start listening for location updates
         if (gps.isProviderEnabled()){
             startGPSListening();
         }
         else {
+            //map.set
             Toast.makeText(getActivity(), "Location disabled! Turn on location for current location!", Toast.LENGTH_LONG).show();
         }
 
@@ -217,6 +204,12 @@ public class TrackingFragment extends Fragment {
         buttonCurrentLocation.setOnClickListener(view1 -> {
             if (gps.isProviderEnabled()){
                 map.getController().animateTo(currentLocation);
+                /*
+                myLocationNewOverlay.enableMyLocation();
+                map.getOverlays().add(myLocationNewOverlay);
+                map.getController().setZoom(19.0);
+
+                 */
             }
             else {
                 Toast.makeText(getActivity(), "GPS doesn't find current location! Check if you have turned on the location in the settings!", Toast.LENGTH_LONG).show();
@@ -231,10 +224,6 @@ public class TrackingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //map = view.findViewById(R.id.osmMapView);
-        //map.setBuiltInZoomControls(true);
-        //map.setMultiTouchControls(true);
-
         polyline = new Polyline();
         map.getOverlays().add(polyline);
 
@@ -244,7 +233,6 @@ public class TrackingFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onChanged(List<GeoPoint> geoPoints) {
-                //Log.d("POINT LIST TO SHOW ON MAP", trackingData.getLocationList().getValue().toString());
                 polyline.setPoints(geoPoints);
                 map.invalidate();// Refresh map with updated polyline
 
@@ -280,20 +268,17 @@ public class TrackingFragment extends Fragment {
 
         if (TrackingService.isTracking) {
             setVisibleStatistic();
-            //buttonStartStop.setText("Stop Tracking");
             textViewTrackingTitle.setText("Stop your journey");
         } else {
-            //buttonStartStop.setText("Start Tracking");
             textViewTrackingTitle.setText("Start your journey");
         }
 
         // Setup location overlay
-        myLocationNewOverlay = new MyLocationNewOverlay(map);
         myLocationNewOverlay.enableMyLocation();
         map.getOverlays().add(myLocationNewOverlay);
         map.getController().setZoom(19.0);
 
-        startGPSListening();
+        //startGPSListening();
         Log.d("TRACKING", "onResume CALLED");
     }
 
@@ -305,6 +290,12 @@ public class TrackingFragment extends Fragment {
         LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(locationReceiver);
         Log.d("TRACKING", "onDestroy CALLED");
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        myLocationNewOverlay.disableMyLocation();
     }
 
     @SuppressLint("SetTextI18n")
@@ -344,6 +335,7 @@ public class TrackingFragment extends Fragment {
 
     private void startGPSListening(){
         // Check for location permissions
+        /*
         if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -351,6 +343,8 @@ public class TrackingFragment extends Fragment {
             ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             return;
         }
+
+         */
 
         // Start listening for GPS updates using the GPS class
         gps.startListening(new LocationListener() {
