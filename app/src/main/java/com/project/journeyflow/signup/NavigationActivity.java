@@ -19,11 +19,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import com.project.journeyflow.MainActivity;
 import com.project.journeyflow.R;
-
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -72,21 +68,6 @@ public class NavigationActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        Realm.init(this);
-        // on below line we are creating a variable for realm configuration and initializing it.
-        RealmConfiguration config = new RealmConfiguration.Builder()
-                // below line is to allow write
-                // data to database on ui thread.
-                .allowWritesOnUiThread(true)
-                // below line is to delete realm
-                // if migration is needed.
-                .deleteRealmIfMigrationNeeded()
-                // at last we are calling a build method to generate the configurations.
-                .build();
-        // on below line we are setting the default
-        // configuration to our realm database.
-        Realm.setDefaultConfiguration(config);
 
         backButton = findViewById(R.id.backButton);
         nextButton = findViewById(R.id.nextButton);

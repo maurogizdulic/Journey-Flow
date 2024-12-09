@@ -10,7 +10,7 @@ public class InputCorrectness {
             return false;
         }
         else {
-            String pattern = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).+$";
+            String pattern = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!?.,/()*:;<>{}]).+$";
             return password.matches(pattern);
         }
     }

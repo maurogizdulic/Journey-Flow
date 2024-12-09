@@ -82,7 +82,6 @@ public class PersonalInformationActivity extends AppCompatActivity {
         textInputUsername = findViewById(R.id.username);
         RadioGroup radioGroup = findViewById(R.id.radioGroupGender);
 
-
         // Sign up values from activity sign up
         String email = getIntent().getStringExtra("Email");
         String password = getIntent().getStringExtra("Password");
