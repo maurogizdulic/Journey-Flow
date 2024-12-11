@@ -3,6 +3,7 @@ package com.project.journeyflow.calculation;
 import android.annotation.SuppressLint;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -49,5 +50,23 @@ public class Calculation {
     public static String convertToDateTimeString(Date dateTime){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
         return simpleDateFormat.format(dateTime);
+    }
+
+    public static List<Double> convertFromMtoKm(List<Double> list) {
+        List<Double> doubleList = new ArrayList<>();
+        for (Double value : list) {
+            value = value / 1000;
+            doubleList.add(value);
+        }
+        return doubleList;
+    }
+
+    public static List<Float> convertFromMsToKmh(List<Float> list) {
+        List<Float> floatList = new ArrayList<>();
+        for (Float value : list) {
+            value = value * 3600 / 1000;
+            floatList.add(value);
+        }
+        return floatList;
     }
 }

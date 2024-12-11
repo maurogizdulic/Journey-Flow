@@ -6,6 +6,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.project.journeyflow.calculation.Calculation;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,14 +20,15 @@ public class Chart {
 
         if (xAxisList.size() == yAxisList.size()) {
             int index = 0;
-            for (Double value : yAxisList) {
+            List<Double> listInKm = new ArrayList<>(Calculation.convertFromMtoKm(yAxisList));
+            for (Double value : listInKm) {
                 entries.add(new Entry(index, value.floatValue()));
                 index++;
             }
         }
 
-        LineDataSet dataSet = new LineDataSet(entries, "Distance in meters");
-        dataSet.setColor(Color.BLUE);
+        LineDataSet dataSet = new LineDataSet(entries, "Distance in km");
+        //dataSet.setColor(Color.BLUE);
         dataSet.setValueTextColor(Color.BLACK);
 
         LineData lineData = new LineData(dataSet);
@@ -56,14 +58,14 @@ public class Chart {
 
         if (xAxisList.size() == yAxisList.size()) {
             int index = 0;
+            List<Double> listInKm = new ArrayList<>(Calculation.convertFromMtoKm(xAxisList));
             for (Double value : yAxisList) {
-                entries.add(new Entry(xAxisList.get(index).floatValue(), value.floatValue()));
+                entries.add(new Entry(listInKm.get(index).floatValue(), value.floatValue()));
                 index++;
             }
         }
 
-        LineDataSet dataSet = new LineDataSet(entries, "Distance in meters");
-        dataSet.setColor(Color.BLUE);
+        LineDataSet dataSet = new LineDataSet(entries, "Altitude in meters");
         dataSet.setValueTextColor(Color.BLACK);
         dataSet.setDrawFilled(true);
 
@@ -71,7 +73,6 @@ public class Chart {
         chart.setData(lineData);
 
         chart.getXAxis().setTextSize(12f); // Adjust text size
-        //chart.getXAxis().setValueFormatter(new DateFormatter(yAxisList));
         chart.getXAxis().setLabelRotationAngle(-45);
         chart.getXAxis().setGranularity(1f); // Ensure one label per point
         chart.getXAxis().setGranularityEnabled(true);
@@ -93,15 +94,15 @@ public class Chart {
         ArrayList<Entry> entries = new ArrayList<>();
 
         if (xAxisList.size() == yAxisList.size()) {
+            List<Float> listInKmh = new ArrayList<>(Calculation.convertFromMsToKmh(yAxisList));
             int index = 0;
-            for (Float value : yAxisList) {
+            for (Float value : listInKmh) {
                 entries.add(new Entry(xAxisList.get(index).floatValue(), value));
                 index++;
             }
         }
 
-        LineDataSet dataSet = new LineDataSet(entries, "Distance in meters");
-        dataSet.setColor(Color.BLUE);
+        LineDataSet dataSet = new LineDataSet(entries, "Speed in KM/H");
         dataSet.setValueTextColor(Color.BLACK);
         dataSet.setDrawFilled(true);
 
