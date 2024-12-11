@@ -36,6 +36,7 @@ import org.osmdroid.util.GeoPoint;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
@@ -55,6 +56,7 @@ public class TrackingService extends Service {
     private static List<GeoPoint> geoPointList;
     private static List<Double> altitudeList, traveledDistanceList;
     private static List<Float> accuracyList, speedList;
+    private static List<Date> dateList;
     private double traveledDistance = 0;
     public static boolean isTracking = false;
     private double measuredDistance = 0;
@@ -71,6 +73,7 @@ public class TrackingService extends Service {
         accuracyList = new ArrayList<>();
         speedList = new ArrayList<>();
         traveledDistanceList = new ArrayList<>();
+        dateList = new ArrayList<>();
 
         createLocationCallback();
         //startForeground(NOTIFICATION_ID, createNotification());
@@ -101,14 +104,17 @@ public class TrackingService extends Service {
 
                     measuredDistance = updatePath(location);
                     if (measuredDistance != 0) {
+                        Date date = new Date();
                         Log.d("MEASURED DISTANCE", String.valueOf(updatePath(location)));
+                        Log.d("MEASURED NEW DATE", String.valueOf(date));
                         traveledDistance += measuredDistance;
                         traveledDistanceList.add(traveledDistance);
                         geoPointList.add(new GeoPoint(location.getLatitude(), location.getLongitude()));
                         altitudeList.add(location.getAltitude());
                         speedList.add(location.getSpeed());
                         accuracyList.add(location.getAccuracy());
-
+                        dateList.add(new Date());
+                        Log.d("MEASURED NEW DATE LIST", String.valueOf(dateList));
                         //Log.d("POINT LIST VALUES", String.valueOf(trackingData.getPointList().size()));
                         // Here send to Tracking fragment
                         broadcastLocation(geoPointList, altitudeList, speedList, accuracyList, traveledDistance, traveledDistanceList);
@@ -138,19 +144,21 @@ public class TrackingService extends Service {
 
     private void startLocationUpdates() {
         Log.d("LOCATION UPDATED", "LOCATION UPDATED");
-        LocationRequest locationRequest = LocationRequest.create()
+        /*LocationRequest locationRequest = LocationRequest.create()
                 .setInterval(5000)  // Update interval
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        /*
+         */
+
+
          LocationRequest locationRequest = new LocationRequest.Builder(
                 LocationRequest.PRIORITY_HIGH_ACCURACY, // Priority
-                5000 // Interval in milliseconds
+                1500 // Interval in milliseconds
             )
-            .setMinUpdateIntervalMillis(2000) // Optional: Minimum interval between updates
-            .setMaxUpdateDelayMillis(10000)  // Optional: Maximum wait time for batching
+            .setMinUpdateIntervalMillis(1000) // Optional: Minimum interval between updates
+            .setMaxUpdateDelayMillis(2000)  // Optional: Maximum wait time for batching
             .build();
-         */
+
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -262,10 +270,12 @@ public class TrackingService extends Service {
                    RealmList<Double> altitudeRealmList = new RealmList<>();
                    RealmList<Float> speedRealmList = new RealmList<>();
                    RealmList<GPSCoordinates> gpsCoordinatesRealmList = new RealmList<>();
+                   RealmList<Date> dateRealmList = new RealmList<>();
 
                    traveledDistanceRealmList.addAll(traveledDistanceList);
                    altitudeRealmList.addAll(altitudeList);
                    speedRealmList.addAll(speedList);
+                   dateRealmList.addAll(dateList);
 
                    for (GeoPoint geoPoint : geoPointList) {
                        GPSCoordinates gpsCoordinates = realm1.createObject(GPSCoordinates.class);
@@ -278,6 +288,7 @@ public class TrackingService extends Service {
                    trackingData.setAltitudeList(altitudeRealmList);
                    trackingData.setSpeedList(speedRealmList);
                    trackingData.setGpsCoordinates(gpsCoordinatesRealmList);
+                   trackingData.setDateTimeList(dateRealmList);
 
                    user.getTrackings().add(trackingData);
                } else {

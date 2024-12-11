@@ -1,5 +1,7 @@
 package com.project.journeyflow.database;
 
+import java.util.Date;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
@@ -8,6 +10,7 @@ public class TrackingData extends RealmObject {
     private RealmList<Double> altitudeList;
     private RealmList<Float> speedList;
     private RealmList<GPSCoordinates> gpsCoordinates;
+    private RealmList<Date> dateTimeList;
 
     // Empty constructor
     public TrackingData() {}
@@ -42,5 +45,13 @@ public class TrackingData extends RealmObject {
 
     public void setGpsCoordinates(RealmList<GPSCoordinates> gpsCoordinates) {
         this.gpsCoordinates = gpsCoordinates;
+    }
+
+    public RealmList<Date> getDateTimeList() {
+        return dateTimeList;
+    }
+
+    public void setDateTimeList(RealmList<Date> dateTimeList) {
+        this.dateTimeList = dateTimeList;
     }
 }

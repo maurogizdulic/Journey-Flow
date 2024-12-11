@@ -1,7 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background2">
 
+    <TextView
+        android:id="@+id/textViewHomeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="40sp"
+        android:fontFamily="@font/aovelsansrounded_rddl"
+        android:text="Hello Name"
+        android:textColor="@color/dark_green"
+        />
+
+    <TextView
+        android:id="@+id/textViewHomeNoJourney"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewHomeTitle"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="50sp"
+        android:fontFamily="@font/aovelsansrounded_rddl"
+        android:text="Hello\nAntonio"
+        android:gravity="center"
+        android:textColor="@color/dark_green"
+        android:visibility="gone"/>
+
+    <ScrollView
+        android:id="@+id/scrollViewLastJourney"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textViewHomeTitle"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/shape_2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/shape_1">
+
+                <TextView
+                    android:id="@+id/textViewHomeLastJourney"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:fontFamily="@font/aovelsansrounded_rddl"
+                    android:text="Last journey"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/dark_green"/>
+
+                <TextView
+                    android:id="@+id/textViewHomeJourneyDateTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/aovelsansrounded_rddl"
+                    android:text="- Date and time: "
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/dark_green"/>
+
+                <TextView
+                    android:id="@+id/textViewHomeJourneyDuration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/aovelsansrounded_rddl"
+                    android:text="- Duration: "
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/dark_green"/>
+
+                <TextView
+                    android:id="@+id/textViewHomeLastDistance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/aovelsansrounded_rddl"
+                    android:text="- Distance: "
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/dark_green"/>
+
+                <TextView
+                    android:id="@+id/textViewHomeAverageSpeed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/aovelsansrounded_rddl"
+                    android:text="- Average speed: "
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="30dp"
+                    android:textColor="@color/dark_green"/>
+
+            </LinearLayout>
+
+            <org.osmdroid.views.MapView
+                android:id="@+id/osmMapView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                />
+
+            <LinearLayout
+                android:id="@+id/linearLayoutGraphicalDisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/shape_1"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:fontFamily="@font/aovelsansrounded_rddl"
+                    android:text="Graphical display of data"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/dark_green" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/aovelsansrounded_rddl"
+                    android:text="Display of distance traveled"
+                    android:gravity="center"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/dark_green"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lineChartHomeDistance"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/aovelsansrounded_rddl"
+                    android:text="Display of altitude during journey"
+                    android:gravity="center"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/dark_green"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lineChartHomeAltitude"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/aovelsansrounded_rddl"
+                    android:text="Display of speed during journey"
+                    android:gravity="center"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/dark_green"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lineChartHomeSpeed"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="25dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
