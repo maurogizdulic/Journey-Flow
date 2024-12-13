@@ -23,16 +23,31 @@
     <TextView
         android:id="@+id/textViewHomeNoJourney"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:layout_below="@+id/textViewHomeTitle"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:textSize="50sp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:textSize="20sp"
         android:fontFamily="@font/aovelsansrounded_rddl"
-        android:text="Hello\nAntonio"
+        android:text="Motivational message"
         android:gravity="center"
         android:textColor="@color/dark_green"
+        android:background="@drawable/shape_1"
+        android:padding="30dp"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/imageViewHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewHomeNoJourney"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-100dp"
+        android:src="@drawable/world"
         android:visibility="gone"/>
 
     <ScrollView

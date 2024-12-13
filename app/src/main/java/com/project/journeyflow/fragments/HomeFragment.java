@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ public class HomeFragment extends Fragment {
     private TextView textViewTitle, textViewNoJourney, textViewJourneyDuration, textViewLastDistance, textViewAverageSpeed, textViewDateTime;
     private ScrollView scrollViewLastJourney;
     private LineChart lineChartDistance, lineChartAltitude, lineChartSpeed;
+    private ImageView imageView;
 
     @SuppressLint("ClickableViewAccessibility")
     @Nullable
@@ -54,10 +56,10 @@ public class HomeFragment extends Fragment {
     public void onResume(){
         super.onResume();
         HomeFragmentDisplayData query = new HomeFragmentDisplayData(requireActivity());
-        query.displayDataOnHomeFragment(scrollViewLastJourney, textViewTitle, textViewNoJourney, textViewDateTime, textViewJourneyDuration, textViewLastDistance, textViewAverageSpeed, mapView, lineChartDistance, lineChartAltitude, lineChartSpeed);
+        query.displayDataOnHomeFragment(scrollViewLastJourney, imageView, textViewTitle, textViewNoJourney, textViewDateTime, textViewJourneyDuration, textViewLastDistance, textViewAverageSpeed, mapView, lineChartDistance, lineChartAltitude, lineChartSpeed);
     }
 
-    public void initializeViews(View view) {
+    private void initializeViews(View view) {
         textViewTitle = view.findViewById(R.id.textViewHomeTitle);
         textViewNoJourney = view.findViewById(R.id.textViewHomeNoJourney);
         textViewDateTime = view.findViewById(R.id.textViewHomeJourneyDateTime);
@@ -68,5 +70,6 @@ public class HomeFragment extends Fragment {
         lineChartAltitude = view.findViewById(R.id.lineChartHomeAltitude);
         lineChartSpeed = view.findViewById(R.id.lineChartHomeSpeed);
         scrollViewLastJourney = view.findViewById(R.id.scrollViewLastJourney);
+        imageView = view.findViewById(R.id.imageViewHome);
     }
 }

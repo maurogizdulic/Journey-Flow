@@ -29,7 +29,7 @@ public class Calculation {
             return String.format("%.2f km", distance);
         }
         else {
-            return String.format("%04d m", distance);
+            return String.format("%.1f m", distance);
         }
     }
 

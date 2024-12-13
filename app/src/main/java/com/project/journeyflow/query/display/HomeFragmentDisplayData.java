@@ -3,7 +3,9 @@ package com.project.journeyflow.query.display;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -29,7 +31,7 @@ public class HomeFragmentDisplayData extends HomeFragmentQuery {
         super(context);
     }
 
-    public void displayDataOnHomeFragment(ScrollView scrollView, TextView title, TextView noJourney, TextView dateTime, TextView duration, TextView distance, TextView averageSpeed, MapView map, LineChart graphDistance, LineChart graphAltitude, LineChart graphSpeed) {
+    public void displayDataOnHomeFragment(ScrollView scrollView, ImageView imageView, TextView title, TextView noJourney, TextView dateTime, TextView duration, TextView distance, TextView averageSpeed, MapView map, LineChart graphDistance, LineChart graphAltitude, LineChart graphSpeed) {
         User user = fetchUserData();
 
         if (user != null && !user.getTrackings().isEmpty()) {
@@ -40,6 +42,7 @@ public class HomeFragmentDisplayData extends HomeFragmentQuery {
         else {
             scrollView.setVisibility(View.GONE);
             noJourney.setVisibility(View.VISIBLE);
+            imageView.setVisibility(View.VISIBLE);
             displayMotivationalMessage(title, noJourney, user);
         }
     }
@@ -48,10 +51,13 @@ public class HomeFragmentDisplayData extends HomeFragmentQuery {
     private void displayMotivationalMessage(TextView title, TextView noJourney, User user) {
         if (user != null){
             title.setText(String.format("Hello %s", user.getFirstName()));
-            noJourney.setText("Every journey begins with a single step, and today is your day to take it. " +
-                    "Remember, progress isn’t about perfection—it’s about showing up, pushing forward, and believing in your own strength. " +
-                    "Embrace the challenge, celebrate the small wins, and know that with every effort, you’re becoming the best version of yourself.\n" +
+            noJourney.setText("Every journey begins with a single step, \nand today is your day to take it. \n" +
+                    "Remember, progress isn’t about perfection—it’s about showing up, \npushing forward, and believing in your own strength. \n" +
+                    "Embrace the challenge, celebrate the small wins, \nand know that with every effort, \nyou’re becoming the best version of yourself.\n" +
                     "Let’s start this new journey and make it count!");
+        }
+        else {
+            Log.d("USER", "USER IS NULL");
         }
     }
 
