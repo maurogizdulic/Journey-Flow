@@ -11,6 +11,7 @@ public class TrackingData extends RealmObject {
     private RealmList<Float> speedList;
     private RealmList<GPSCoordinates> gpsCoordinates;
     private RealmList<Date> dateTimeList;
+    private Date journeyDate;
 
     // Empty constructor
     public TrackingData() {}
@@ -53,5 +54,13 @@ public class TrackingData extends RealmObject {
 
     public void setDateTimeList(RealmList<Date> dateTimeList) {
         this.dateTimeList = dateTimeList;
+    }
+
+    public Date getJourneyDate() {
+        return journeyDate;
+    }
+
+    public void setJourneyDate(Date journeyDate) {
+        this.journeyDate = journeyDate;
     }
 }

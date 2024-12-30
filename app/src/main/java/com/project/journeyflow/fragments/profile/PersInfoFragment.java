@@ -11,13 +11,13 @@ import androidx.fragment.app.Fragment;
 
 import com.project.journeyflow.R;
 
-public class SettingsFragment extends Fragment {
+public class PersInfoFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_persinfo, container, false);
 
         return view;
     }

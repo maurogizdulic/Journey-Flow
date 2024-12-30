@@ -289,6 +289,7 @@ public class TrackingService extends Service {
                    trackingData.setSpeedList(speedRealmList);
                    trackingData.setGpsCoordinates(gpsCoordinatesRealmList);
                    trackingData.setDateTimeList(dateRealmList);
+                   trackingData.setJourneyDate(dateRealmList.first());
 
                    user.getTrackings().add(trackingData);
                } else {

@@ -1,16 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/profile_background">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/title_calendar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DATE"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/dark_green"
+            android:fontFamily="@font/aovelsansrounded_rddl"/>
+
+        <TextView
+            android:id="@+id/textViewCalendarDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="28"
+            android:textSize="40sp"
+            android:gravity="center"
+            android:textColor="@color/dark_green"/>
+
+        <TextView
+            android:id="@+id/textViewCalendarMonth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="12"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:textColor="@color/dark_green"/>
+
+        <TextView
+            android:id="@+id/textViewCalendarYear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2024"
+            android:textSize="50sp"
+            android:gravity="center"
+            android:textColor="@color/dark_green"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewCalendar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_calendar"
+        android:layout_marginTop="20dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:text="Fragment Calendar" />
+        android:background="@drawable/shape_1" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonCalendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@drawable/calendar_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/dark_green"
+        app:tint="@color/green"
+        />
+
 </RelativeLayout>
