@@ -51,6 +51,7 @@
                     android:layout_marginStart="16dp"/>
 
                 <TextView
+                    android:id="@+id/textViewStatisticsMonth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="January"
@@ -60,6 +61,7 @@
                     android:layout_marginStart="16dp"/>
 
                 <TextView
+                    android:id="@+id/textViewNumOfJourneysMonth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Number of yourneys: "
@@ -69,6 +71,7 @@
                     android:layout_marginStart="16dp"/>
 
                 <TextView
+                    android:id="@+id/textViewTotalDurationMonth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total duration of journeys: "
@@ -78,6 +81,7 @@
                     android:layout_marginStart="16dp"/>
 
                 <TextView
+                    android:id="@+id/textViewTotalDistanceMonth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total distance traveled:  "
@@ -87,14 +91,25 @@
                     android:layout_marginStart="16dp"/>
 
                 <TextView
+                    android:id="@+id/textViewAvgDurationMonth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Average speed of journeys:"
+                    android:text="Average duration of journeys:  "
                     android:textSize="16sp"
                     android:textColor="@color/dark_green"
                     android:layout_marginTop="5dp"
+                    android:layout_marginStart="16dp"/>
+
+                <TextView
+                    android:id="@+id/textViewAvgDistanceMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginBottom="16dp"/>
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Average distance traveled: "
+                    android:textColor="@color/dark_green"
+                    android:textSize="16sp" />
 
 
             </LinearLayout>
@@ -122,6 +137,7 @@
                     android:layout_marginStart="16dp"/>
 
                 <TextView
+                    android:id="@+id/textViewStatisticsYear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2024"
@@ -131,6 +147,7 @@
                     android:layout_marginStart="16dp"/>
 
                 <TextView
+                    android:id="@+id/textViewNumOfJourneysYear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Number of yourneys: "
@@ -140,6 +157,7 @@
                     android:layout_marginStart="16dp"/>
 
                 <TextView
+                    android:id="@+id/textViewTotalDurationYear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total duration of journeys: "
@@ -149,6 +167,7 @@
                     android:layout_marginStart="16dp"/>
 
                 <TextView
+                    android:id="@+id/textViewTotalDistanceYear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total distance traveled:  "
@@ -158,9 +177,20 @@
                     android:layout_marginStart="16dp"/>
 
                 <TextView
+                    android:id="@+id/textViewAvgDurationYear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Average speed of journeys:"
+                    android:text="Average duration of journeys:  "
+                    android:textSize="16sp"
+                    android:textColor="@color/dark_green"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="16dp"/>
+
+                <TextView
+                    android:id="@+id/textViewAvgDistanceYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Average distance traveled:  "
                     android:textSize="16sp"
                     android:textColor="@color/dark_green"
                     android:layout_marginTop="5dp"

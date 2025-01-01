@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,13 +15,21 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.project.journeyflow.R;
 import com.project.journeyflow.chart.BarChartPagerAdapter;
 import com.project.journeyflow.query.profile.StatisticsQuery;
+import com.project.journeyflow.query.profile.StatisticsQueryChart;
 
+import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class StatisticsFragment extends Fragment {
 
-    private StatisticsQuery statisticsQuery;
+    private TextView textViewMonth, textViewTotalDistanceMonth, textViewNumOfJourneyMonth, textViewDurationMonth;
+    private TextView textViewAvgDistanceMonth, textViewAvgDurationMonth;
+    private TextView textViewYear, textViewTotalDistanceYear, textViewNumOfJourneyYear, textViewDurationYear;
+    private TextView textViewAvgDistanceYear, textViewAvgDurationYear;
+    private ViewPager2 viewPagerMonth, viewPagerYear;
 
     @Nullable
     @Override
@@ -28,14 +37,19 @@ public class StatisticsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
 
-        ViewPager2 viewPagerMonth = view.findViewById(R.id.viewPagerStatistics);
-        ViewPager2 viewPagerYear = view.findViewById(R.id.viewPagerStatistics2);
+        initializeViews(view);
+
+        showMonthStatistics();
+
+        showYearStatistics();
+
+        StatisticsQueryChart statisticsQueryChart = new StatisticsQueryChart(requireContext());
 
         // Prepare data for the charts
         List<List<BarEntry>> chartDataList = new ArrayList<>();
-        chartDataList.add(createBarEntries(new float[]{120, 150, 100, 90, 130})); // Chart 1
-        chartDataList.add(createBarEntries(new float[]{200, 250, 150, 300, 400})); // Chart 2
-        chartDataList.add(createBarEntries(new float[]{80, 100, 60, 50, 90}));    // Chart 3
+        chartDataList.add(createBarEntries(statisticsQueryChart.getNumberOfMonthJourneys())); // Chart 1
+        chartDataList.add(createBarEntries(statisticsQueryChart.getDurationForDaysInMonth())); // Chart 2
+        chartDataList.add(createBarEntries(statisticsQueryChart.getDistanceForDaysInMonth()));    // Chart 3
 
         // Set up adapter and attach it to the ViewPager
         BarChartPagerAdapter adapterMonth = new BarChartPagerAdapter(requireContext(), chartDataList);
@@ -52,6 +66,24 @@ public class StatisticsFragment extends Fragment {
         super.onResume();
     }
 
+    private void initializeViews(View view) {
+        viewPagerMonth = view.findViewById(R.id.viewPagerStatistics);
+        viewPagerYear = view.findViewById(R.id.viewPagerStatistics2);
+        textViewMonth = view.findViewById(R.id.textViewStatisticsMonth);
+        textViewTotalDistanceMonth = view.findViewById(R.id.textViewTotalDistanceMonth);
+        textViewNumOfJourneyMonth = view.findViewById(R.id.textViewNumOfJourneysMonth);
+        textViewDurationMonth = view.findViewById(R.id.textViewTotalDurationMonth);
+        textViewAvgDistanceMonth = view.findViewById(R.id.textViewAvgDistanceMonth);
+        textViewAvgDurationMonth = view.findViewById(R.id.textViewAvgDurationMonth);
+
+        textViewYear = view.findViewById(R.id.textViewStatisticsYear);
+        textViewNumOfJourneyYear = view.findViewById(R.id.textViewNumOfJourneysYear);
+        textViewDurationYear = view.findViewById(R.id.textViewTotalDurationYear);
+        textViewTotalDistanceYear = view.findViewById(R.id.textViewTotalDistanceYear);
+        textViewAvgDistanceYear = view.findViewById(R.id.textViewAvgDistanceYear);
+        textViewAvgDurationYear = view.findViewById(R.id.textViewAvgDurationYear);
+    }
+
     // Helper method to generate bar entries for each chart
     private List<BarEntry> createBarEntries(float[] values) {
 
@@ -63,5 +95,28 @@ public class StatisticsFragment extends Fragment {
             entries.add(new BarEntry(i, values[i]));
         }
         return entries;
+    }
+
+    private void showMonthStatistics() {
+        LocalDate today = LocalDate.now();
+        StatisticsQuery statisticsQuery = new StatisticsQuery(requireContext());
+        //Log.d("MONTH", today.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
+        textViewMonth.setText(today.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
+        textViewNumOfJourneyMonth.setText(statisticsQuery.showNumOfJourneysMonth());
+        textViewTotalDistanceMonth.setText(statisticsQuery.calculateTotalDistanceOfMonthJourneys());
+        textViewDurationMonth.setText(statisticsQuery.calculateTotalDurationOfMonthJourneys());
+        textViewAvgDurationMonth.setText(statisticsQuery.calculateAvgDurationOfMonthJourneys());
+        textViewAvgDistanceMonth.setText(statisticsQuery.calculateAvgDistanceOfMonthJourneys());
+    }
+
+    private void showYearStatistics() {
+        LocalDate today = LocalDate.now();
+        StatisticsQuery statisticsQuery = new StatisticsQuery(requireContext());
+        textViewYear.setText(String.valueOf(today.getYear()));
+        textViewNumOfJourneyYear.setText(statisticsQuery.showNumOfJourneysYear());
+        textViewDurationYear.setText(statisticsQuery.calculateTotalDurationJourneysInYear());
+        textViewTotalDistanceYear.setText(statisticsQuery.calculateTotalDistanceOfJourneysInYear());
+        textViewAvgDistanceYear.setText(statisticsQuery.calculateAvgDistanceOfJourneysInYear());
+        textViewAvgDurationYear.setText(statisticsQuery.calculateAvgDurationOfJourneysInYear());
     }
 }

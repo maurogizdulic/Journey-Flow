@@ -1,6 +1,7 @@
 package com.project.journeyflow.calculation;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +21,11 @@ public class Calculation {
         long seconds = (durationMillis / 1000) % 60;
 
         return String.format("%02dh:%02dm:%02ds", hours, minutes, seconds);
+    }
+
+    public static long calculateDurationOfJourneyInSeconds(Date start, Date end) {
+        long durationMillis = end.getTime() - start.getTime();
+        return durationMillis / 1000;
     }
 
     @SuppressLint("DefaultLocale")
@@ -45,6 +51,19 @@ public class Calculation {
         averageSpeed = averageSpeed * 3600 / 1000;
 
         return String.format("%.2f", averageSpeed);
+    }
+
+    public static float calculateAverageSpeedInFloat(List<Float> speedList) {
+        float sumSpeed = 0, averageSpeed = 0;
+        for (Float speed : speedList) {
+            sumSpeed += speed;
+        }
+        averageSpeed = sumSpeed / speedList.size();
+
+        // Convert from m/s to km/h
+        averageSpeed = averageSpeed * 3600 / 1000;
+
+        return averageSpeed;
     }
 
     public static String convertToDateTimeString(Date dateTime){

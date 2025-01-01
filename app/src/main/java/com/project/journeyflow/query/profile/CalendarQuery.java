@@ -3,12 +3,8 @@ package com.project.journeyflow.query.profile;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.project.journeyflow.R;
 import com.project.journeyflow.database.TrackingData;
 import com.project.journeyflow.database.User;
-import com.project.journeyflow.items.ItemAdapter;
 import com.project.journeyflow.query.ProfileFragmentQuery;
 
 import java.util.Date;
@@ -55,12 +51,4 @@ public class CalendarQuery extends ProfileFragmentQuery {
 
         return results;
     }
-
-
-    /*
-    public RealmResults<TrackingData> getJourneysOnDate() {
-
-    }
-
-     */
 }
