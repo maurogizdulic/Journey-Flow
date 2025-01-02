@@ -36,6 +36,7 @@ public class StatisticsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
+        StatisticsQueryChart statisticsQueryChart = new StatisticsQueryChart(requireContext());
 
         initializeViews(view);
 
@@ -43,20 +44,9 @@ public class StatisticsFragment extends Fragment {
 
         showYearStatistics();
 
-        StatisticsQueryChart statisticsQueryChart = new StatisticsQueryChart(requireContext());
+        showMonthChartStatistics(statisticsQueryChart);
 
-        // Prepare data for the charts
-        List<List<BarEntry>> chartDataList = new ArrayList<>();
-        chartDataList.add(createBarEntries(statisticsQueryChart.getNumberOfMonthJourneys())); // Chart 1
-        chartDataList.add(createBarEntries(statisticsQueryChart.getDurationForDaysInMonth())); // Chart 2
-        chartDataList.add(createBarEntries(statisticsQueryChart.getDistanceForDaysInMonth()));    // Chart 3
-
-        // Set up adapter and attach it to the ViewPager
-        BarChartPagerAdapter adapterMonth = new BarChartPagerAdapter(requireContext(), chartDataList);
-        viewPagerMonth.setAdapter(adapterMonth);
-
-        BarChartPagerAdapter adapterYear = new BarChartPagerAdapter(requireContext(), chartDataList);
-        viewPagerYear.setAdapter(adapterYear);
+        showYearChartStatistics(statisticsQueryChart);
 
         return view;
     }
@@ -118,5 +108,31 @@ public class StatisticsFragment extends Fragment {
         textViewTotalDistanceYear.setText(statisticsQuery.calculateTotalDistanceOfJourneysInYear());
         textViewAvgDistanceYear.setText(statisticsQuery.calculateAvgDistanceOfJourneysInYear());
         textViewAvgDurationYear.setText(statisticsQuery.calculateAvgDurationOfJourneysInYear());
+    }
+
+    private void showMonthChartStatistics(StatisticsQueryChart statisticsQueryChart) {
+
+        // Prepare data for the charts
+        List<List<BarEntry>> chartDataList = new ArrayList<>();
+        chartDataList.add(createBarEntries(statisticsQueryChart.getNumberOfMonthJourneys())); // Chart 1
+        chartDataList.add(createBarEntries(statisticsQueryChart.getDurationForDaysInMonth())); // Chart 2
+        chartDataList.add(createBarEntries(statisticsQueryChart.getDistanceForDaysInMonth()));    // Chart 3
+
+        // Set up adapter and attach it to the ViewPager
+        BarChartPagerAdapter adapterMonth = new BarChartPagerAdapter(requireContext(), chartDataList, "MONTH");
+        viewPagerMonth.setAdapter(adapterMonth);
+    }
+
+    private void showYearChartStatistics(StatisticsQueryChart statisticsQueryChart) {
+
+        // Prepare data for the charts
+        List<List<BarEntry>> chartDataList = new ArrayList<>();
+        chartDataList.add(createBarEntries(statisticsQueryChart.getNumberOfJourneysInYear())); // Chart 1
+        chartDataList.add(createBarEntries(statisticsQueryChart.getDurationOfJourneysInYear())); // Chart 2
+        chartDataList.add(createBarEntries(statisticsQueryChart.getDistanceOfJourenysInYear()));    // Chart 3
+
+        // Set up adapter and attach it to the ViewPager
+        BarChartPagerAdapter adapterYear = new BarChartPagerAdapter(requireContext(), chartDataList, "YEAR");
+        viewPagerYear.setAdapter(adapterYear);
     }
 }

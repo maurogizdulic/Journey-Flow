@@ -9,8 +9,6 @@ import com.project.journeyflow.calculation.DateAndTime;
 import com.project.journeyflow.database.TrackingData;
 import com.project.journeyflow.query.ProfileFragmentQuery;
 
-import java.time.LocalDateTime;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 

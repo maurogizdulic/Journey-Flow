@@ -17,6 +17,7 @@
         android:padding="16dp">
 
         <TextView
+            android:id="@+id/textViewStatisticsMonthYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Month"
@@ -24,6 +25,7 @@
             android:textColor="@color/dark_green" />
 
         <TextView
+            android:id="@+id/textViewStatisticsMonthYearValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="January"
