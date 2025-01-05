@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewSpeedDetailChartYlabel"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:text="Speed (km/h)"
+        android:textSize="10sp"
+        android:rotation="-90"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/dark_green" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lineChartSpeedDetail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@+id/textViewSpeedDetailChartYlabel"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/textViewSpeedDetailChartXlabel"/>
+
+    <TextView
+        android:id="@+id/textViewSpeedDetailChartXlabel"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/textViewSpeedDetailChartYlabel"
+        android:text="Time (hh:mm)"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/dark_green" />
+
+</RelativeLayout>

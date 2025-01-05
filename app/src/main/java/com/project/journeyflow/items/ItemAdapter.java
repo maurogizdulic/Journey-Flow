@@ -2,24 +2,32 @@ package com.project.journeyflow.items;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.dynamic.IFragmentWrapper;
 import com.project.journeyflow.R;
 import com.project.journeyflow.calculation.Calculation;
 import com.project.journeyflow.database.GPSCoordinates;
 import com.project.journeyflow.database.TrackingData;
+import com.project.journeyflow.fragments.item_detail.ItemDetailFragment;
+import com.project.journeyflow.fragments.profile.StatisticsFragment;
 
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Polyline;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +36,11 @@ import io.realm.RealmResults;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> {
 
     private RealmResults<TrackingData> trackingDataList;
+    private FragmentManager fragmentManager;
 
-    public ItemAdapter(RealmResults<TrackingData> trackingDataList){
+    public ItemAdapter(RealmResults<TrackingData> trackingDataList, FragmentManager fragmentManager){
         this.trackingDataList = trackingDataList;
+        this.fragmentManager = fragmentManager;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -65,6 +75,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         holder.textViewDate.setText("Date: " + Calculation.convertToDateTimeString(trackingData.getDateTimeList().first()));
 
         showJourneyOnMap(holder.mapView, trackingData.getGpsCoordinates());
+
+        holder.itemView.setOnClickListener(view -> {
+            Fragment itemDetailFragment = new ItemDetailFragment();
+
+            Bundle bundle = new Bundle();
+            //bundle.putSerializable("trackingData", (Serializable) trackingData);// Make sure TrackingData implements Serializable or Parcelable
+            bundle.putLong("trackingDataId", trackingData.getId());
+            itemDetailFragment.setArguments(bundle);
+
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, itemDetailFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        });
     }
 
     @Override

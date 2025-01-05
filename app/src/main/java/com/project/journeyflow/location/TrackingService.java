@@ -35,6 +35,7 @@ import android.app.NotificationManager;
 import org.osmdroid.util.GeoPoint;
 
 import java.io.Serializable;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -284,6 +285,8 @@ public class TrackingService extends Service {
                        gpsCoordinatesRealmList.add(gpsCoordinates);
                    }
 
+                   SecureRandom secureRandom = new SecureRandom();
+                   trackingData.setId(secureRandom.nextLong());
                    trackingData.setTraveledDistanceList(traveledDistanceRealmList);
                    trackingData.setAltitudeList(altitudeRealmList);
                    trackingData.setSpeedList(speedRealmList);

@@ -6,6 +6,7 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 
 public class TrackingData extends RealmObject {
+    private long id;
     private RealmList<Double> traveledDistanceList;
     private RealmList<Double> altitudeList;
     private RealmList<Float> speedList;
@@ -15,6 +16,14 @@ public class TrackingData extends RealmObject {
 
     // Empty constructor
     public TrackingData() {}
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public RealmList<Double> getTraveledDistanceList() {
         return traveledDistanceList;

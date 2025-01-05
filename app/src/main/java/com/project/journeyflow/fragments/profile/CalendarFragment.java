@@ -76,7 +76,7 @@ public class CalendarFragment extends Fragment {
 
         //textViewDay.setText(String.valueOf(calendar.getTime().getDay()));
 
-        adapter = new ItemAdapter(calendarQuery.getJourneysToday(startOfDay, endOfDay));
+        adapter = new ItemAdapter(calendarQuery.getJourneysToday(startOfDay, endOfDay), getParentFragmentManager());
         recyclerView.setAdapter(adapter);
     }
 
@@ -119,7 +119,7 @@ public class CalendarFragment extends Fragment {
                         textViewYear.setText(String.valueOf(year1));
 
                         //calendarQuery.getJourneysOnDate(startDate, endDate, recyclerView);
-                        adapter = new ItemAdapter(calendarQuery.getJourneysOnDate(startDate, endDate));
+                        adapter = new ItemAdapter(calendarQuery.getJourneysOnDate(startDate, endDate), getParentFragmentManager());
                         recyclerView.setAdapter(adapter);
                     },
                     // on below line we are passing year,

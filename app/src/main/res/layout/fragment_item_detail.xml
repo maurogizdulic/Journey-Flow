@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/profile_background">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutItemDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:orientation="horizontal"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/shape_2"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+        <!--
+        <TextView
+            android:id="@+id/textViewItemDetailsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:textSize="15sp"
+            android:textColor="@color/dark_green"
+            android:fontFamily="@font/aovelsansrounded_rddl"
+            android:text="Date" /> -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:src="@drawable/user_detail_icon"
+                android:adjustViewBounds="true" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/walking_icon"
+                android:adjustViewBounds="true" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/clock_icon"
+                android:adjustViewBounds="true" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/speed_icon"
+                android:adjustViewBounds="true" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/textViewItemDetailUser"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:textSize="15sp"
+                android:textColor="@color/dark_green"
+                android:fontFamily="@font/aovelsansrounded_rddl"
+                android:gravity="center_vertical"
+                android:text="User" />
+
+            <TextView
+                android:id="@+id/textViewItemDetailDistance"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:textSize="15sp"
+                android:textColor="@color/dark_green"
+                android:fontFamily="@font/aovelsansrounded_rddl"
+                android:gravity="center_vertical"
+                android:text="Distance" />
+
+            <TextView
+                android:id="@+id/textViewItemDetailTime"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:textSize="15sp"
+                android:textColor="@color/dark_green"
+                android:fontFamily="@font/aovelsansrounded_rddl"
+                android:gravity="center_vertical"
+                android:text="Time" />
+
+            <TextView
+                android:id="@+id/textViewItemDetailAvgSpeed"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:textSize="15sp"
+                android:textColor="@color/dark_green"
+                android:fontFamily="@font/aovelsansrounded_rddl"
+                android:gravity="center_vertical"
+                android:text="Avg speed" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:src="@drawable/start_icon"
+                android:adjustViewBounds="true" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/stop_icon"
+                android:adjustViewBounds="true" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/mountain_icon"
+                android:adjustViewBounds="true" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/mountain_icon"
+                android:adjustViewBounds="true" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/textViewItemDetailStart"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:textSize="15sp"
+                android:textColor="@color/dark_green"
+                android:fontFamily="@font/aovelsansrounded_rddl"
+                android:gravity="center_vertical"
+                android:text="Start" />
+
+            <TextView
+                android:id="@+id/textViewItemDetailStop"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:textSize="15sp"
+                android:textColor="@color/dark_green"
+                android:fontFamily="@font/aovelsansrounded_rddl"
+                android:gravity="center_vertical"
+                android:text="Stop" />
+
+            <TextView
+                android:id="@+id/textViewItemDetailAltitudeMax"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:textSize="15sp"
+                android:textColor="@color/dark_green"
+                android:fontFamily="@font/aovelsansrounded_rddl"
+                android:gravity="center_vertical"
+                android:text="Altitude max" />
+
+            <TextView
+                android:id="@+id/textViewItemDetailAltitudeMin"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:textSize="15sp"
+                android:textColor="@color/dark_green"
+                android:fontFamily="@font/aovelsansrounded_rddl"
+                android:gravity="center_vertical"
+                android:text="Altitude min" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayoutItemDetail"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_2">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayoutItemDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            android:background="@drawable/shape_2"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerItemDetail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appBarLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:background="@drawable/shape_2"/>
+
+</RelativeLayout>
