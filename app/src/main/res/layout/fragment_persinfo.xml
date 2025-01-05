@@ -6,9 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
-        android:id="@+id/imageViewBackgroundProfile"
+        android:id="@+id/imageViewPersInfoBackgroundProfile"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="220dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
@@ -17,7 +17,7 @@
         android:src="@drawable/green_background"/>
 
     <ImageView
-        android:id="@+id/imageViewBackgroundProfile2"
+        android:id="@+id/imageViewImageViewPersInfoBackgroundProfile2"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="35dp"
@@ -28,7 +28,7 @@
         android:src="@drawable/circle_green_background"/>
 
     <ImageButton
-        android:id="@+id/imageButtonProfilePicture"
+        android:id="@+id/imageButtonProfilePicturePersInfo"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
@@ -44,7 +44,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/imageViewBackgroundProfile">
+        android:background="@drawable/shape_2"
+        android:layout_marginTop="-20dp"
+        android:layout_below="@+id/imageViewPersInfoBackgroundProfile">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +54,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutFirstName"
+                android:id="@+id/textInputLayoutPersInfoFirstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -61,7 +63,7 @@
                 app:startIconDrawable="@drawable/person_icon">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/firstName"
+                    android:id="@+id/firstNamePersInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text_input_layout_shape"
@@ -71,7 +73,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutLastName"
+                android:id="@+id/textInputLayoutPersInfoLastName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -80,7 +82,7 @@
                 app:startIconDrawable="@drawable/person_icon">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/lastName"
+                    android:id="@+id/lastNamePersInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text_input_layout_shape"
@@ -90,7 +92,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutUsername"
+                android:id="@+id/textInputLayoutPersInfoUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -100,7 +102,7 @@
                 app:startIconDrawable="@drawable/world_icon">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/username"
+                    android:id="@+id/usernamePersInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Username"
@@ -120,7 +122,7 @@
                 android:weightSum="2">
 
                 <TextView
-                    android:id="@+id/textViewGender"
+                    android:id="@+id/textViewGenderPersInfo"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="1"
@@ -143,14 +145,14 @@
                     android:background="@drawable/text_input_layout_shape">
 
                     <RadioGroup
-                        android:id="@+id/radioGroupGender"
+                        android:id="@+id/radioGroupGenderPersInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_weight="1">
 
                         <RadioButton
-                            android:id="@+id/radioButtonFemale"
+                            android:id="@+id/radioButtonFemalePersInfo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Female"
@@ -158,7 +160,7 @@
                             android:layout_marginEnd="16dp"/>
 
                         <RadioButton
-                            android:id="@+id/radioButtonMale"
+                            android:id="@+id/radioButtonMalePersInfo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -182,7 +184,7 @@
                 android:weightSum="2">
 
                 <TextView
-                    android:id="@+id/textViewDateOfBirth"
+                    android:id="@+id/textViewPersInfoDateOfBirth"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="1"
@@ -202,19 +204,21 @@
                     android:layout_marginBottom="20dp"
                     android:weightSum="2">
 
-                    <Button
-                        android:id="@+id/buttonPickDate"
+                    <ImageButton
+                        android:id="@+id/imageButtonPickDatePersInfo"
                         android:layout_width="match_parent"
                         android:layout_height="70dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="10dp"
+                        android:padding="7dp"
                         android:layout_weight="1"
-                        android:text="Pick a date"
-                        android:drawableLeft="@drawable/calendar_icon"
+                        android:src="@drawable/calendar_update_icon"
+                        android:scaleType="centerInside"
+                        android:background="@drawable/shape_4"
                         />
 
                     <TextView
-                        android:id="@+id/textViewSelectedDate"
+                        android:id="@+id/textViewPersInfoSelectedDate"
                         android:layout_width="match_parent"
                         android:layout_height="70dp"
                         android:layout_weight="1"
@@ -248,7 +252,7 @@
                     android:weightSum="2">
 
                     <TextView
-                        android:id="@+id/textViewWeight"
+                        android:id="@+id/textViewWeightPersInfo"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_weight="1"
@@ -264,7 +268,7 @@
                         android:textAlignment="center" />
 
                     <Spinner
-                        android:id="@+id/spinnerWeight"
+                        android:id="@+id/spinnerWeightPersInfo"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginStart="20dp"
@@ -290,7 +294,7 @@
                     android:weightSum="2">
 
                     <TextView
-                        android:id="@+id/textViewHeight"
+                        android:id="@+id/textViewHeightPersInfo"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_weight="1"
@@ -306,7 +310,7 @@
                         android:textAlignment="center" />
 
                     <Spinner
-                        android:id="@+id/spinnerHeight"
+                        android:id="@+id/spinnerHeightPersInfo"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginStart="20dp"
@@ -322,16 +326,15 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/buttonConfirm"
+                android:id="@+id/buttonUpdatePersInfo"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="20dp"
                 android:textSize="20dp"
                 android:text="Update"
                 />
-
 
         </LinearLayout>
 

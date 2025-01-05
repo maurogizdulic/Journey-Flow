@@ -1,5 +1,6 @@
 package com.project.journeyflow.signup;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -175,7 +176,6 @@ public class PersonalInformationActivity extends AppCompatActivity {
                                               int monthOfYear, int dayOfMonth) {
                             // on below line we are setting date to our text view.
                             textViewSelectedDate.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year + ".");
-
                         }
                     },
                     // on below line we are passing year,
@@ -240,7 +240,7 @@ public class PersonalInformationActivity extends AppCompatActivity {
                 correctData = false;
             }
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             Date birthDate = null;
             try {
                 Log.d("DATE", textViewSelectedDate.toString());
@@ -277,13 +277,8 @@ public class PersonalInformationActivity extends AppCompatActivity {
                 Intent intent = new Intent(PersonalInformationActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-
             }
         });
-
-
-
-
     }
 
     private void addDataToDB(String firstName, String lastName, String username, String gender, @NonNull String weight, String height, Date dateOfBirth, String email, String password) {
@@ -415,7 +410,6 @@ public class PersonalInformationActivity extends AppCompatActivity {
 
         return inSampleSize;
     }
-
 
     // Check if storage permission is granted
     private boolean checkStoragePermission() {

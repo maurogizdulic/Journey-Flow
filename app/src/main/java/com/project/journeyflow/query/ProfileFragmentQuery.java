@@ -1,6 +1,7 @@
 package com.project.journeyflow.query;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
@@ -8,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -71,7 +73,7 @@ public class ProfileFragmentQuery extends Query{
     }
 
     // Method to resize the selected image
-    private Bitmap getResizedBitmap(Uri uri, int targetWidth, int targetHeight) throws Exception {
+    protected Bitmap getResizedBitmap(Uri uri, int targetWidth, int targetHeight) throws Exception {
         InputStream input = context.getContentResolver().openInputStream(uri);
 
         // First, decode with inJustDecodeBounds=true to get the dimensions
@@ -93,7 +95,7 @@ public class ProfileFragmentQuery extends Query{
     }
 
     // Method to calculate the appropriate sample size
-    private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    protected int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         final int height = options.outHeight;
         final int width = options.outWidth;
         int inSampleSize = 1;
@@ -113,7 +115,7 @@ public class ProfileFragmentQuery extends Query{
     }
 
     // Method to create a circular bitmap
-    private Bitmap getCircularBitmap(Bitmap bitmap) {
+    protected Bitmap getCircularBitmap(Bitmap bitmap) {
         int size = Math.min(bitmap.getWidth(), bitmap.getHeight());
         Bitmap output = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
 
