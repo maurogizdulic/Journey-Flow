@@ -34,7 +34,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/textViewAltitudeDetailChartYlabel"
-        android:text="X-label"
+        android:text="Distance (m)"
         android:textSize="10sp"
         android:gravity="center"
         android:textStyle="bold"
