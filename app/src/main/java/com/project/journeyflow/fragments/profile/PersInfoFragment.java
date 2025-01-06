@@ -334,7 +334,7 @@ public class PersInfoFragment extends Fragment {
             if (correctData){
                 query.updatePersonalInformation(textInputFirstName.getText().toString(), textInputLastName.getText().toString(), textInputUsername.getText().toString(), selectedGender, weightSpinner.getSelectedItem().toString(), heightSpinner.getSelectedItem().toString(), birthDate);
 
-                Toast.makeText(requireActivity(), "Profile successfully created!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "Profile successfully updated!", Toast.LENGTH_SHORT).show();
                 ProfileFragment profileFragment = new ProfileFragment();
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();

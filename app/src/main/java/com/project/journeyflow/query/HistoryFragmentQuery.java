@@ -1,9 +1,6 @@
 package com.project.journeyflow.query;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.project.journeyflow.database.TrackingData;
 import com.project.journeyflow.database.User;
@@ -21,8 +18,6 @@ public class HistoryFragmentQuery extends Query{
         User user = fetchUserData();
         Realm realm = initializeRealm();
 
-        RealmResults<TrackingData> trackingList = realm.where(TrackingData.class).equalTo("userID", user.getId()).findAll();
-
-        return trackingList;
+        return realm.where(TrackingData.class).equalTo("userID", user.getId()).findAll();
     }
 }

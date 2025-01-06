@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.project.journeyflow.R;
-import com.project.journeyflow.query.display.HomeFragmentDisplayData;
+import com.project.journeyflow.query.HomeFragmentQuery;
 
 import org.osmdroid.views.MapView;
 
@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        HomeFragmentDisplayData query = new HomeFragmentDisplayData(requireActivity());
+        HomeFragmentQuery query = new HomeFragmentQuery(requireActivity());
         query.displayDataOnHomeFragment(scrollViewLastJourney, imageView, textViewTitle, textViewNoJourney, textViewDateTime, textViewJourneyDuration, textViewLastDistance, textViewAverageSpeed, mapView, lineChartDistance, lineChartAltitude, lineChartSpeed);
     }
 

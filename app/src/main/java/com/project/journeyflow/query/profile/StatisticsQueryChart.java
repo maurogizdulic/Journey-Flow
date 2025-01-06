@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import io.realm.RealmResults;
 
@@ -60,7 +61,7 @@ public class StatisticsQueryChart extends StatisticsQuery{
         for (TrackingData tracking : monthTrackingDataList) {
 
             if (tracking != null) {
-                long duration = Calculation.calculateDurationOfJourneyInSeconds(tracking.getDateTimeList().first(), tracking.getDateTimeList().last());
+                long duration = Calculation.calculateDurationOfJourneyInSeconds(Objects.requireNonNull(tracking.getDateTimeList().first()), Objects.requireNonNull(tracking.getDateTimeList().last()));
                 duration = duration / 60;
 
                 Calendar calendar = Calendar.getInstance();

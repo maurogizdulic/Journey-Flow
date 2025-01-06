@@ -13,33 +13,27 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class CalendarQuery extends ProfileFragmentQuery {
-    private Context context;
 
     public CalendarQuery(Context context) {
         super(context);
-        this.context = context;
     }
 
     public RealmResults<TrackingData> getAllJourneys() {
         User user = fetchUserData();
         Realm realm = initializeRealm();
 
-        RealmResults<TrackingData> trackingList = realm.where(TrackingData.class).equalTo("userID", user.getId()).findAll();
-
-        return trackingList;
+        return realm.where(TrackingData.class).equalTo("userID", user.getId()).findAll();
     }
 
     public RealmResults<TrackingData> getJourneysToday(Date startDate, Date endDate) {
         User user = fetchUserData();
         Realm realm = initializeRealm();
 
-        RealmResults<TrackingData> trackingList = realm.where(TrackingData.class)
+        return realm.where(TrackingData.class)
                 .equalTo("userID", user.getId())
                 .greaterThanOrEqualTo("journeyDate", startDate)
                 .lessThan("journeyDate", endDate)
                 .findAll();
-
-        return trackingList;
     }
 
 
@@ -49,12 +43,10 @@ public class CalendarQuery extends ProfileFragmentQuery {
         User user = fetchUserData();
         Realm realm = initializeRealm();
 
-        RealmResults<TrackingData> results = realm.where(TrackingData.class)
+        return realm.where(TrackingData.class)
                 .equalTo("userID", user.getId())
                 .greaterThanOrEqualTo("journeyDate", startDate)
                 .lessThan("journeyDate", endDate) // Exclude the next day
                 .findAll();
-
-        return results;
     }
 }

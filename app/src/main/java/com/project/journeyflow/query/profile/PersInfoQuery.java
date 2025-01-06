@@ -44,11 +44,6 @@ public class PersInfoQuery extends ProfileFragmentQuery {
                         Toast.makeText(context, "Image resize problem", Toast.LENGTH_LONG).show();
                     }
 
-                    /*
-                    Bitmap bitmap = BitmapFactory.decodeFile(profileImage.getAbsolutePath());
-                    imageView.setImageBitmap(bitmap);
-
-                     */
                 } else {
                     // Handle case where the image does not exist
                     Log.e("FileCheck", "File does not exist: " + profileImage.getAbsolutePath());
@@ -70,7 +65,7 @@ public class PersInfoQuery extends ProfileFragmentQuery {
         return fetchUserData();
     }
 
-    public boolean updatePersonalInformation(String firstName, String lastName, String username, String gender, String weight, String height, Date dateOfBirth) {
+    public void updatePersonalInformation(String firstName, String lastName, String username, String gender, String weight, String height, Date dateOfBirth) {
         if (weight.length() > 3) {
             weight = weight.substring(0, weight.length() - 3);
         }
@@ -79,12 +74,13 @@ public class PersInfoQuery extends ProfileFragmentQuery {
             height = height.substring(0, height.length() - 3);
         }
 
+        User userData = fetchUserData();
         Realm realm = initializeRealm();
 
         String finalWeight = weight;
         String finalHeight = height;
         realm.executeTransaction(realm1 -> {
-            User user = realm1.where(User.class).equalTo("id", 1).findFirst();
+            User user = realm1.where(User.class).equalTo("id", userData.getId()).findFirst();
 
             if(user != null) {
                 user.setFirstName(firstName);
@@ -97,7 +93,6 @@ public class PersInfoQuery extends ProfileFragmentQuery {
             }
         });
 
-        return true;
     }
 
 }

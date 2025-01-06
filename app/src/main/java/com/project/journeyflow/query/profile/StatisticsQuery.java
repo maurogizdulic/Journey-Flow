@@ -7,18 +7,18 @@ import android.util.Log;
 import com.project.journeyflow.calculation.Calculation;
 import com.project.journeyflow.calculation.DateAndTime;
 import com.project.journeyflow.database.TrackingData;
+import com.project.journeyflow.database.User;
 import com.project.journeyflow.query.ProfileFragmentQuery;
+
+import java.util.Objects;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class StatisticsQuery extends ProfileFragmentQuery {
 
-    private final Context context;
-
     public StatisticsQuery(Context context) {
         super(context);
-        this.context = context;
     }
 
     // Statistics for month
@@ -51,7 +51,7 @@ public class StatisticsQuery extends ProfileFragmentQuery {
 
         for (TrackingData tracking : monthTrackingDataList) {
             if (tracking != null) {
-                long duration = Calculation.calculateDurationOfJourneyInSeconds(tracking.getDateTimeList().first(), tracking.getDateTimeList().last());
+                long duration = Calculation.calculateDurationOfJourneyInSeconds(Objects.requireNonNull(tracking.getDateTimeList().first()), Objects.requireNonNull(tracking.getDateTimeList().last()));
                 totalDurationInSeconds += (int) duration;
             }
         }
@@ -70,7 +70,7 @@ public class StatisticsQuery extends ProfileFragmentQuery {
 
         for (TrackingData tracking : monthTrackingDataList) {
             if (tracking != null) {
-                long duration = Calculation.calculateDurationOfJourneyInSeconds(tracking.getDateTimeList().first(), tracking.getDateTimeList().last());
+                long duration = Calculation.calculateDurationOfJourneyInSeconds(Objects.requireNonNull(tracking.getDateTimeList().first()), Objects.requireNonNull(tracking.getDateTimeList().last()));
                 totalDurationInSeconds += (int) duration;
             }
         }
@@ -101,13 +101,14 @@ public class StatisticsQuery extends ProfileFragmentQuery {
 
     protected RealmResults<TrackingData> getMonthJourneys(){
 
+        User user = fetchUserData();
         Realm realm = initializeRealm();
-        RealmResults<TrackingData> trackings = realm.where(TrackingData.class)
+
+        return realm.where(TrackingData.class)
+                .equalTo("userID", user.getId())
                 .greaterThanOrEqualTo("journeyDate", DateAndTime.getStartOfMonth())
                 .lessThan("journeyDate", DateAndTime.getEndOfMonth())
                 .findAll();
-
-        return trackings;
     }
 
     // Statistics for year
@@ -120,13 +121,14 @@ public class StatisticsQuery extends ProfileFragmentQuery {
 
     protected RealmResults<TrackingData> getYearJourneys() {
 
+        User user = fetchUserData();
         Realm realm = initializeRealm();
-        RealmResults<TrackingData> trackings = realm.where(TrackingData.class)
+
+        return realm.where(TrackingData.class)
+                .equalTo("userID", user.getId())
                 .greaterThanOrEqualTo("journeyDate", DateAndTime.getStartOfCurrentYear())
                 .lessThan("journeyDate", DateAndTime.getEndOfCurrentYear())
                 .findAll();
-
-        return trackings;
     }
 
     public String calculateTotalDistanceOfJourneysInYear() {
@@ -150,7 +152,7 @@ public class StatisticsQuery extends ProfileFragmentQuery {
 
         for (TrackingData tracking : monthTrackingDataList) {
             if (tracking != null) {
-                long duration = Calculation.calculateDurationOfJourneyInSeconds(tracking.getDateTimeList().first(), tracking.getDateTimeList().last());
+                long duration = Calculation.calculateDurationOfJourneyInSeconds(Objects.requireNonNull(tracking.getDateTimeList().first()), Objects.requireNonNull(tracking.getDateTimeList().last()));
                 totalDurationInSeconds += (int) duration;
             }
         }
@@ -162,6 +164,7 @@ public class StatisticsQuery extends ProfileFragmentQuery {
         return String.format("Total duration of journeys: %02dh:%02dm:%02ds", hours, minutes, seconds);
     }
 
+    @SuppressLint("DefaultLocale")
     public String calculateAvgDurationOfJourneysInYear() {
         RealmResults<TrackingData> monthTrackingDataList = getYearJourneys();
 
@@ -169,7 +172,7 @@ public class StatisticsQuery extends ProfileFragmentQuery {
 
         for (TrackingData tracking : monthTrackingDataList) {
             if (tracking != null) {
-                long duration = Calculation.calculateDurationOfJourneyInSeconds(tracking.getDateTimeList().first(), tracking.getDateTimeList().last());
+                long duration = Calculation.calculateDurationOfJourneyInSeconds(Objects.requireNonNull(tracking.getDateTimeList().first()), Objects.requireNonNull(tracking.getDateTimeList().last()));
                 totalDurationInSeconds += (int) duration;
             }
         }
