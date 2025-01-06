@@ -14,13 +14,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.dynamic.IFragmentWrapper;
 import com.project.journeyflow.R;
 import com.project.journeyflow.calculation.Calculation;
 import com.project.journeyflow.database.GPSCoordinates;
 import com.project.journeyflow.database.TrackingData;
 import com.project.journeyflow.fragments.item_detail.ItemDetailFragment;
-import com.project.journeyflow.fragments.profile.StatisticsFragment;
 
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;

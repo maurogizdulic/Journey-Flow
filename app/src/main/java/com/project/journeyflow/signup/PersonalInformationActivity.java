@@ -45,12 +45,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import io.realm.Realm;
 
@@ -171,6 +173,7 @@ public class PersonalInformationActivity extends AppCompatActivity {
                     // on below line we are passing context.
                     PersonalInformationActivity.this,
                     new DatePickerDialog.OnDateSetListener() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
@@ -266,11 +269,12 @@ public class PersonalInformationActivity extends AppCompatActivity {
             }
 
             if (correctData){
-                addDataToDB(textInputFirstName.getText().toString(), textInputLastName.getText().toString(), textInputUsername.getText().toString(), selectedGender, weightSpinner.getSelectedItem().toString(), heightSpinner.getSelectedItem().toString(), birthDate, email, password);
+                long userID = addDataToDB(textInputFirstName.getText().toString(), textInputLastName.getText().toString(), textInputUsername.getText().toString(), selectedGender, weightSpinner.getSelectedItem().toString(), heightSpinner.getSelectedItem().toString(), birthDate, email, password);
 
                 SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("isSignedUp", true); // Set this to true when signup is complete
+                editor.putLong("id", userID);
                 editor.apply();
 
                 Toast.makeText(this, "Profile successfully created!", Toast.LENGTH_SHORT).show();
@@ -281,7 +285,7 @@ public class PersonalInformationActivity extends AppCompatActivity {
         });
     }
 
-    private void addDataToDB(String firstName, String lastName, String username, String gender, @NonNull String weight, String height, Date dateOfBirth, String email, String password) {
+    private long addDataToDB(String firstName, String lastName, String username, String gender, @NonNull String weight, String height, Date dateOfBirth, String email, String password) {
         if (weight.length() > 3) {
             weight = weight.substring(0, weight.length() - 3);
         }
@@ -293,7 +297,7 @@ public class PersonalInformationActivity extends AppCompatActivity {
         // on below line creating and initializing our data object class
         User userObject = new User();
         // on below line we are getting id for the course which we are storing.
-        Number id = realm.where(User.class).max("id");
+        /*Number id = realm.where(User.class).max("id");
         // on below line we are
         // creating a variable for our id.
         long nextId;
@@ -308,8 +312,12 @@ public class PersonalInformationActivity extends AppCompatActivity {
             nextId = id.intValue() + 1;
         }
 
+         */
+        SecureRandom secureRandom = new SecureRandom();
+        long userID = secureRandom.nextLong();
+
         realm.beginTransaction();
-        User user = realm.createObject(User.class, nextId);
+        User user = realm.createObject(User.class, userID);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setUsername(username);
@@ -321,6 +329,8 @@ public class PersonalInformationActivity extends AppCompatActivity {
         user.setPassword(password);
         realm.commitTransaction();
         realm.close();
+
+        return userID;
     }
 
     // Method to open the image chooser

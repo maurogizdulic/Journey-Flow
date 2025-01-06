@@ -13,6 +13,7 @@ public class TrackingData extends RealmObject {
     private RealmList<GPSCoordinates> gpsCoordinates;
     private RealmList<Date> dateTimeList;
     private Date journeyDate;
+    private long userID;
 
     // Empty constructor
     public TrackingData() {}
@@ -71,5 +72,13 @@ public class TrackingData extends RealmObject {
 
     public void setJourneyDate(Date journeyDate) {
         this.journeyDate = journeyDate;
+    }
+
+    public long getUserID() {
+        return userID;
+    }
+
+    public void setUserID(long userID) {
+        this.userID = userID;
     }
 }

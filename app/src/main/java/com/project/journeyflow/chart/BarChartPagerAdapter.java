@@ -15,6 +15,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.project.journeyflow.R;
 import com.project.journeyflow.query.profile.StatisticsQuery;
 
@@ -50,6 +51,9 @@ public class BarChartPagerAdapter extends RecyclerView.Adapter<BarChartPagerAdap
         dataSet.setColor(context.getResources().getColor(android.R.color.holo_blue_light));
         BarData barData = new BarData(dataSet);
         barData.setBarWidth(0.9f); // Set bar width
+
+        final String[] dates = {"06.01.2025"};
+
 
         if (type.equals("MONTH")) {
             if (position == 0) {
@@ -88,6 +92,7 @@ public class BarChartPagerAdapter extends RecyclerView.Adapter<BarChartPagerAdap
             }
         }
 
+        holder.barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(dates));
         holder.barChart.getXAxis().setGranularity(1f); // Interval of 1
         holder.barChart.getXAxis().setGranularityEnabled(true);
         holder.barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);

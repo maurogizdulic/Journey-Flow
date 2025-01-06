@@ -63,6 +63,7 @@ public class ItemDetailFragment extends Fragment {
 
     private void showJourneyDetails(TrackingData trackingData) {
 
+        //textView
         textViewItemDetailDistance.setText(Calculation.calculateDistance(trackingData.getTraveledDistanceList().last()));
         textViewItemDetailTime.setText(Calculation.calculateDurationOfJourney(trackingData.getDateTimeList().first(), trackingData.getDateTimeList().last()));
         textViewItemDetailAvgSpeed.setText(Calculation.calculateAverageSpeed(trackingData.getSpeedList()));

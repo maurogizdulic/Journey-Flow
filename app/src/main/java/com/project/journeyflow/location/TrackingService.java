@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.IBinder;
@@ -61,7 +62,6 @@ public class TrackingService extends Service {
     private double traveledDistance = 0;
     public static boolean isTracking = false;
     private double measuredDistance = 0;
-
 
     @SuppressLint("ForegroundServiceType")
     @Override
@@ -262,7 +262,10 @@ public class TrackingService extends Service {
         Realm realm = Realm.getDefaultInstance();
        try {
            realm.executeTransaction(realm1 -> {
-               User user = realm1.where(User.class).equalTo("id", 1).findFirst();
+               SharedPreferences sharedPreferences = context.getSharedPreferences("AppPreferences", MODE_PRIVATE);
+               long userID = sharedPreferences.getLong("id", 123456789);
+
+               User user = realm1.where(User.class).equalTo("id", userID).findFirst();
 
                if (user != null) {
                    TrackingData trackingData = realm1.createObject(TrackingData.class);
@@ -293,13 +296,12 @@ public class TrackingService extends Service {
                    trackingData.setGpsCoordinates(gpsCoordinatesRealmList);
                    trackingData.setDateTimeList(dateRealmList);
                    trackingData.setJourneyDate(dateRealmList.first());
+                   trackingData.setUserID(userID);
 
                    user.getTrackings().add(trackingData);
                } else {
                    Log.e("REALM USER", "USER NOT FOUND");
                }
-
-
            });
 
            realm.close();

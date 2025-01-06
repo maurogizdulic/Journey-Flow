@@ -33,16 +33,16 @@ public class MapDetailFragment extends Fragment {
 
         initializeView(view);
 
-        if (trackingData != null) {
-            Map.showJourneyOnMap(mapView, trackingData.getGpsCoordinates());
-        }
-
         return view;
     }
 
     @Override
     public void onResume(){
         super.onResume();
+
+        if (trackingData != null) {
+            Map.showJourneyOnMap(mapView, trackingData.getGpsCoordinates());
+        }
     }
 
     private void initializeView(View view) {

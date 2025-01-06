@@ -1,6 +1,9 @@
 package com.project.journeyflow.query;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -50,9 +53,14 @@ public class Query {
 
     protected User fetchUserData() {
         Realm realm = initializeRealm();
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        long userID = sharedPreferences.getLong("id", 123456789);
+        Log.d("SHARED PREFERENCES ID", String.valueOf(userID));
+
         if (realm != null) {
             // Declare a user variable to hold the result
-            User user = realm.where(User.class).equalTo("id", 1).findFirst();
+            User user = realm.where(User.class).equalTo("id", userID).findFirst();
             Log.e("USER DATA", String.valueOf(user));
 
             if (user != null) {

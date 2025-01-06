@@ -1,17 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/profile_background">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewTitleHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="40sp"
+        android:fontFamily="@font/aovelsansrounded_rddl"
+        android:text="History"
+        android:textColor="@color/dark_green" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewHistory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/textViewTitleHistory"
+        android:background="@drawable/shape_1"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/textViewHistoryMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textViewTitleHistory"
+        android:layout_marginTop="250dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:padding="20dp"
+        android:gravity="center"
+        android:background="@drawable/shape_1"
+        android:textSize="20sp"
+        android:fontFamily="@font/aovelsansrounded_rddl"
+        android:text="You don't have any journey yet!\nStart new journey"/>
+    
+    <Button
+        android:id="@+id/buttonHistoryNow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textViewHistoryMessage"
+        android:text="NOW"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginTop="20dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabHistoryFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:gravity="center"
-        android:text="HistoryFragment" />
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        app:srcCompat="@drawable/filter_icon"
+        android:visibility="gone"
+        />
+
+    
 
 </RelativeLayout>

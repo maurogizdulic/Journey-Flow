@@ -19,6 +19,7 @@ import com.project.journeyflow.R;
 import com.project.journeyflow.items.ItemAdapter;
 import com.project.journeyflow.query.profile.CalendarQuery;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -41,7 +42,7 @@ public class CalendarFragment extends Fragment {
 
         initializeViews(view);
 
-        getTodayJourneys(recyclerView, calendarQuery);
+        getTodayJourneys(recyclerView, calendarQuery, textViewDay, textViewMonth, textViewYear);
 
         getCalendar(recyclerView, calendarQuery);
 
@@ -60,7 +61,7 @@ public class CalendarFragment extends Fragment {
         textViewYear = view.findViewById(R.id.textViewCalendarYear);
     }
 
-    private void getTodayJourneys(RecyclerView recyclerView, CalendarQuery calendarQuery) {
+    private void getTodayJourneys(RecyclerView recyclerView, CalendarQuery calendarQuery, TextView textViewDay, TextView textViewMonth, TextView textViewYear) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -74,7 +75,11 @@ public class CalendarFragment extends Fragment {
         calendar.set(Calendar.MILLISECOND, 999);
         Date endOfDay = calendar.getTime();
 
-        //textViewDay.setText(String.valueOf(calendar.getTime().getDay()));
+        LocalDate currentDate = LocalDate.now();
+        textViewDay.setText(String.valueOf(currentDate.getDayOfMonth()));
+        textViewMonth.setText(String.valueOf(currentDate.getMonthValue()));
+        textViewYear.setText(String.valueOf(currentDate.getYear()));
+
 
         adapter = new ItemAdapter(calendarQuery.getJourneysToday(startOfDay, endOfDay), getParentFragmentManager());
         recyclerView.setAdapter(adapter);
