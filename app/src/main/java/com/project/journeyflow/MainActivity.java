@@ -21,7 +21,7 @@ import com.project.journeyflow.fragments.TrackingFragment;
 import com.project.journeyflow.location.LocationBroadcastReceiver;
 import com.project.journeyflow.location.LocationViewModel;
 import com.project.journeyflow.location.TrackingService;
-import com.project.journeyflow.signup.SignUpActivity;
+import com.project.journeyflow.signup.NavigationActivity;
 
 import org.osmdroid.config.Configuration;
 
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!isSignedUp) {
             // User is not signed up, redirect to SignUpActivity
-            Intent signUpIntent = new Intent(this, SignUpActivity.class);
+            Intent signUpIntent = new Intent(this, NavigationActivity.class);
             startActivity(signUpIntent);
             finish(); // Prevent MainActivity from loading if user isn't signed up
         } else {
