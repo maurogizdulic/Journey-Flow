@@ -10,6 +10,10 @@ import com.project.journeyflow.database.TrackingData;
 import com.project.journeyflow.database.User;
 import com.project.journeyflow.query.ProfileFragmentQuery;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import io.realm.Realm;
@@ -81,7 +85,7 @@ public class StatisticsQuery extends ProfileFragmentQuery {
         int hours = averageDurationInSeconds / 3600;
         int minutes = (averageDurationInSeconds % 3600) / 60;
         int seconds = averageDurationInSeconds % 60;
-        return String.format("Average duration of journeys: %02dh:%02dm:%02ds", hours, minutes, seconds);
+        return String.format("Avg duration of journeys: %02dh:%02dm:%02ds", hours, minutes, seconds);
     }
 
     public String calculateAvgDistanceOfMonthJourneys() {
@@ -96,10 +100,24 @@ public class StatisticsQuery extends ProfileFragmentQuery {
 
         double avgDistance = totalDistance / monthTrackingDataList.size();
 
-        return "Average distance traveled: " + Calculation.calculateDistance(avgDistance);
+        return "Avg distance traveled: " + Calculation.calculateDistance(avgDistance);
     }
 
-    protected RealmResults<TrackingData> getMonthJourneys(){
+    public List<String> getDatesInMonth() {
+        RealmResults<TrackingData> trackingDataList = getMonthJourneys();
+
+        List<String> dates = new ArrayList<>();
+        String date = "";
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        for (TrackingData data : trackingDataList) {
+            date = dateFormat.format(Objects.requireNonNull(data.getDateTimeList().first()));
+            dates.add(date);
+        }
+
+        return dates;
+    }
+
+    public RealmResults<TrackingData> getMonthJourneys(){
 
         User user = fetchUserData();
         Realm realm = initializeRealm();
@@ -119,7 +137,7 @@ public class StatisticsQuery extends ProfileFragmentQuery {
         return "Number of journeys: " + trackingData.size();
     }
 
-    protected RealmResults<TrackingData> getYearJourneys() {
+    public RealmResults<TrackingData> getYearJourneys() {
 
         User user = fetchUserData();
         Realm realm = initializeRealm();
@@ -183,7 +201,7 @@ public class StatisticsQuery extends ProfileFragmentQuery {
         int hours = averageDurationInSeconds / 3600;
         int minutes = (averageDurationInSeconds % 3600) / 60;
         int seconds = averageDurationInSeconds % 60;
-        return String.format("Average duration of journeys: %02dh:%02dm:%02ds", hours, minutes, seconds);
+        return String.format("Avg duration of journeys: %02dh:%02dm:%02ds", hours, minutes, seconds);
     }
 
     public String calculateAvgDistanceOfJourneysInYear() {
@@ -198,6 +216,21 @@ public class StatisticsQuery extends ProfileFragmentQuery {
 
         double avgDistance = totalDistance / monthTrackingDataList.size();
 
-        return "Average distance traveled: " + Calculation.calculateDistance(avgDistance);
+        return "Avg distance traveled: " + Calculation.calculateDistance(avgDistance);
     }
+
+    public List<String> getMonthInYear() {
+        RealmResults<TrackingData> trackingDataList = getYearJourneys();
+
+        List<String> months = new ArrayList<>();
+        String date = "";
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM", Locale.ENGLISH);
+        for (TrackingData data : trackingDataList) {
+            date = dateFormat.format(Objects.requireNonNull(data.getDateTimeList().first()));
+            months.add(date);
+        }
+
+        return months;
+    }
+
 }

@@ -47,6 +47,7 @@
         android:background="@drawable/shape_1"
         android:textSize="20sp"
         android:fontFamily="@font/aovelsansrounded_rddl"
+        android:textColor="@color/dark_green"
         android:text="You don't have any journey yet!\nStart new journey"/>
     
     <Button

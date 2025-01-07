@@ -26,12 +26,14 @@ public class BarChartPagerAdapter extends RecyclerView.Adapter<BarChartPagerAdap
     private final Context context;
     private final List<List<BarEntry>> chartDataList;
     private final String type;
+    private final List<String> datesList;
     private StatisticsQuery statisticsQuery;
 
-    public BarChartPagerAdapter(Context context, List<List<BarEntry>> chartDataList, String type) {
+    public BarChartPagerAdapter(Context context, List<List<BarEntry>> chartDataList, String type, List<String> datesList) {
         this.context = context;
         this.chartDataList = chartDataList;
         this.type = type;
+        this.datesList = datesList;
     }
 
     @NonNull
@@ -51,9 +53,6 @@ public class BarChartPagerAdapter extends RecyclerView.Adapter<BarChartPagerAdap
         dataSet.setColor(context.getResources().getColor(android.R.color.holo_blue_light));
         BarData barData = new BarData(dataSet);
         barData.setBarWidth(0.9f); // Set bar width
-
-        final String[] dates = {"06.01.2025"};
-
 
         if (type.equals("MONTH")) {
             if (position == 0) {
@@ -92,8 +91,9 @@ public class BarChartPagerAdapter extends RecyclerView.Adapter<BarChartPagerAdap
             }
         }
 
-        holder.barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(dates));
+        holder.barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(datesList));
         holder.barChart.getXAxis().setGranularity(1f); // Interval of 1
+        holder.barChart.getXAxis().setLabelRotationAngle(-30);
         holder.barChart.getXAxis().setGranularityEnabled(true);
         holder.barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         holder.barChart.setData(barData);

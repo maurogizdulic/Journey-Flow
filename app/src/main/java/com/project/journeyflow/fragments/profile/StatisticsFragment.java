@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.github.mikephil.charting.data.BarEntry;
 import com.project.journeyflow.R;
 import com.project.journeyflow.chart.BarChartPagerAdapter;
+import com.project.journeyflow.fragments.TrackingFragment;
 import com.project.journeyflow.query.profile.StatisticsQuery;
 import com.project.journeyflow.query.profile.StatisticsQueryChart;
 
@@ -28,8 +31,10 @@ public class StatisticsFragment extends Fragment {
     private TextView textViewMonth, textViewTotalDistanceMonth, textViewNumOfJourneyMonth, textViewDurationMonth;
     private TextView textViewAvgDistanceMonth, textViewAvgDurationMonth;
     private TextView textViewYear, textViewTotalDistanceYear, textViewNumOfJourneyYear, textViewDurationYear;
-    private TextView textViewAvgDistanceYear, textViewAvgDurationYear;
+    private TextView textViewAvgDistanceYear, textViewAvgDurationYear, textViewMessage;
     private ViewPager2 viewPagerMonth, viewPagerYear;
+    private Button buttonNow;
+    private ScrollView scrollView;
 
     @Nullable
     @Override
@@ -37,16 +42,40 @@ public class StatisticsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
         StatisticsQueryChart statisticsQueryChart = new StatisticsQueryChart(requireContext());
+        StatisticsQuery statisticsQuery = new StatisticsQuery(requireActivity());
 
         initializeViews(view);
 
-        showMonthStatistics();
+        if (!statisticsQuery.getMonthJourneys().isEmpty()) {
 
-        showYearStatistics();
+            textViewMessage.setVisibility(View.GONE);
+            buttonNow.setVisibility(View.GONE);
+            scrollView.setVisibility(View.VISIBLE);
 
-        showMonthChartStatistics(statisticsQueryChart);
+            showMonthStatistics(statisticsQuery);
 
-        showYearChartStatistics(statisticsQueryChart);
+            showYearStatistics(statisticsQuery);
+
+            showMonthChartStatistics(statisticsQueryChart, statisticsQuery);
+
+            showYearChartStatistics(statisticsQueryChart, statisticsQuery);
+        }
+        else {
+            textViewMessage.setVisibility(View.VISIBLE);
+            buttonNow.setVisibility(View.VISIBLE);
+            scrollView.setVisibility(View.GONE);
+
+            buttonNow.setOnClickListener(view1 -> {
+                TrackingFragment trackingFragment = new TrackingFragment();
+
+                // Replace the current fragment with the new one
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, trackingFragment)
+                        .addToBackStack(null) // Add this transaction to the back stack
+                        .commit();
+            });
+        }
 
         return view;
     }
@@ -72,6 +101,10 @@ public class StatisticsFragment extends Fragment {
         textViewTotalDistanceYear = view.findViewById(R.id.textViewTotalDistanceYear);
         textViewAvgDistanceYear = view.findViewById(R.id.textViewAvgDistanceYear);
         textViewAvgDurationYear = view.findViewById(R.id.textViewAvgDurationYear);
+
+        textViewMessage = view.findViewById(R.id.textViewStatisticsMessage);
+        buttonNow = view.findViewById(R.id.buttonStatisticsNow);
+        scrollView = view.findViewById(R.id.scrollViewStatistics);
     }
 
     // Helper method to generate bar entries for each chart
@@ -87,10 +120,8 @@ public class StatisticsFragment extends Fragment {
         return entries;
     }
 
-    private void showMonthStatistics() {
+    private void showMonthStatistics(StatisticsQuery statisticsQuery) {
         LocalDate today = LocalDate.now();
-        StatisticsQuery statisticsQuery = new StatisticsQuery(requireContext());
-        //Log.d("MONTH", today.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
         textViewMonth.setText(today.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
         textViewNumOfJourneyMonth.setText(statisticsQuery.showNumOfJourneysMonth());
         textViewTotalDistanceMonth.setText(statisticsQuery.calculateTotalDistanceOfMonthJourneys());
@@ -99,9 +130,8 @@ public class StatisticsFragment extends Fragment {
         textViewAvgDistanceMonth.setText(statisticsQuery.calculateAvgDistanceOfMonthJourneys());
     }
 
-    private void showYearStatistics() {
+    private void showYearStatistics(StatisticsQuery statisticsQuery) {
         LocalDate today = LocalDate.now();
-        StatisticsQuery statisticsQuery = new StatisticsQuery(requireContext());
         textViewYear.setText(String.valueOf(today.getYear()));
         textViewNumOfJourneyYear.setText(statisticsQuery.showNumOfJourneysYear());
         textViewDurationYear.setText(statisticsQuery.calculateTotalDurationJourneysInYear());
@@ -110,7 +140,7 @@ public class StatisticsFragment extends Fragment {
         textViewAvgDurationYear.setText(statisticsQuery.calculateAvgDurationOfJourneysInYear());
     }
 
-    private void showMonthChartStatistics(StatisticsQueryChart statisticsQueryChart) {
+    private void showMonthChartStatistics(StatisticsQueryChart statisticsQueryChart, StatisticsQuery query) {
 
         // Prepare data for the charts
         List<List<BarEntry>> chartDataList = new ArrayList<>();
@@ -119,11 +149,11 @@ public class StatisticsFragment extends Fragment {
         chartDataList.add(createBarEntries(statisticsQueryChart.getDistanceForDaysInMonth()));    // Chart 3
 
         // Set up adapter and attach it to the ViewPager
-        BarChartPagerAdapter adapterMonth = new BarChartPagerAdapter(requireContext(), chartDataList, "MONTH");
+        BarChartPagerAdapter adapterMonth = new BarChartPagerAdapter(requireContext(), chartDataList, "MONTH", query.getDatesInMonth());
         viewPagerMonth.setAdapter(adapterMonth);
     }
 
-    private void showYearChartStatistics(StatisticsQueryChart statisticsQueryChart) {
+    private void showYearChartStatistics(StatisticsQueryChart statisticsQueryChart, StatisticsQuery query) {
 
         // Prepare data for the charts
         List<List<BarEntry>> chartDataList = new ArrayList<>();
@@ -132,7 +162,7 @@ public class StatisticsFragment extends Fragment {
         chartDataList.add(createBarEntries(statisticsQueryChart.getDistanceOfJourenysInYear()));    // Chart 3
 
         // Set up adapter and attach it to the ViewPager
-        BarChartPagerAdapter adapterYear = new BarChartPagerAdapter(requireContext(), chartDataList, "YEAR");
+        BarChartPagerAdapter adapterYear = new BarChartPagerAdapter(requireContext(), chartDataList, "YEAR", query.getMonthInYear());
         viewPagerYear.setAdapter(adapterYear);
     }
 }
