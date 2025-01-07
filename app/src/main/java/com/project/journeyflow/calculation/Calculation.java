@@ -1,7 +1,6 @@
 package com.project.journeyflow.calculation;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class Calculation {
         // Convert from m/s to km/h
         averageSpeed = averageSpeed * 3600 / 1000;
 
-        return String.format("%.2f", averageSpeed);
+        return String.format("%.2f km/h", averageSpeed);
     }
 
     public static float calculateAverageSpeedInFloat(List<Float> speedList) {
@@ -87,5 +86,29 @@ public class Calculation {
             floatList.add(value);
         }
         return floatList;
+    }
+
+    public static String  calculateMaxAltitude(List<Double> altitudeList) {
+        double maxAltitude = 0;
+
+        for (Double value : altitudeList) {
+            if(value >= maxAltitude) {
+                maxAltitude = value;
+            }
+        }
+
+        return (int) maxAltitude + " m";
+    }
+
+    public static String calculateMinAltitude(List<Double> altitudeList) {
+        double minAltitude = 20000;
+
+        for (Double value : altitudeList) {
+            if(value <= minAltitude) {
+                minAltitude = value;
+            }
+        }
+
+        return (int) minAltitude + " m";
     }
 }

@@ -19,6 +19,8 @@ import com.project.journeyflow.database.TrackingData;
 import com.project.journeyflow.items.TabPagerAdapter;
 import com.project.journeyflow.query.item_detail.ItemDetailQuery;
 
+import java.util.Objects;
+
 public class ItemDetailFragment extends Fragment {
 
     private TextView textViewItemDetailUser, textViewItemDetailDistance, textViewItemDetailTime, textViewItemDetailAvgSpeed;
@@ -36,8 +38,9 @@ public class ItemDetailFragment extends Fragment {
             ItemDetailQuery query = new ItemDetailQuery(requireContext());
             long trackingDataId = getArguments().getLong("trackingDataId");
             TrackingData trackingData = query.getTrackingData(trackingDataId);
+            String username = query.getUserOfJourney(trackingData);
 
-            showJourneyDetails(trackingData);
+            showJourneyDetails(trackingData, username);
 
             showTabPager(view, trackingData);
         }
@@ -61,14 +64,16 @@ public class ItemDetailFragment extends Fragment {
         textViewItemDetailAltitudeMin = view.findViewById(R.id.textViewItemDetailAltitudeMin);
     }
 
-    private void showJourneyDetails(TrackingData trackingData) {
+    private void showJourneyDetails(TrackingData trackingData, String username) {
 
-        //textView
+        textViewItemDetailUser.setText(username);
         textViewItemDetailDistance.setText(Calculation.calculateDistance(trackingData.getTraveledDistanceList().last()));
-        textViewItemDetailTime.setText(Calculation.calculateDurationOfJourney(trackingData.getDateTimeList().first(), trackingData.getDateTimeList().last()));
+        textViewItemDetailTime.setText(Calculation.calculateDurationOfJourney(Objects.requireNonNull(trackingData.getDateTimeList().first()), Objects.requireNonNull(trackingData.getDateTimeList().last())));
         textViewItemDetailAvgSpeed.setText(Calculation.calculateAverageSpeed(trackingData.getSpeedList()));
         textViewItemDetailStart.setText(Calculation.convertToDateTimeString(trackingData.getDateTimeList().first()));
         textViewItemDetailStop.setText(Calculation.convertToDateTimeString(trackingData.getDateTimeList().last()));
+        textViewItemDetailAltitudeMax.setText(Calculation.calculateMaxAltitude(trackingData.getAltitudeList()));
+        textViewItemDetailAltitudeMin.setText(Calculation.calculateMinAltitude(trackingData.getAltitudeList()));
     }
 
     private void showTabPager(View view, TrackingData trackingData) {

@@ -74,7 +74,7 @@ public class HomeFragmentQuery extends Query {
         dateTime.setText("- Date and time: " + Calculation.convertToDateTimeString(trackingData.getDateTimeList().last()));
         duration.setText("- Duration: " + durationTime);
         distance.setText("- Distance: " + printDistance);
-        averageSpeed.setText("- Avg. speed: " + printAverageSpeed + " km/h");
+        averageSpeed.setText("- Avg. speed: " + printAverageSpeed);
 
         showJourneyOnMap(map, trackingData.getGpsCoordinates());
 

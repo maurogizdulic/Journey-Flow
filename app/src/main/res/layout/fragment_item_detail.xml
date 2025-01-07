@@ -81,11 +81,11 @@
                 android:id="@+id/textViewItemDetailUser"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:textSize="15sp"
-                android:textColor="@color/dark_green"
                 android:fontFamily="@font/aovelsansrounded_rddl"
                 android:gravity="center_vertical"
-                android:text="User" />
+                android:text="User"
+                android:textColor="@color/dark_green"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/textViewItemDetailDistance"
