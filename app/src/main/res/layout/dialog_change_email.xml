@@ -26,14 +26,14 @@
         android:id="@+id/editTextCurrentEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Current email"
+        android:hint="Current e-mail"
         android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/editTextNewEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="New password"
+        android:hint="New e-mail"
         android:inputType="textEmailAddress" />
 
     <Button
