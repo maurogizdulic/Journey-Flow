@@ -23,4 +23,39 @@ public class LogInSignUpQuery extends Query{
 
         return realm.where(User.class).equalTo("eMail", email).findFirst();
     }
+
+    public boolean currentPasswordExists(String currentPassword) {
+        User user = fetchUserData();
+
+        if (user.getPassword().equals(currentPassword)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean newEmailExists(String newEmail) {
+        Realm realm = initializeRealm();
+
+        User user = realm.where(User.class).equalTo("eMail", newEmail).findFirst();
+
+        if (user != null) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean currentEmailExists(String currentEmail) {
+        User user = fetchUserData();
+
+        if (user.geteMail().equals(currentEmail)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

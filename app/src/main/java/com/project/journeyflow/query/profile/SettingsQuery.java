@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.project.journeyflow.database.TrackingData;
@@ -20,16 +21,6 @@ public class SettingsQuery extends ProfileFragmentQuery {
         super(context);
         this.context = context;
     }
-/*
-    public void changePassword(){
-
-    }
-
-    public void changeEmail() {
-
-    }
-
- */
 
     public void deleteAccount() {
 
@@ -54,6 +45,46 @@ public class SettingsQuery extends ProfileFragmentQuery {
                     Toast.makeText(context, "Account deleted successfully", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(context, "User not found, account deletion failed", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
+    public void changePassword(String newPassword) {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        long userID = sharedPreferences.getLong("id", 123456789);
+
+        try (Realm realm = initializeRealm()) {
+            realm.executeTransaction(realm1 -> {
+                User user = realm1.where(User.class).equalTo("id", userID).findFirst();
+                if (user != null) {
+                    // Update the password
+                    user.setPassword(newPassword);
+                    // Password updated in the database
+                } else {
+                    // Handle user not found
+                    System.out.println("User not found!");
+                }
+            });
+        }
+    }
+
+    public void changeEmail(String newEmail) {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        long userID = sharedPreferences.getLong("id", 123456789);
+
+        try (Realm realm = initializeRealm()) {
+            realm.executeTransaction(realm1 -> {
+                User user = realm1.where(User.class).equalTo("id", userID).findFirst();
+                if (user != null) {
+                    // Update the password
+                    user.seteMail(newEmail);
+                    // Password updated in the database
+                } else {
+                    // Handle user not found
+                    Log.d("User not found", "User not found");
                 }
             });
         }

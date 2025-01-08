@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,14 +19,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.project.journeyflow.MainActivity;
 import com.project.journeyflow.R;
-import com.project.journeyflow.location.map.Map;
+import com.project.journeyflow.query.LogInSignUpQuery;
 import com.project.journeyflow.query.ProfileFragmentQuery;
 import com.project.journeyflow.query.profile.SettingsQuery;
+import com.project.journeyflow.signup.InputCorrectness;
 import com.project.journeyflow.signup.NavigationActivity;
 
 public class SettingsFragment extends Fragment {
@@ -39,10 +39,11 @@ public class SettingsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         SettingsQuery query = new SettingsQuery(requireActivity());
+        LogInSignUpQuery logInSignUpQuery = new LogInSignUpQuery(requireActivity());
 
         initializeViews(view);
 
-        buttonClicks(query);
+        buttonClicks(query, logInSignUpQuery);
 
         return view;
     }
@@ -66,14 +67,14 @@ public class SettingsFragment extends Fragment {
         textViewUsername = view.findViewById(R.id.textViewProfileUsername);
     }
 
-    private void buttonClicks(SettingsQuery query) {
+    private void buttonClicks(SettingsQuery query, LogInSignUpQuery logInSignUpQuery) {
 
         constraintLayoutChangePassword.setOnClickListener(view -> {
-
+            showDialogForChangePassword(query, logInSignUpQuery);
         });
 
         constraintLayoutChangeEmail.setOnClickListener(view -> {
-
+            showDialogForChangeEmail(query, logInSignUpQuery);
         });
 
         constraintLayoutLogOut.setOnClickListener(view -> {
@@ -142,6 +143,141 @@ public class SettingsFragment extends Fragment {
             dialog.dismiss();
         });
         AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showDialogForChangePassword(SettingsQuery query, LogInSignUpQuery query2){
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_change_password, null);
+
+        // Find the EditTexts and Button in the custom layout
+        EditText editTextCurrentPassword = dialogView.findViewById(R.id.editTextCurrentPassword);
+        EditText editTextNewPassword = dialogView.findViewById(R.id.editTextNewPassword);
+        EditText editTextConfirmNewPassword = dialogView.findViewById(R.id.editTextConfirmNewPassword);
+        Button buttonChangePassword = dialogView.findViewById(R.id.buttonSubmit);
+
+        // Build the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        // Set button click listener
+        buttonChangePassword.setOnClickListener(v -> {
+            // Retrieve the input values
+            String currentPassword = editTextCurrentPassword.getText().toString().trim();
+            String newPassword = editTextNewPassword.getText().toString().trim();
+            String confirmNewPassword = editTextConfirmNewPassword.getText().toString().trim();
+
+            if (query2.currentPasswordExists(currentPassword)) {
+                if(newPassword.equals(confirmNewPassword)) {
+
+                    InputCorrectness inputCorrectness = new InputCorrectness();
+                    boolean isCorrect = true;
+
+                    if (newPassword.isEmpty()) {
+                        editTextNewPassword.setError("Password is required!");
+                        isCorrect = false;
+                    }
+
+                    if (confirmNewPassword.isEmpty()) {
+                        editTextConfirmNewPassword.setError("Confirmed password is required!");
+                        isCorrect = false;
+                    }
+
+                    if (!(inputCorrectness.checkPasswordCorrectness(newPassword))){
+                        editTextNewPassword.setError("Password must contain at least one capital letter, number and symbol");
+                        editTextNewPassword.setText("");
+                        isCorrect = false;
+                    }
+
+                    if (isCorrect) {
+                        query.changePassword(newPassword);
+                        Toast.makeText(getActivity(), "Password changed successfully.", Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }
+                }
+                else {
+                    editTextNewPassword.setText("");
+                    editTextConfirmNewPassword.setText("");
+                    Toast.makeText(getActivity(), "Incorrectly entered New Password and Confirm new password", Toast.LENGTH_LONG).show();
+                }
+            }
+            else {
+                editTextCurrentPassword.setText("");
+                Toast.makeText(getActivity(), "Incorrect current password!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        // Show the dialog
+        dialog.show();
+    }
+
+    private void showDialogForChangeEmail(SettingsQuery query, LogInSignUpQuery query2) {
+
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_change_email, null);
+
+        // Find the EditTexts and Button in the custom layout
+        EditText editTextCurrentPassword = dialogView.findViewById(R.id.editTextCurrentPassword);
+        EditText editTextCurrentEmail = dialogView.findViewById(R.id.editTextCurrentEmail);
+        EditText editTextNewEmail = dialogView.findViewById(R.id.editTextNewEmail);
+        Button buttonChangeEmail = dialogView.findViewById(R.id.buttonChangeEmail);
+
+        // Build the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        // Set button click listener
+        buttonChangeEmail.setOnClickListener(v -> {
+            // Retrieve the input values
+            String currentPassword = editTextCurrentPassword.getText().toString().trim();
+            String currentEmail = editTextCurrentEmail.getText().toString().trim();
+            String newEmail = editTextNewEmail.getText().toString().trim();
+
+            if (query2.currentPasswordExists(currentPassword)) {
+                if (query2.currentEmailExists(currentEmail)) {
+                    if(!query2.newEmailExists(newEmail)) {
+
+                        InputCorrectness inputCorrectness = new InputCorrectness();
+                        boolean isCorrect = true;
+
+                        if (newEmail.isEmpty()) {
+                            editTextNewEmail.setError("Email is required!");
+                            isCorrect = false;
+                        }
+
+                        if (!(inputCorrectness.checkEmailCorrectness(newEmail))){
+                            editTextNewEmail.setError("E-mail incorrect!");
+                            isCorrect = false;
+                        }
+
+                        if (isCorrect) {
+                            query.changeEmail(newEmail);
+                            Toast.makeText(getActivity(), "E-mail successfully changed!", Toast.LENGTH_LONG).show();
+                            dialog.dismiss();
+                        }
+                        else {
+                            Toast.makeText(getActivity(), "Incorrectly entered e-mail!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        editTextNewEmail.setText("");
+                        Toast.makeText(getActivity(), "There is an account with a new email address, please change the new email address.", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else {
+                    editTextCurrentEmail.setText("");
+                    Toast.makeText(getActivity(), "Incorrect current email!", Toast.LENGTH_LONG).show();
+                }
+            }
+            else {
+                editTextCurrentPassword.setText("");
+                Toast.makeText(getActivity(), "Incorrect current password!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        // Show the dialog
         dialog.show();
     }
 }
