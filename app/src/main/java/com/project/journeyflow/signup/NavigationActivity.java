@@ -1,7 +1,6 @@
 package com.project.journeyflow.signup;
 
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -25,7 +24,7 @@ public class NavigationActivity extends AppCompatActivity {
 
     ViewPager slideViewPager;
     LinearLayout dotIndicator;
-    Button backButton, nextButton, skipButton;
+    Button backButton, nextButton;
     TextView[] dots;
     ViewPagerAdapter viewPagerAdapter;
 
@@ -71,7 +70,6 @@ public class NavigationActivity extends AppCompatActivity {
 
         backButton = findViewById(R.id.backButton);
         nextButton = findViewById(R.id.nextButton);
-        //skipButton = findViewById(R.id.skipButton);
 
         slideViewPager = findViewById(R.id.slideViewPager);
         dotIndicator = findViewById(R.id.dotIndicator);

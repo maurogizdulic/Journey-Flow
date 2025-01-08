@@ -13,7 +13,7 @@
         android:id="@+id/imageView"
         android:layout_width="250dp"
         android:layout_height="200dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
@@ -31,7 +31,7 @@
         android:gravity="center"
         android:textSize="50sp"
         android:fontFamily="@font/aovelsansrounded_rddl"
-        android:text="Register"
+        android:text="Log in"
         android:textColor="@color/green"/>
 
     <TextView
@@ -45,11 +45,11 @@
         android:textSize="20sp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/aovelsansrounded_rddl"
-        android:text="Create your new account"
+        android:text="Continue using your existing account"
         android:textColor="@color/darker_gray"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutEmail"
+        android:id="@+id/textInputLayoutLogInEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -61,7 +61,7 @@
         app:startIconDrawable="@drawable/post_icon">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextEmail"
+            android:id="@+id/editTextLogInEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="E-mail"
@@ -71,19 +71,19 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutPassword"
+        android:id="@+id/textInputLayoutLogInPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/textInputLayoutEmail"
+        android:layout_below="@+id/textInputLayoutLogInEmail"
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         app:startIconDrawable="@drawable/key_icon">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextPassword"
+            android:id="@+id/editTextLogInPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
@@ -92,65 +92,43 @@
             android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutConfirmPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/textInputLayoutPassword"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        app:startIconDrawable="@drawable/key_icon">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextConfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Confirm password"
-            android:textColor="@color/dark_green"
-            android:background="@drawable/text_input_layout_shape"
-            android:inputType="textPassword"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
     <TextView
-        android:id="@+id/textViewHaveAccount"
+        android:id="@+id/textViewDontHaveAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:layout_below="@+id/textInputLayoutConfirmPassword"
-        android:text="Do you have an account?"
+        android:layout_below="@+id/textInputLayoutLogInPassword"
+        android:text="You don't have an account?"
         android:fontFamily="@font/aovelsansrounded_rddl"/>
 
     <TextView
-        android:id="@+id/textViewLogIn"
+        android:id="@+id/textViewSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="2dp"
-        android:layout_below="@+id/textViewHaveAccount"
+        android:layout_below="@+id/textViewDontHaveAccount"
+        android:text=" Sign up."
         android:gravity="center"
-        android:text=" Log in."
         android:fontFamily="@font/aovelsansrounded_rddl"
         android:textColor="@color/dark_green"
         android:textStyle="bold"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonSignUp"
+        android:id="@+id/buttonLogIn"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textInputLayoutConfirmPassword"
-        android:layout_marginTop="70dp"
+        android:layout_below="@+id/textViewDontHaveAccount"
+        android:layout_marginTop="50dp"
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
         android:textSize="20sp"
         android:gravity="center_vertical"
-        android:text="SIGN UP" />
+        android:text="Log in" />
 
 </RelativeLayout>

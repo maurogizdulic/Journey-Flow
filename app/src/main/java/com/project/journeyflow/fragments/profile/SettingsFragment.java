@@ -24,6 +24,7 @@ import com.project.journeyflow.MainActivity;
 import com.project.journeyflow.R;
 import com.project.journeyflow.location.map.Map;
 import com.project.journeyflow.query.ProfileFragmentQuery;
+import com.project.journeyflow.query.profile.SettingsQuery;
 import com.project.journeyflow.signup.NavigationActivity;
 
 public class SettingsFragment extends Fragment {
@@ -37,10 +38,11 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        SettingsQuery query = new SettingsQuery(requireActivity());
 
         initializeViews(view);
 
-        buttonClicks();
+        buttonClicks(query);
 
         return view;
     }
@@ -64,7 +66,7 @@ public class SettingsFragment extends Fragment {
         textViewUsername = view.findViewById(R.id.textViewProfileUsername);
     }
 
-    private void buttonClicks() {
+    private void buttonClicks(SettingsQuery query) {
 
         constraintLayoutChangePassword.setOnClickListener(view -> {
 
@@ -79,7 +81,7 @@ public class SettingsFragment extends Fragment {
         });
 
         constraintLayoutDeleteAcc.setOnClickListener(view -> {
-            showDialogForDeleteAcc();
+            showDialogForDeleteAcc(query);
         });
     }
 
@@ -106,21 +108,35 @@ public class SettingsFragment extends Fragment {
         dialog.show();
     }
 
-    private void showDialogForDeleteAcc() {
+    private void showDialogForDeleteAcc(SettingsQuery query) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setTitle("Log Out");
-        builder.setMessage("Do you really want to log out?");
+        builder.setTitle("Delete account");
+        builder.setMessage("Do you really want to delete your account?");
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+            showSecondDialogForDeleteAcc(query);
+        });
+        builder.setNegativeButton("No", (dialog, which) -> {
+            dialog.dismiss();
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showSecondDialogForDeleteAcc(SettingsQuery query) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        builder.setTitle("Delete account");
+        builder.setMessage("All data will be permanently deleted. Are you sure you want to continue deleting your account?");
         builder.setPositiveButton("Yes", (dialog, which) -> {
             SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("AppPreferences", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("isSignedUp", false); // Set this to true when signup is complete
+            editor.putBoolean("isSignedUp", false);
             editor.apply();
+
+            query.deleteAccount();
 
             Intent intent = new Intent(requireActivity(), NavigationActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-
-            Toast.makeText(requireActivity(), "Logged out successfully", Toast.LENGTH_LONG).show();
         });
         builder.setNegativeButton("No", (dialog, which) -> {
             dialog.dismiss();

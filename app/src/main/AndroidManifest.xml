@@ -5,10 +5,10 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
@@ -21,8 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JourneyFlow"
         tools:targetApi="31">
+        <activity
+            android:name=".signup.LogInActivity"
+            android:exported="false" />
 
-        <receiver android:name=".location.LocationBroadcastReceiver"
+        <receiver
+            android:name=".location.LocationBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:priority="100">
@@ -30,25 +34,22 @@
                 <action android:name="com.project.LOCATION_UPDATE" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".signup.PersonalInformationActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".signup.SignUpActivity"
             android:exported="false" />
         <activity
             android:name=".signup.GetStartedActivity"
             android:exported="false" />
-
         <activity
             android:name=".signup.NavigationActivity"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -56,10 +57,10 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".location.TrackingService"
+        <service
+            android:name=".location.TrackingService"
             android:enabled="true"
             android:exported="false" />
-
     </application>
 
 </manifest>

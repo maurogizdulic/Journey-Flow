@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.journeyflow.R;
+import com.project.journeyflow.database.User;
+import com.project.journeyflow.query.LogInSignUpQuery;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -26,6 +30,9 @@ public class SignUpActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
+
+        TextView textViewLogIn = findViewById(R.id.textViewLogIn);
+        onClickLogIn(textViewLogIn);
 
         Button signUpButton = findViewById(R.id.buttonSignUp);
         signUpButton.setOnClickListener(view -> {
@@ -64,17 +71,38 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             if (inputCorrectness.checkPasswordAndConfirmPasswordCorrectness(password, confirmPassword) && isCorrect) {
-                Intent intent = new Intent(SignUpActivity.this, PersonalInformationActivity.class);
-                intent.putExtra("Email", email);
-                intent.putExtra("Password", password);
-                intent.putExtra("ConfirmPassword", confirmPassword);
-                startActivity(intent);
-                finish();
+
+                LogInSignUpQuery query = new LogInSignUpQuery(getApplicationContext());
+                User user = query.checkEmail(email);
+
+                if(user == null) {
+                    Intent intent = new Intent(SignUpActivity.this, PersonalInformationActivity.class);
+                    intent.putExtra("Email", email);
+                    intent.putExtra("Password", password);
+                    intent.putExtra("ConfirmPassword", confirmPassword);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "An account with the specified email address already exists. Please change the email address.", Toast.LENGTH_LONG).show();
+                    editTextEmail.setText("");
+                    editTextPassword.setText("");
+                    editTextConfirmPassword.setText("");
+                }
             }
             else {
                 editTextPassword.setText("");
                 editTextConfirmPassword.setText("");
             }
+        });
+    }
+
+    private void onClickLogIn(TextView textViewLogIn) {
+
+        textViewLogIn.setOnClickListener(view -> {
+            Intent intent = new Intent(SignUpActivity.this, LogInActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 }
