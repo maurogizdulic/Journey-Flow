@@ -45,14 +45,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
 
 import io.realm.Realm;
 
@@ -187,11 +186,7 @@ public class PersonalInformationActivity extends AppCompatActivity {
             // at last we are calling show to
             // display our date picker dialog.
             datePickerDialog.show();
-
-
         });
-
-
 
         // Confirm button
         Button confirmBtn = findViewById(R.id.buttonConfirm);
@@ -294,27 +289,8 @@ public class PersonalInformationActivity extends AppCompatActivity {
             height = height.substring(0, height.length() - 3);
         }
 
-        // on below line creating and initializing our data object class
-        User userObject = new User();
-        // on below line we are getting id for the course which we are storing.
-        /*Number id = realm.where(User.class).max("id");
-        // on below line we are
-        // creating a variable for our id.
-        long nextId;
-        // validating if id is null or not.
-        if (id == null) {
-            // if id is null
-            // we are passing it as 1.
-            nextId = 1;
-        } else {
-            // if id is not null then
-            // we are incrementing it by 1
-            nextId = id.intValue() + 1;
-        }
-
-         */
-        SecureRandom secureRandom = new SecureRandom();
-        long userID = secureRandom.nextLong();
+        Random random = new Random(System.nanoTime());
+        long userID = Math.abs(random.nextLong());
 
         realm.beginTransaction();
         User user = realm.createObject(User.class, userID);
