@@ -26,6 +26,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.project.journeyflow.MainActivity;
 import com.project.journeyflow.R;
+import com.project.journeyflow.calculation.Calculation;
 import com.project.journeyflow.database.GPSCoordinates;
 import com.project.journeyflow.database.TrackingData;
 import com.project.journeyflow.database.User;
@@ -40,6 +41,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -288,6 +290,8 @@ public class TrackingService extends Service {
                        gpsCoordinatesRealmList.add(gpsCoordinates);
                    }
 
+
+
                    SecureRandom secureRandom = new SecureRandom();
                    trackingData.setId(secureRandom.nextLong());
                    trackingData.setTraveledDistanceList(traveledDistanceRealmList);
@@ -297,6 +301,8 @@ public class TrackingService extends Service {
                    trackingData.setDateTimeList(dateRealmList);
                    trackingData.setJourneyDate(dateRealmList.first());
                    trackingData.setUserID(userID);
+                   trackingData.setDurationInSeconds(Calculation.calculateDurationOfJourneyInSeconds(Objects.requireNonNull(dateRealmList.first()), Objects.requireNonNull(dateRealmList.last())));
+                   trackingData.setTotalDistance(traveledDistanceRealmList.last());
 
                    user.getTrackings().add(trackingData);
                } else {

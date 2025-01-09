@@ -45,7 +45,7 @@ public class TrackingFragment extends Fragment {
 
     private GPS gps;
 
-    private TextView textViewTraveledDistance, textViewNumberOfSteps, textViewCurrentAltitude, textViewSpeed, textViewAverageSpeed, textViewTrackingTitle;
+    private TextView textViewTraveledDistance, textViewCurrentAltitude, textViewSpeed, textViewAverageSpeed, textViewTrackingTitle;
     private MapView map;
     private MyLocationNewOverlay myLocationNewOverlay;
     private boolean hasLocationPermissionState = false;
@@ -76,11 +76,10 @@ public class TrackingFragment extends Fragment {
         hasLocationPermissionState = myPermission.checkLocationPermission();
 
         Button buttonStartStop = view.findViewById(R.id.buttonStartStop);
-        Button buttonMapSettings = view.findViewById(R.id.buttonMapSettings);
+        //Button buttonMapSettings = view.findViewById(R.id.buttonMapSettings);
         Button buttonCurrentLocation = view.findViewById(R.id.buttonFindCurrentLocation);
         textViewAverageSpeed = view.findViewById(R.id.textViewAverageSpeed);
         textViewTraveledDistance = view.findViewById(R.id.textViewTraveledDistance);
-        textViewNumberOfSteps = view.findViewById(R.id.textViewNumberOfSteps);
         textViewCurrentAltitude = view.findViewById(R.id.textViewCurrentAltitude);
         textViewSpeed = view.findViewById(R.id.textViewSpeed);
         textViewTrackingTitle = view.findViewById(R.id.textViewJourney);
@@ -167,6 +166,7 @@ public class TrackingFragment extends Fragment {
             }
         });
 
+        /*
         buttonMapSettings.setOnClickListener(view1 -> {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
@@ -175,6 +175,8 @@ public class TrackingFragment extends Fragment {
             LayoutInflater dialogInflater = getLayoutInflater();
             View dialogView = dialogInflater.inflate(R.layout.dialog_map_settings, null);
 
+
+         */
             /*
             MaterialSwitch switchZoomButtons = dialogView.findViewById(R.id.switch1);
             MaterialSwitch switch2 = dialogView.findViewById(R.id.switch2);
@@ -183,6 +185,7 @@ public class TrackingFragment extends Fragment {
 
              */
 
+        /*
             builder.setView(dialogView)
                     .setTitle("Choose Options")
                     .setPositiveButton("Update", (dialog, which) -> {
@@ -200,6 +203,8 @@ public class TrackingFragment extends Fragment {
             // Show the dialog
             dialog.show();
         });
+
+         */
 
         buttonCurrentLocation.setOnClickListener(view1 -> {
             if (gps.isProviderEnabled()){
@@ -370,7 +375,6 @@ public class TrackingFragment extends Fragment {
         textViewSpeed.setVisibility(View.VISIBLE);
         textViewAverageSpeed.setVisibility(View.VISIBLE);
         textViewTraveledDistance.setVisibility(View.VISIBLE);
-        textViewNumberOfSteps.setVisibility(View.VISIBLE);
         textViewCurrentAltitude.setVisibility(View.VISIBLE);
     }
 

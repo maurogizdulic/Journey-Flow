@@ -20,7 +20,7 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/navigation_icon"
         />
-
+<!--
     <Button
         android:id="@+id/buttonMapSettings"
         android:layout_width="50dp"
@@ -30,7 +30,7 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/settings_icon"
         />
-
+-->
     <FrameLayout
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
@@ -86,20 +86,6 @@
                 android:layout_marginEnd="25dp"
                 android:gravity="center_vertical"
                 android:text="Traveled distance: --"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:textColor="@color/darker_gray"
-                android:fontFamily="@font/aovelsansrounded_rddl"
-                android:visibility="gone"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/textViewNumberOfSteps"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"
-                android:gravity="center_vertical"
-                android:text="Number of steps: --"
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:textColor="@color/darker_gray"

@@ -38,7 +38,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
-        android:src="@drawable/main"
+        android:src="@drawable/person_icon"
         android:background="@drawable/circle_shape"
         android:scaleType="centerInside" />
 
@@ -204,24 +204,26 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="20dp"
-                    android:weightSum="2">
+                    android:weightSum="1">
 
-                    <Button
-                        android:id="@+id/buttonPickDate"
+                    <ImageButton
+                        android:id="@+id/imageButtonPickDate"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
                         android:layout_marginStart="20dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:text="Pick a date"
-                        android:drawableLeft="@drawable/calendar_icon"
+                        android:layout_weight="0.7"
+                        android:padding="10dp"
+                        android:src="@drawable/calendar_icon"
+                        android:scaleType="centerInside"
+                        android:background="@drawable/shape_2"
                         />
 
                     <TextView
                         android:id="@+id/textViewSelectedDate"
                         android:layout_width="match_parent"
                         android:layout_height="70dp"
-                        android:layout_weight="1"
+                        android:layout_weight="0.3"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:textSize="20sp"

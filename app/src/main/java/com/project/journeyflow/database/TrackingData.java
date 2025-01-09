@@ -14,6 +14,9 @@ public class TrackingData extends RealmObject {
     private RealmList<Date> dateTimeList;
     private Date journeyDate;
     private long userID;
+    private long durationInSeconds;
+    private double totalDistance;
+
 
     // Empty constructor
     public TrackingData() {}
@@ -80,5 +83,21 @@ public class TrackingData extends RealmObject {
 
     public void setUserID(long userID) {
         this.userID = userID;
+    }
+
+    public long getDurationInSeconds() {
+        return durationInSeconds;
+    }
+
+    public void setDurationInSeconds(long durationInSeconds) {
+        this.durationInSeconds = durationInSeconds;
+    }
+
+    public double getTotalDistance() {
+        return totalDistance;
+    }
+
+    public void setTotalDistance(double totalDIstance) {
+        this.totalDistance = totalDIstance;
     }
 }

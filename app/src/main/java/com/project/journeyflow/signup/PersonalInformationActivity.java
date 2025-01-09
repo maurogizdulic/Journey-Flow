@@ -153,7 +153,7 @@ public class PersonalInformationActivity extends AppCompatActivity {
         });
 
         // Date Picker
-        Button pickDateBtn = findViewById(R.id.buttonPickDate);
+        ImageButton pickDateBtn = findViewById(R.id.imageButtonPickDate);
         textViewSelectedDate = findViewById(R.id.textViewSelectedDate);
 
         pickDateBtn.setOnClickListener(v -> {

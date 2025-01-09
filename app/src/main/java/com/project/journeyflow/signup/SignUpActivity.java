@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.journeyflow.R;
 import com.project.journeyflow.database.User;
+import com.project.journeyflow.input_validation.InputCorrectness;
 import com.project.journeyflow.query.LogInSignUpQuery;
 
 public class SignUpActivity extends AppCompatActivity {

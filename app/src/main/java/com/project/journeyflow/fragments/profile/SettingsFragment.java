@@ -24,7 +24,7 @@ import com.project.journeyflow.R;
 import com.project.journeyflow.query.LogInSignUpQuery;
 import com.project.journeyflow.query.ProfileFragmentQuery;
 import com.project.journeyflow.query.profile.SettingsQuery;
-import com.project.journeyflow.signup.InputCorrectness;
+import com.project.journeyflow.input_validation.InputCorrectness;
 import com.project.journeyflow.signup.NavigationActivity;
 
 public class SettingsFragment extends Fragment {
