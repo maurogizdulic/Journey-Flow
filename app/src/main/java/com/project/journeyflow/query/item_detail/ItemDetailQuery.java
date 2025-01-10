@@ -16,11 +16,9 @@ public class ItemDetailQuery extends ProfileFragmentQuery {
     public TrackingData getTrackingData(long id) {
         Realm realm = initializeRealm();
 
-        TrackingData trackingList = realm.where(TrackingData.class)
+        return realm.where(TrackingData.class)
                 .equalTo("id", id)
                 .findFirst();
-
-        return trackingList;
     }
 
     public String getUserOfJourney(TrackingData trackingData) {
@@ -29,6 +27,8 @@ public class ItemDetailQuery extends ProfileFragmentQuery {
         Realm realm = initializeRealm();
 
         User user = realm.where(User.class).equalTo("id", userID).findFirst();
+
+        realm.close();
 
         if (user != null){
             return user.getUsername();
@@ -39,4 +39,32 @@ public class ItemDetailQuery extends ProfileFragmentQuery {
 
     }
 
+    public boolean isOwner(TrackingData trackingData) {
+        User user = fetchUserData();
+        long userID = trackingData.getUserID();
+
+        return user.getId() == userID;
+    }
+
+    public boolean deleteJourney(TrackingData trackingData) {
+
+        try (Realm realm = initializeRealm()) {
+            realm.executeTransaction(r -> {
+                TrackingData data = r.where(TrackingData.class)
+                        .equalTo("id", trackingData.getId())
+                        .findFirst();
+
+                if (data != null) {
+                    data.deleteFromRealm();
+                }
+            });
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Close the Realm instance
+
+        return false;
+    }
 }

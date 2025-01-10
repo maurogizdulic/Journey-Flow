@@ -1,21 +1,28 @@
 package com.project.journeyflow.fragments.item_detail;
 
+import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.project.journeyflow.R;
 import com.project.journeyflow.calculation.Calculation;
 import com.project.journeyflow.database.TrackingData;
+import com.project.journeyflow.fragments.HistoryFragment;
 import com.project.journeyflow.items.TabPagerAdapter;
 import com.project.journeyflow.query.item_detail.ItemDetailQuery;
 
@@ -25,6 +32,7 @@ public class ItemDetailFragment extends Fragment {
 
     private TextView textViewItemDetailUser, textViewItemDetailDistance, textViewItemDetailTime, textViewItemDetailAvgSpeed;
     private TextView textViewItemDetailStart, textViewItemDetailStop, textViewItemDetailAltitudeMax, textViewItemDetailAltitudeMin;
+    private FloatingActionButton fabShare, fabDelete, fabView;
 
     @Nullable
     @Override
@@ -43,6 +51,25 @@ public class ItemDetailFragment extends Fragment {
             showJourneyDetails(trackingData, username);
 
             showTabPager(view, trackingData);
+
+            if (query.isOwner(trackingData)) {
+                fabView.setVisibility(View.VISIBLE);
+            }
+            else {
+                fabView.setVisibility(View.GONE);
+            }
+
+            fabDelete.setOnClickListener(v -> {
+                showDialogForDeleteJourney(query, trackingData);
+            });
+
+            fabShare.setOnClickListener(v -> {
+                showDialogForShareJourney(query, trackingData);
+            });
+
+            fabView.setOnClickListener(v -> {
+                showJourneyVisibility();
+            });
         }
 
         return view;
@@ -62,6 +89,10 @@ public class ItemDetailFragment extends Fragment {
         textViewItemDetailStop = view.findViewById(R.id.textViewItemDetailStop);
         textViewItemDetailAltitudeMax = view.findViewById(R.id.textViewItemDetailAltitudeMax);
         textViewItemDetailAltitudeMin = view.findViewById(R.id.textViewItemDetailAltitudeMin);
+
+        fabDelete = view.findViewById(R.id.floatingActionButtonDelete);
+        fabShare = view.findViewById(R.id.floatingActionButtonShare);
+        fabView = view.findViewById(R.id.floatingActionButtonView);
     }
 
     private void showJourneyDetails(TrackingData trackingData, String username) {
@@ -102,5 +133,69 @@ public class ItemDetailFragment extends Fragment {
                             break;
                     }
                 }).attach();
+    }
+
+    private void showDialogForDeleteJourney(ItemDetailQuery query, TrackingData trackingData) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        builder.setTitle("Delete journey");
+        builder.setMessage("Do you really want to delete your journey?");
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+            if(query.deleteJourney(trackingData)) {
+                Toast.makeText(requireActivity(), "Journey successfully deleted!", Toast.LENGTH_LONG).show();
+
+                Fragment fragment = new HistoryFragment();
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+            else {
+                Toast.makeText(requireActivity(), "Unsuccessfully deleted journey!", Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.setNegativeButton("No", (dialog, which) -> {
+            dialog.dismiss();
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showDialogForShareJourney(ItemDetailQuery query, TrackingData trackingData) {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_share, null);
+
+        // Find the EditTexts and Button in the custom layout
+        EditText editTextUsernameShare = dialogView.findViewById(R.id.editTextUsernameShare);
+        Button buttonShare = dialogView.findViewById(R.id.buttonShare);
+        Button buttonCancel = dialogView.findViewById(R.id.buttonCancelShare);
+
+        buttonCancel.setBackgroundColor(Color.TRANSPARENT);
+
+        // Build the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        buttonCancel.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
+
+        buttonShare.setOnClickListener(view -> {
+
+        });
+
+        dialog.show();
+    }
+
+    private void showJourneyVisibility() {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_view_share, null);
+
+        // Build the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
     }
 }

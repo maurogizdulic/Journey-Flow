@@ -5,6 +5,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/profile_background">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/floatingActionButtonShare"
+        android:clickable="true"
+        app:srcCompat="@drawable/delete_icon"
+        android:backgroundTint="@color/dark_green"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        app:srcCompat="@drawable/share_icon"
+        android:backgroundTint="@color/dark_green"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/floatingActionButtonDelete"
+        app:srcCompat="@drawable/overview_icon"
+        android:backgroundTint="@color/dark_green"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:id="@+id/linearLayoutItemDetail"
         android:layout_width="match_parent"
@@ -18,18 +55,6 @@
         android:background="@drawable/shape_2"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp">
-
-        <!--
-        <TextView
-            android:id="@+id/textViewItemDetailsTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="16dp"
-            android:textSize="15sp"
-            android:textColor="@color/dark_green"
-            android:fontFamily="@font/aovelsansrounded_rddl"
-            android:text="Date" /> -->
 
         <LinearLayout
             android:layout_width="wrap_content"
