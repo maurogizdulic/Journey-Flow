@@ -3,6 +3,7 @@ package com.project.journeyflow.fragments;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.journeyflow.R;
+import com.project.journeyflow.calculation.Calculation;
 import com.project.journeyflow.database.TrackingData;
 import com.project.journeyflow.items.ItemAdapter;
 import com.project.journeyflow.query.HistoryFragmentQuery;
@@ -113,9 +115,12 @@ public class HistoryFragment extends Fragment {
         EditText editTextDurationTo = dialogView.findViewById(R.id.editTextDurationTo);
         TextView textViewStartDate = dialogView.findViewById(R.id.textViewStartDate);
         TextView textViewEndDate = dialogView.findViewById(R.id.textViewEndDate);
-        ImageButton buttonExitFilter = dialogView.findViewById(R.id.imageButtonExitFilter);
+        Button buttonExitFilter = dialogView.findViewById(R.id.buttonExitFilter);
         Button buttonResetFilter = dialogView.findViewById(R.id.buttonResetFilter);
         ImageButton imageButtonSubmitFilter = dialogView.findViewById(R.id.imageButtonSubmitFilter);
+
+        buttonExitFilter.setBackgroundColor(Color.TRANSPARENT);
+        buttonResetFilter.setBackgroundColor(Color.TRANSPARENT);
 
         HistoryFragmentQuery query = new HistoryFragmentQuery(requireActivity());
 
@@ -200,15 +205,34 @@ public class HistoryFragment extends Fragment {
                 maxDuration = Integer.parseInt(editTextDurationTo.getText().toString());
             }
 
-            RealmResults<TrackingData> filteredData = query.getFilteredData(textViewStartDate.getText().toString(), textViewEndDate.getText().toString(), minDistance * 1000, maxDistance * 1000, minDuration, maxDuration);
+            boolean isCorrect = true;
 
-            if (filteredData != null) {
-                Log.d("FILTERED TRACKING DATA", String.valueOf(filteredData));
-                adapter = new ItemAdapter(filteredData, getParentFragmentManager());
-                Log.d("ITEM_ADAPTER", String.valueOf(adapter.getItemCount()));
-                recyclerViewHistory.setAdapter(adapter);
+            if (!Calculation.correctOrderStartEndDate(textViewStartDate.getText().toString(), textViewEndDate.getText().toString())) {
+                isCorrect = false;
+                Toast.makeText(requireActivity(), "Incorrectly entered start and end date", Toast.LENGTH_LONG).show();
+            }
 
-                dialog.dismiss();
+            if (!Calculation.correctOrderMinMaxDistance(minDistance, maxDistance)) {
+                isCorrect = false;
+                Toast.makeText(requireActivity(), "Incorrectly entered min and max distance", Toast.LENGTH_LONG).show();
+            }
+
+            if (!Calculation.correctOrderMinMaxDuration(minDuration, maxDuration)) {
+                isCorrect = false;
+                Toast.makeText(requireActivity(), "Incorrectly entered min and max duration", Toast.LENGTH_LONG).show();
+            }
+
+            if (isCorrect) {
+                RealmResults<TrackingData> filteredData = query.getFilteredData(textViewStartDate.getText().toString(), textViewEndDate.getText().toString(), minDistance * 1000, maxDistance * 1000, minDuration * 60, maxDuration * 60);
+
+                if (filteredData != null) {
+                    Log.d("FILTERED TRACKING DATA", String.valueOf(filteredData));
+                    adapter = new ItemAdapter(filteredData, getParentFragmentManager());
+                    Log.d("ITEM_ADAPTER", String.valueOf(adapter.getItemCount()));
+                    recyclerViewHistory.setAdapter(adapter);
+
+                    dialog.dismiss();
+                }
             }
         });
 
@@ -259,6 +283,9 @@ public class HistoryFragment extends Fragment {
 
             minDistance = minDistance / 1000; // From m to km
             maxDistance = maxDistance / 1000; // From m to km
+
+            minDuration = minDuration / 60; // From sec to min
+            maxDuration = maxDuration / 60; // From sec to min
 
             distanceFrom.setText("");
             distanceFrom.setHint(String.format("%.3f", minDistance));

@@ -7,89 +7,113 @@
     android:background="@drawable/shape_2"
     android:padding="16dp">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Start date:"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"/>
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonExitFilter"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:layout_marginEnd="50dp"
+            android:text="Close"
+            android:textColor="@color/dark_green"/>
+
+        <Button
+            android:id="@+id/buttonResetFilter"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:layout_marginStart="50dp"
+            android:text="Reset"
+            android:textColor="@color/dark_green"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:layout_marginTop="16dp">
 
-        <ImageButton
-            android:id="@+id/imageButtonPickStartDate"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="0.7"
-            android:padding="15dp"
-            android:src="@drawable/calendar_icon"
-            android:scaleType="centerInside"
-            android:background="@drawable/shape_1"
-            />
+            android:layout_weight="0.5"
+            android:text="Start date:"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/textViewStartDate"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_weight="0.3"
+            android:layout_weight="0.4"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:textSize="15sp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="20dp"
+            android:gravity="start | center"
+            android:textSize="20sp"
             android:hint="Start date"
             android:textColor="@color/black"/>
 
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="End date:"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1">
-
         <ImageButton
-            android:id="@+id/imageButtonPickEndDate"
+            android:id="@+id/imageButtonPickStartDate"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginStart="20dp"
+            android:layout_height="50dp"
             android:layout_marginEnd="10dp"
-            android:layout_weight="0.7"
+            android:layout_weight="0.6"
             android:padding="15dp"
             android:src="@drawable/calendar_icon"
             android:scaleType="centerInside"
             android:background="@drawable/shape_1"
             />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1.5">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_weight="0.5"
+            android:text="End\ndate:"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
         <TextView
             android:id="@+id/textViewEndDate"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_weight="0.3"
+            android:layout_weight="0.4"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:textSize="15sp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="20dp"
+            android:gravity="start | center"
+            android:textSize="20sp"
             android:hint="End date"
             android:textColor="@color/black"/>
+
+        <ImageButton
+            android:id="@+id/imageButtonPickEndDate"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="0.6"
+            android:padding="15dp"
+            android:src="@drawable/calendar_icon"
+            android:scaleType="centerInside"
+            android:background="@drawable/shape_1"
+            />
 
     </LinearLayout>
 
@@ -110,9 +134,8 @@
         android:weightSum="1">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.7"
             android:textSize="15sp"
             android:text="From:"
             android:gravity="center"
@@ -120,15 +143,22 @@
 
         <EditText
             android:id="@+id/editTextDistanceFrom"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
             android:ems="10"
             android:maxEms="5"
             android:hint="3.5"
             android:inputType="numberDecimal"
             android:textColor="@color/black"
             android:textColorHint="@color/darker_gray"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="km"
+            android:gravity="center_horizontal | start"
+            android:textColor="@color/black"/>
 
     </LinearLayout>
 
@@ -139,9 +169,8 @@
         android:weightSum="1">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.7"
             android:textSize="15sp"
             android:text="To:"
             android:gravity="center"
@@ -149,14 +178,22 @@
 
         <EditText
             android:id="@+id/editTextDistanceTo"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
             android:ems="10"
-            android:hint="6.5"
+            android:maxEms="5"
+            android:hint="3.5"
             android:inputType="numberDecimal"
             android:textColor="@color/black"
             android:textColorHint="@color/darker_gray"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="km"
+            android:gravity="center_horizontal | start"
+            android:textColor="@color/black"/>
 
     </LinearLayout>
 
@@ -178,9 +215,8 @@
         android:weightSum="1">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.7"
             android:textSize="15sp"
             android:text="From:"
             android:gravity="center"
@@ -188,14 +224,22 @@
 
         <EditText
             android:id="@+id/editTextDurationFrom"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:hint="15"
-            android:ems="5"
-            android:inputType="number"
+            android:ems="10"
+            android:maxEms="5"
+            android:hint="3.5"
+            android:inputType="numberDecimal"
             android:textColor="@color/black"
             android:textColorHint="@color/darker_gray"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="min"
+            android:gravity="center_horizontal | start"
+            android:textColor="@color/black"/>
 
     </LinearLayout>
 
@@ -206,9 +250,8 @@
         android:weightSum="1">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.7"
             android:textSize="15sp"
             android:text="To:"
             android:gravity="center"
@@ -216,14 +259,22 @@
 
         <EditText
             android:id="@+id/editTextDurationTo"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:hint="30"
-            android:ems="5"
-            android:inputType="number"
+            android:ems="10"
+            android:maxEms="5"
+            android:hint="3.5"
+            android:inputType="numberDecimal"
             android:textColor="@color/black"
             android:textColorHint="@color/darker_gray"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="min"
+            android:gravity="center_horizontal | start"
+            android:textColor="@color/black"/>
 
     </LinearLayout>
 
@@ -233,28 +284,6 @@
         android:orientation="horizontal"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp">
-
-        <ImageButton
-            android:id="@+id/imageButtonExitFilter"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_weight="0.3"
-            android:padding="10dp"
-            android:src="@drawable/cross_icon"
-            android:scaleType="centerInside"
-            android:background="@drawable/shape_1"/>
-
-        <Button
-            android:id="@+id/buttonResetFilter"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_weight="0.3"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:text="Reset"
-            android:background="@drawable/shape_1"/>
 
         <ImageButton
             android:id="@+id/imageButtonSubmitFilter"

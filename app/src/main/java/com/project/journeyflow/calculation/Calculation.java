@@ -2,11 +2,13 @@ package com.project.journeyflow.calculation;
 
 import android.annotation.SuppressLint;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Calculation {
 
@@ -110,5 +112,38 @@ public class Calculation {
         }
 
         return (int) minAltitude + " m";
+    }
+
+    public static boolean correctOrderStartEndDate(String startDate, String endDate) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat inputFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+        try {
+            Date start = inputFormat.parse(startDate);
+            Date end = inputFormat.parse(endDate);
+
+            end = new Date(Objects.requireNonNull(end).getTime() + (24 * 60 * 60 * 1000) - 1); // Adjust to include full day
+
+            return Objects.requireNonNull(start).before(end);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean correctOrderMinMaxDuration(int minDuration, int maxDuration) {
+        if (minDuration <= maxDuration) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public static boolean correctOrderMinMaxDistance(double minDistance, double maxDistance) {
+        if (minDistance <= maxDistance) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
