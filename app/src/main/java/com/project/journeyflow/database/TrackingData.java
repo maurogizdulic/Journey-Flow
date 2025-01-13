@@ -17,7 +17,6 @@ public class TrackingData extends RealmObject {
     private long durationInSeconds;
     private double totalDistance;
 
-
     // Empty constructor
     public TrackingData() {}
 

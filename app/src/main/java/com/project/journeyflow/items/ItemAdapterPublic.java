@@ -3,6 +3,7 @@ package com.project.journeyflow.items;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +30,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> {
+public class ItemAdapterPublic extends RecyclerView.Adapter<ItemAdapterPublic.MyViewHolder> {
 
-    private final RealmResults<TrackingData> trackingDataList;
+    private final RealmList<TrackingData> trackingDataList;
     private final FragmentManager fragmentManager;
 
-    public ItemAdapter(RealmResults<TrackingData> trackingDataList, FragmentManager fragmentManager){
+    public ItemAdapterPublic(RealmList<TrackingData> trackingDataList, FragmentManager fragmentManager){
         this.trackingDataList = trackingDataList;
         this.fragmentManager = fragmentManager;
     }
@@ -56,17 +58,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
     @NonNull
     @Override
-    public ItemAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ItemAdapterPublic.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_layout, parent, false);
-        return new MyViewHolder(view);
+        return new ItemAdapterPublic.MyViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ItemAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ItemAdapterPublic.MyViewHolder holder, int position) {
 
         TrackingData trackingData = trackingDataList.get(position);
+
+        Log.d("TRACKING DATA", String.valueOf(trackingData.getDateTimeList()));
 
         holder.textViewDistance.setText("Distance: " + Calculation.calculateDistance(Objects.requireNonNull(trackingData).getTraveledDistanceList().last()));
         holder.textViewTime.setText("Time: " + Calculation.calculateDurationOfJourney(Objects.requireNonNull(trackingData.getDateTimeList().first()), Objects.requireNonNull(trackingData.getDateTimeList().last())));
@@ -79,7 +83,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
             Bundle bundle = new Bundle();
             bundle.putLong("trackingDataId", trackingData.getId());
-            bundle.putBoolean("public", false);
+            bundle.putBoolean("public", true);
             itemDetailFragment.setArguments(bundle);
 
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -129,4 +133,5 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         map.getOverlayManager().add(polyline);
         map.invalidate();
     }
+
 }

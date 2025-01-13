@@ -36,6 +36,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.journeyflow.MainActivity;
 import com.project.journeyflow.R;
 import com.project.journeyflow.database.User;
@@ -50,7 +51,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import io.realm.Realm;
@@ -271,6 +274,16 @@ public class PersonalInformationActivity extends AppCompatActivity {
                 editor.putBoolean("isSignedUp", true); // Set this to true when signup is complete
                 editor.putLong("id", userID);
                 editor.apply();
+
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                Map<String, Object> user = new HashMap<>();
+                user.put("username", textInputUsername.getText().toString());
+
+                db.collection("user").document(String.valueOf(userID))
+                        .set(user)
+                        .addOnSuccessListener(aVoid -> Log.d("TAG", "DocumentSnapshot successfully written!"))
+                        .addOnFailureListener(e -> Log.w("TAG", "Error writing document", e));
 
                 Toast.makeText(this, "Profile successfully created!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PersonalInformationActivity.this, MainActivity.class);

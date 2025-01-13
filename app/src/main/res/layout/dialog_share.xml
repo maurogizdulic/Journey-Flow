@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#dde6c5"
+    android:background="@drawable/shape_2"
     android:padding="16dp">
 
     <TextView
@@ -16,17 +16,64 @@
         android:textSize="25sp"
         android:textColor="@color/black"/>
 
-    <EditText
-        android:id="@+id/editTextUsernameShare"
-        android:layout_width="match_parent"
+    <RadioGroup
+        android:id="@+id/radioGroupShare"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:hint="Username"
-        android:textColor="@color/black"
-        android:textColorHint="@color/darker_gray"
-        android:inputType="text" />
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_weight="1">
+
+        <RadioButton
+            android:id="@+id/radioButtonPublic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All"
+            android:textColor="@color/dark_green"
+            android:layout_weight="1"
+            android:layout_marginEnd="16dp"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Group"
+            android:textColor="@color/dark_green"
+            android:checked="true"/>
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/editTextUsernameShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="0.8"
+            android:hint="Username"
+            android:textColor="@color/black"
+            android:textColorHint="@color/darker_gray"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/buttonAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.2"
+            android:layout_marginStart="40dp"
+            android:gravity="center"
+            android:text="Add" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

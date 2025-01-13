@@ -25,6 +25,11 @@ public class ProfileFragmentQuery extends Query{
         this.context = context;
     }
 
+    public String getMyUsername() {
+        User user = fetchUserData();
+        return user.getUsername();
+    }
+
     public void displayNameAndPicture(ImageView imageView, TextView textViewName, TextView textViewUsername) {
         User user = fetchUserData();
 
