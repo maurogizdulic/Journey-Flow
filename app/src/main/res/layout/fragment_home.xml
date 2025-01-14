@@ -35,7 +35,7 @@
         android:gravity="center"
         android:textColor="@color/dark_green"
         android:background="@drawable/shape_1"
-        android:padding="30dp"
+        android:padding="25dp"
         android:visibility="gone"/>
 
     <ImageView

@@ -52,10 +52,7 @@ public class HomeFragmentQuery extends Query {
     private void displayMotivationalMessage(TextView title, TextView noJourney, User user) {
         if (user != null){
             title.setText(String.format("Hello %s", user.getFirstName()));
-            noJourney.setText("Every journey begins with a single step, \nand today is your day to take it. \n" +
-                    "Remember, progress isn’t about perfection—it’s about showing up, \npushing forward, and believing in your own strength. \n" +
-                    "Embrace the challenge, celebrate the small wins, \nand know that with every effort, \nyou’re becoming the best version of yourself.\n" +
-                    "Let’s start this new journey and make it count!");
+            noJourney.setText("Every journey begins with a single step—today is yours. Progress isn’t about perfection but showing up and pushing forward. Embrace challenges, celebrate small wins, and believe in your strength. Let’s make this journey count!");
         }
         else {
             Log.d("USER", "USER IS NULL");
@@ -113,6 +110,7 @@ public class HomeFragmentQuery extends Query {
         zoomLevel = (int) Math.max(map.getMinZoomLevel(), Math.min(zoomLevel, map.getMaxZoomLevel())); // Clamp to min/max zoom
 
         // Set zoom level manually
+        map.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK);
         map.getController().setZoom(zoomLevel);
         map.setMultiTouchControls(true);
         Polyline polyline = new Polyline();
