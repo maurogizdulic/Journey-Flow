@@ -185,7 +185,7 @@ public class TrackingService extends Service {
         return new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Tracking Your Movement")
                 .setContentText("The app is tracking your location.")
-                .setSmallIcon(R.drawable.navigation_icon) // Replace with your icon resource
+                .setSmallIcon(R.drawable.journey_flow_logo) // Replace with your icon resource
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOngoing(true)  // Make the notification ongoing (i.e., can't be dismissed by the user)
                 .setContentIntent(createContentIntent()) // Optional: Intent to open an activity when clicked
@@ -293,7 +293,7 @@ public class TrackingService extends Service {
 
 
                    SecureRandom secureRandom = new SecureRandom();
-                   trackingData.setId(secureRandom.nextLong());
+                   trackingData.setId(Math.abs(secureRandom.nextLong()));
                    trackingData.setTraveledDistanceList(traveledDistanceRealmList);
                    trackingData.setAltitudeList(altitudeRealmList);
                    trackingData.setSpeedList(speedRealmList);
@@ -303,6 +303,7 @@ public class TrackingService extends Service {
                    trackingData.setUserID(userID);
                    trackingData.setDurationInSeconds(Calculation.calculateDurationOfJourneyInSeconds(Objects.requireNonNull(dateRealmList.first()), Objects.requireNonNull(dateRealmList.last())));
                    trackingData.setTotalDistance(traveledDistanceRealmList.last());
+                   trackingData.setPublicValue(false);
 
                    user.getTrackings().add(trackingData);
                } else {

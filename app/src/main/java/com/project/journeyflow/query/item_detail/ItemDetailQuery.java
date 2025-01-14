@@ -1,6 +1,7 @@
 package com.project.journeyflow.query.item_detail;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -71,6 +72,36 @@ public class ItemDetailQuery extends ProfileFragmentQuery {
         return user.getId() == userID;
     }
 
+    public void setAsPublic(TrackingData trackingData) {
+        Realm realm = initializeRealm();
+
+        realm.executeTransaction(r -> {
+            TrackingData journey = r.where(TrackingData.class).equalTo("id", trackingData.getId()).findFirst();
+
+            if (journey != null) {
+                journey.setPublicValue(true);
+            }
+            else {
+                Toast.makeText(getContext(), "Journey not found", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void setAsPrivate(TrackingData trackingData) {
+        Realm realm = initializeRealm();
+
+        realm.executeTransaction(r -> {
+            TrackingData journey = r.where(TrackingData.class).equalTo("id", trackingData.getId()).findFirst();
+
+            if (journey != null) {
+                journey.setPublicValue(false);
+            }
+            else {
+                Toast.makeText(getContext(), "Journey not found", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     public boolean deleteJourney(TrackingData trackingData) {
 
         try (Realm realm = initializeRealm()) {
@@ -86,9 +117,8 @@ public class ItemDetailQuery extends ProfileFragmentQuery {
 
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("ERROR DELETING JOURNEY IN REALM", e.toString());
         }
-        // Close the Realm instance
 
         return false;
     }

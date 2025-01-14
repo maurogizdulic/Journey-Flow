@@ -1,7 +1,13 @@
 package com.project.journeyflow.fragments.item_detail;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -16,22 +23,35 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.project.journeyflow.R;
 import com.project.journeyflow.calculation.Calculation;
 import com.project.journeyflow.database.GPSCoordinates;
 import com.project.journeyflow.database.TrackingData;
 import com.project.journeyflow.database.User;
 import com.project.journeyflow.fragments.HistoryFragment;
+import com.project.journeyflow.fragments.HomeFragment;
 import com.project.journeyflow.items.TabPagerAdapter;
 import com.project.journeyflow.query.item_detail.ItemDetailQuery;
+
+import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,17 +79,18 @@ public class ItemDetailFragment extends Fragment {
             long trackingDataId = getArguments().getLong("trackingDataId");
             boolean isPublic = getArguments().getBoolean("public");
             TrackingData trackingData = query.getTrackingData(trackingDataId);
-            String username = query.getUserOfJourneyInString(trackingData);
 
             showJourneyDetails(view, trackingDataId, isPublic);
 
-            //showTabPager(view, trackingData);
-
             if (query.isOwner(trackingData)) {
                 fabView.setVisibility(View.VISIBLE);
+                fabDelete.setVisibility(View.VISIBLE);
+                fabShare.setVisibility(View.VISIBLE);
             }
             else {
                 fabView.setVisibility(View.GONE);
+                fabDelete.setVisibility(View.GONE);
+                fabShare.setVisibility(View.GONE);
             }
 
             fabDelete.setOnClickListener(v -> {
@@ -114,7 +135,6 @@ public class ItemDetailFragment extends Fragment {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("journeys").document(String.valueOf(trackingDataID))
                             .get().addOnSuccessListener(documentSnapshot -> {
-
                                 if (documentSnapshot.exists()) {
                                     TrackingData documentData = new TrackingData();
 
@@ -192,7 +212,7 @@ public class ItemDetailFragment extends Fragment {
 
                                     RealmList<GPSCoordinates> gpsCoordinatesList = new RealmList<>();
                                     for (int i = 0; i < Objects.requireNonNull(longitude).size(); i++) {
-                                        GPSCoordinates gpsCoordinates = new GPSCoordinates(latitude.get(i), longitude.get(i));
+                                        GPSCoordinates gpsCoordinates = new GPSCoordinates(Objects.requireNonNull(latitude).get(i), longitude.get(i));
                                         gpsCoordinatesList.add(gpsCoordinates);
                                     }
 
@@ -240,6 +260,8 @@ public class ItemDetailFragment extends Fragment {
         TabPagerAdapter adapter = new TabPagerAdapter(requireActivity(), trackingData);
         viewPager.setAdapter(adapter);
 
+        viewPager.setOffscreenPageLimit(4);
+
         // Link TabLayout and ViewPager2
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> {
@@ -265,17 +287,45 @@ public class ItemDetailFragment extends Fragment {
         builder.setTitle("Delete journey");
         builder.setMessage("Do you really want to delete your journey?");
         builder.setPositiveButton("Yes", (dialog, which) -> {
-            if(query.deleteJourney(trackingData)) {
-                Toast.makeText(requireActivity(), "Journey successfully deleted!", Toast.LENGTH_LONG).show();
+            if (trackingData.getPublicValue()) {
 
-                Fragment fragment = new HistoryFragment();
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, fragment)
-                        .addToBackStack(null)
-                        .commit();
+                if (!isInternetAvailable(requireActivity())) {
+                    dialogInternetConnection(requireActivity(), "No Internet Connection", "Journey is public. You need to turn on the internet to delete the journey. Please connect to the internet to continue.");
+                }
+                else {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    db.collection("journeys").document(String.valueOf(trackingData.getId()))
+                            .delete().addOnSuccessListener(unused -> {
+                                if(query.deleteJourney(trackingData)){
+                                    Toast.makeText(requireActivity(), "Journey successfully deleted!", Toast.LENGTH_LONG).show();
+                                    HistoryFragment yourFragment = new HistoryFragment();
+                                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                                    transaction.replace(R.id.fragment_container, yourFragment);
+                                    transaction.addToBackStack(null);
+                                    transaction.commit();
+                                }
+                                else {
+                                    Toast.makeText(requireActivity(), "Journey unsuccessfully deleted!", Toast.LENGTH_LONG).show();
+                                }
+
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(requireActivity(), "Journey unsuccessfully deleted!", Toast.LENGTH_LONG).show();
+                            });
+                }
             }
             else {
-                Toast.makeText(requireActivity(), "Unsuccessfully deleted journey!", Toast.LENGTH_LONG).show();
+                if(query.deleteJourney(trackingData)){
+                    Toast.makeText(requireActivity(), "Journey successfully deleted!", Toast.LENGTH_LONG).show();
+                    HistoryFragment yourFragment = new HistoryFragment();
+                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, yourFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+                else {
+                    Toast.makeText(requireActivity(), "Journey unsuccessfully deleted!", Toast.LENGTH_LONG).show();
+                }
             }
         });
         builder.setNegativeButton("No", (dialog, which) -> {
@@ -334,12 +384,22 @@ public class ItemDetailFragment extends Fragment {
             if (user != null) {
                 //shareJourney(user, query, trackingData, listOfUsers);
                 if (radioButtonGroup.isChecked()) {
-                    query.shareJourneyToGroup(trackingData, listOfUsers);
-                    dialog.dismiss();
+                    if (!isInternetAvailable(requireActivity())) {
+                        dialogInternetConnection(requireActivity(), "No Internet Connection", "Please connect to the internet to continue.");
+                    } else {
+                        query.shareJourneyToGroup(trackingData, listOfUsers);
+                        query.setAsPublic(trackingData);
+                        dialog.dismiss();
+                    }
                 }
                 else {
-                    query.shareJourneyToAll(trackingData);
-                    dialog.dismiss();
+                    if (!isInternetAvailable(requireActivity())) {
+                        dialogInternetConnection(requireActivity(), "No Internet Connection", "Please connect to the internet to continue.");
+                    } else {
+                        query.shareJourneyToAll(trackingData);
+                        query.setAsPublic(trackingData);
+                        dialog.dismiss();
+                    }
                 }
             }
             else {
@@ -352,17 +412,117 @@ public class ItemDetailFragment extends Fragment {
         dialog.show();
     }
 
+    @SuppressLint("SetTextI18n")
     private void showJourneyVisibility(ItemDetailQuery query, TrackingData trackingData) {
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_view_share, null);
+
+        TextView title = dialogView.findViewById(R.id.textViewTitleShareJourney);
+        Button buttonPrivate = dialogView.findViewById(R.id.buttonPrivate);
 
         // Build the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
 
-        //query.showJourneyVisibility()
+        if (trackingData.getPublicValue()) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("journeys").document(String.valueOf(trackingData.getId()))
+                    .get().addOnSuccessListener(documentSnapshot -> {
+                        if (Boolean.TRUE.equals(documentSnapshot.getBoolean("public"))) {
+                            title.setText("The journey is visible to all!");
+                            buttonPrivate.setVisibility(View.VISIBLE);
+                            buttonPrivate.setOnClickListener(view -> {
+                                if (!isInternetAvailable(requireActivity())) {
+                                    dialogInternetConnection(requireActivity(), "No Internet Connection", "Journey is public. You need to turn on the internet to update the journey. Please connect to the internet to continue.");
+                                }
+                                else
+                                {
+                                    setJourneyToPrivate(String.valueOf(trackingData.getId()), query, trackingData);
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
+                        else {
+                            List<String> listUsername = (List<String>) documentSnapshot.get("sharedTo");
+                            for (String username : Objects.requireNonNull(listUsername)) {
+                                addRowToLayout(dialogView, username);
+                                buttonPrivate.setVisibility(View.VISIBLE);
+                                buttonPrivate.setOnClickListener(view -> {
+                                    if (!isInternetAvailable(requireActivity())) {
+                                        dialogInternetConnection(requireActivity(), "No Internet Connection", "Journey is public. You need to turn on the internet to update the journey. Please connect to the internet to continue.");
+                                    }
+                                    {
+                                        setJourneyToPrivate(String.valueOf(trackingData.getId()), query, trackingData);
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+
+                    });
+        }
+        else {
+            title.setText("The journey is private");
+            buttonPrivate.setVisibility(View.GONE);
+        }
 
         dialog.show();
+    }
+
+    private void dialogInternetConnection(Context context, String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("Settings", (dialog, which) -> {
+            // Open network settings
+            context.startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        builder.show();
+    }
+
+    private boolean isInternetAvailable(Context context) {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+            return activeNetwork != null && activeNetwork.isConnected();
+        }
+        return false;
+    }
+
+    private void addRowToLayout(View dialogView, String username) {
+        LinearLayout usersLayout = dialogView.findViewById(R.id.usersLayout);
+
+        // Create new row
+        LinearLayout rowLayout = new LinearLayout(requireContext());
+        rowLayout.setOrientation(LinearLayout.HORIZONTAL);
+        rowLayout.setPadding(25, 16, 25, 0);
+
+        TextView usernameView = new TextView(requireContext());
+        usernameView.setText(username);
+        usernameView.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_green));
+        usernameView.setTextSize(25);
+        usernameView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+
+        rowLayout.addView(usernameView);
+
+        usersLayout.addView(rowLayout);
+    }
+
+    private void setJourneyToPrivate(String journeyID, ItemDetailQuery query, TrackingData trackingData) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("journeys").document(journeyID).delete()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(requireActivity(), "Journey successfully set to private", Toast.LENGTH_LONG).show();
+                        query.setAsPrivate(trackingData);
+                    } else {
+                        Toast.makeText(requireActivity(), "Failed to set private", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 }

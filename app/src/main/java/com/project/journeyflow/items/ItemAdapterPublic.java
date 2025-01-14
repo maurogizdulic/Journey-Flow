@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Objects;
 
 import io.realm.RealmList;
-import io.realm.RealmResults;
 
 public class ItemAdapterPublic extends RecyclerView.Adapter<ItemAdapterPublic.MyViewHolder> {
 
@@ -44,7 +43,7 @@ public class ItemAdapterPublic extends RecyclerView.Adapter<ItemAdapterPublic.My
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewDistance, textViewTime, textViewDate;
+        public TextView textViewDistance, textViewTime, textViewDate, textViewUsername;
         public MapView mapView;
 
         public MyViewHolder(View itemView) {
@@ -53,6 +52,8 @@ public class ItemAdapterPublic extends RecyclerView.Adapter<ItemAdapterPublic.My
             textViewDistance = itemView.findViewById(R.id.itemTotalDistance);
             textViewTime = itemView.findViewById(R.id.itemTimeOfTravel);
             textViewDate = itemView.findViewById(R.id.itemDateAndTime);
+            textViewUsername = itemView.findViewById(R.id.itemUser);
+            textViewUsername.setVisibility(View.VISIBLE);
         }
     }
 
@@ -70,8 +71,9 @@ public class ItemAdapterPublic extends RecyclerView.Adapter<ItemAdapterPublic.My
 
         TrackingData trackingData = trackingDataList.get(position);
 
-        Log.d("TRACKING DATA", String.valueOf(trackingData.getDateTimeList()));
+        Log.d("TRACKING DATA", String.valueOf(Objects.requireNonNull(trackingData).getDateTimeList()));
 
+        holder.textViewUsername.setText("User: " + trackingData.getUsername());
         holder.textViewDistance.setText("Distance: " + Calculation.calculateDistance(Objects.requireNonNull(trackingData).getTraveledDistanceList().last()));
         holder.textViewTime.setText("Time: " + Calculation.calculateDurationOfJourney(Objects.requireNonNull(trackingData.getDateTimeList().first()), Objects.requireNonNull(trackingData.getDateTimeList().last())));
         holder.textViewDate.setText("Date: " + Calculation.convertToDateTimeString(trackingData.getDateTimeList().first()));
@@ -122,6 +124,7 @@ public class ItemAdapterPublic extends RecyclerView.Adapter<ItemAdapterPublic.My
         zoomLevel = (int) Math.max(map.getMinZoomLevel(), Math.min(zoomLevel, map.getMaxZoomLevel())); // Clamp to min/max zoom
 
         // Set zoom level manually
+        map.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK);
         map.getController().setZoom(zoomLevel);
         //map.setMultiTouchControls(true);
         map.setClickable(false);

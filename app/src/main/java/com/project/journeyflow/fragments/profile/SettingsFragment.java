@@ -3,9 +3,13 @@ package com.project.journeyflow.fragments.profile;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +24,8 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.journeyflow.R;
 import com.project.journeyflow.query.LogInSignUpQuery;
 import com.project.journeyflow.query.ProfileFragmentQuery;
@@ -128,16 +134,47 @@ public class SettingsFragment extends Fragment {
         builder.setTitle("Delete account");
         builder.setMessage("All data will be permanently deleted. Are you sure you want to continue deleting your account?");
         builder.setPositiveButton("Yes", (dialog, which) -> {
-            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("AppPreferences", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("isSignedUp", false);
-            editor.apply();
 
-            query.deleteAccount();
+            if (!isInternetAvailable(requireActivity())) {
+                dialogInternetConnection(requireActivity(), "No Internet Connection", "Your username is public. To delete your account, you must be connected to the internet to automatically delete your account, public username and public journeys. Please connect to the internet to continue.");
+            }
+            else {
+                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("AppPreferences", MODE_PRIVATE);
+                long userID = sharedPreferences.getLong("id", 123456789);
 
-            Intent intent = new Intent(requireActivity(), NavigationActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+                Log.i("USER ID DELETE", String.valueOf(userID));
+
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("user").document(String.valueOf(userID)).delete()
+                                .addOnSuccessListener(unused -> {
+                                    Log.i("USER ID DELETE", "SUCCESSFUL DELETE USER IN FIREBASE");
+                                    db.collection("journeys").whereEqualTo("ownerId", userID).get()
+                                                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                                                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                                            document.getReference().delete().addOnSuccessListener(aVoid -> {
+                                                                Log.d("Firestore", "Deleted journey: " + document.getId());
+                                                            }).addOnFailureListener(e -> {
+                                                                Log.e("FirestoreError", "Failed to delete journey: " + e.getMessage());
+                                                            });
+                                                        }
+
+                                                        query.deleteAccount();
+                                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                        editor.putBoolean("isSignedUp", false);
+                                                        editor.apply();
+
+                                                        Intent intent = new Intent(requireActivity(), NavigationActivity.class);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        startActivity(intent);
+                                                    })
+                                                    .addOnFailureListener(e -> {
+                                                        Toast.makeText(requireActivity(), "Account deletion failed", Toast.LENGTH_LONG).show();
+                                                    });
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(requireActivity(), "Account deletion failed", Toast.LENGTH_LONG).show();
+                                });
+            }
         });
         builder.setNegativeButton("No", (dialog, which) -> {
             dialog.dismiss();
@@ -279,5 +316,27 @@ public class SettingsFragment extends Fragment {
 
         // Show the dialog
         dialog.show();
+    }
+
+    private void dialogInternetConnection(Context context, String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("Settings", (dialog, which) -> {
+            // Open network settings
+            context.startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        builder.show();
+    }
+
+    private boolean isInternetAvailable(Context context) {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+            return activeNetwork != null && activeNetwork.isConnected();
+        }
+        return false;
     }
 }

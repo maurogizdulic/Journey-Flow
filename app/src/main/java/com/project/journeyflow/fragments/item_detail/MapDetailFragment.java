@@ -1,5 +1,6 @@
 package com.project.journeyflow.fragments.item_detail;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.project.journeyflow.R;
-import com.project.journeyflow.chart.Chart;
 import com.project.journeyflow.database.TrackingData;
 import com.project.journeyflow.location.map.Map;
 
@@ -18,11 +18,18 @@ import org.osmdroid.views.MapView;
 
 public class MapDetailFragment extends Fragment {
 
-    private TrackingData trackingData;
+    private final TrackingData trackingData;
     private MapView mapView;
+    private Context context;
 
     public MapDetailFragment(TrackingData trackingData) {
         this.trackingData = trackingData;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;  // Store context when the fragment is attached
     }
 
     @Nullable
@@ -41,7 +48,7 @@ public class MapDetailFragment extends Fragment {
         super.onResume();
 
         if (trackingData != null) {
-            Map.showJourneyOnMap(mapView, trackingData.getGpsCoordinates());
+            Map.showJourneyOnMap(mapView, trackingData.getGpsCoordinates(), context);
         }
     }
 

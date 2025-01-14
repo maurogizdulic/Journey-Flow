@@ -1,7 +1,9 @@
 package com.project.journeyflow.signup;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -11,6 +13,8 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -267,28 +271,35 @@ public class PersonalInformationActivity extends AppCompatActivity {
             }
 
             if (correctData){
-                long userID = addDataToDB(textInputFirstName.getText().toString(), textInputLastName.getText().toString(), textInputUsername.getText().toString(), selectedGender, weightSpinner.getSelectedItem().toString(), heightSpinner.getSelectedItem().toString(), birthDate, email, password);
 
-                SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("isSignedUp", true); // Set this to true when signup is complete
-                editor.putLong("id", userID);
-                editor.apply();
+                if (!isInternetAvailable(this)) {
+                    dialogInternetConnection(this, "No Internet Connection", "Journey is public. You need to turn on the internet to update the journey. Please connect to the internet to continue.");
+                }
+                else
+                {
+                    long userID = addDataToDB(textInputFirstName.getText().toString(), textInputLastName.getText().toString(), textInputUsername.getText().toString(), selectedGender, weightSpinner.getSelectedItem().toString(), heightSpinner.getSelectedItem().toString(), birthDate, email, password);
 
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("isSignedUp", true); // Set this to true when signup is complete
+                    editor.putLong("id", userID);
+                    editor.apply();
 
-                Map<String, Object> user = new HashMap<>();
-                user.put("username", textInputUsername.getText().toString());
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                db.collection("user").document(String.valueOf(userID))
-                        .set(user)
-                        .addOnSuccessListener(aVoid -> Log.d("TAG", "DocumentSnapshot successfully written!"))
-                        .addOnFailureListener(e -> Log.w("TAG", "Error writing document", e));
+                    Map<String, Object> user = new HashMap<>();
+                    user.put("username", textInputUsername.getText().toString());
 
-                Toast.makeText(this, "Profile successfully created!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(PersonalInformationActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                    db.collection("user").document(String.valueOf(userID))
+                            .set(user)
+                            .addOnSuccessListener(aVoid -> Log.d("TAG", "DocumentSnapshot successfully written!"))
+                            .addOnFailureListener(e -> Log.w("TAG", "Error writing document", e));
+
+                    Toast.makeText(this, "Profile successfully created!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(PersonalInformationActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
     }
@@ -453,5 +464,27 @@ public class PersonalInformationActivity extends AppCompatActivity {
 
         canvas.drawCircle(radius, radius, radius, paint);
         return output;
+    }
+
+    private void dialogInternetConnection(Context context, String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("Settings", (dialog, which) -> {
+            // Open network settings
+            context.startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        builder.show();
+    }
+
+    private boolean isInternetAvailable(Context context) {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+            return activeNetwork != null && activeNetwork.isConnected();
+        }
+        return false;
     }
 }

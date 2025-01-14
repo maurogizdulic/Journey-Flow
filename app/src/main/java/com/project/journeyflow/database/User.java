@@ -111,49 +111,4 @@ public class User extends RealmObject {
     public void setTrackings(RealmList<TrackingData> trackings) {
         this.trackings = trackings;
     }
-/*
-    public byte[] getImageData() {
-        return imageData;
-    }
-
-    public void setImageData(byte[] imageData) {
-        this.imageData = imageData;
-    }
-
-    // Convert the byte array back to Bitmap
-    public Bitmap getBitmap() {
-        if (imageData != null) {
-            return BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-        }
-        return null;
-    }
-
-    // Convert the byte array to a circular Bitmap
-    public Bitmap getCircularBitmap() {
-        Bitmap bitmap = getBitmap();
-        if (bitmap == null) {
-            return null;
-        }
-        int size = Math.min(bitmap.getWidth(), bitmap.getHeight());
-        Bitmap output = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-
-        float radius = size / 2f;
-        BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-        paint.setShader(shader);
-        canvas.drawCircle(radius, radius, radius, paint);
-
-        return output;
-    }
-
-    // Helper method to save a bitmap to this ProfileImage instance
-    public void saveBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);  // Adjust format/compression as needed
-        this.imageData = outputStream.toByteArray();
-    }
-
- */
 }

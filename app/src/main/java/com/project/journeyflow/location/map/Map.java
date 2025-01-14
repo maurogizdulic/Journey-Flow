@@ -1,20 +1,31 @@
 package com.project.journeyflow.location.map;
 
-import android.graphics.Color;
+import static androidx.core.content.ContentProviderCompat.requireContext;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+
+import androidx.core.content.ContextCompat;
+
+import com.project.journeyflow.R;
 import com.project.journeyflow.database.GPSCoordinates;
 
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Map {
 
-    public static void showJourneyOnMap(MapView map, List<GPSCoordinates> gpsCoordinatesList){
+    public static void showJourneyOnMap(MapView map, List<GPSCoordinates> gpsCoordinatesList, Context context){
 
         List<GeoPoint> geoPointList = new ArrayList<>();
         for (GPSCoordinates coord : gpsCoordinatesList) {
@@ -32,6 +43,10 @@ public class Map {
         // Set center manually
         map.getController().setCenter(centerPoint);
 
+        addStartMarker(map, gpsCoordinatesList, context);
+
+        addEndMarker(map, gpsCoordinatesList, context);
+
         // Calculate approximate zoom level based on bounding box size
         double latSpan = boundingBox.getLatNorth() - boundingBox.getLatSouth();
         double lonSpan = boundingBox.getLonEast() - boundingBox.getLonWest();
@@ -47,5 +62,45 @@ public class Map {
         polyline.setWidth(5.0f); // Set line width
         map.getOverlayManager().add(polyline);
         map.invalidate();
+    }
+
+    private static void addStartMarker(MapView map, List<GPSCoordinates> gpsCoordinatesList, Context context) {
+        Marker marker = new Marker(map);
+        marker.setPosition(new GeoPoint(gpsCoordinatesList.get(0).getLatitude(), gpsCoordinatesList.get(0).getLongitude()));
+        marker.setTitle("Start");
+
+        // Set custom icon for the marker
+        Drawable icon = ContextCompat.getDrawable(context, R.drawable.start_icon);
+
+        Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
+
+        // Resize the bitmap to the desired size (e.g., 100x100 pixels)
+        int iconWidth = 30; // Desired width
+        int iconHeight = 30; // Desired height
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, iconWidth, iconHeight, false);
+
+        marker.setIcon(new BitmapDrawable(context.getResources(), resizedBitmap));
+
+        map.getOverlays().add(marker);
+    }
+
+    private static void addEndMarker(MapView map,  List<GPSCoordinates> gpsCoordinatesList, Context context) {
+        Marker marker = new Marker(map);
+        marker.setPosition(new GeoPoint(gpsCoordinatesList.get(gpsCoordinatesList.size()-1).getLatitude(), gpsCoordinatesList.get(gpsCoordinatesList.size()-1).getLongitude()));
+        marker.setTitle("Start");
+
+        // Set custom icon for the marker
+        Drawable icon = ContextCompat.getDrawable(context, R.drawable.stop_icon);
+
+        Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
+
+        // Resize the bitmap to the desired size (e.g., 100x100 pixels)
+        int iconWidth = 30; // Desired width
+        int iconHeight = 30; // Desired height
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, iconWidth, iconHeight, false);
+
+        marker.setIcon(new BitmapDrawable(context.getResources(), resizedBitmap));
+
+        map.getOverlays().add(marker);
     }
 }

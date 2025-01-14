@@ -16,6 +16,8 @@ public class TrackingData extends RealmObject {
     private long userID;
     private long durationInSeconds;
     private double totalDistance;
+    private boolean publicValue;
+    private String username;
 
     // Empty constructor
     public TrackingData() {}
@@ -98,5 +100,21 @@ public class TrackingData extends RealmObject {
 
     public void setTotalDistance(double totalDIstance) {
         this.totalDistance = totalDIstance;
+    }
+
+    public boolean getPublicValue() {
+        return publicValue;
+    }
+
+    public void setPublicValue(boolean publicValue) {
+        this.publicValue = publicValue;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

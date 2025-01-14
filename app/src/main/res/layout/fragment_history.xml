@@ -29,7 +29,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/textViewTitleHistory"
-        android:background="@drawable/shape_1"
+        android:background="@drawable/shape_2"
         android:visibility="gone"/>
 
     <TextView

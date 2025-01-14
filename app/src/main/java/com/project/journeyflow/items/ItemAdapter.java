@@ -118,6 +118,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         zoomLevel = (int) Math.max(map.getMinZoomLevel(), Math.min(zoomLevel, map.getMaxZoomLevel())); // Clamp to min/max zoom
 
         // Set zoom level manually
+        map.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK);
         map.getController().setZoom(zoomLevel);
         //map.setMultiTouchControls(true);
         map.setClickable(false);

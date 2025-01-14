@@ -7,7 +7,12 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.project.journeyflow.database.User;
+
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -71,5 +76,32 @@ public class Query {
             }
         }
         return null;
+    }
+
+    public boolean saveUserInRealm(long userID, String firstName, String lastName, String username, String gender, @NonNull String weight, String height, Date dateOfBirth, String email, String password) {
+        Realm realm = initializeRealm();
+        AtomicBoolean isSaved = new AtomicBoolean(false);
+
+        realm.executeTransactionAsync(realmTransaction -> {
+            User user = realm.createObject(User.class, userID);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setUsername(username);
+            user.setGender(gender);
+            user.setDateOfBirth(dateOfBirth);
+            user.setWeight(Double.parseDouble(weight));
+            user.setHeight(Double.parseDouble(height));
+            user.seteMail(email);
+            user.setPassword(password);
+            //realm.commitTransaction();
+            //realm.close();
+        }, () -> {
+            Log.d("Realm", "User saved successfully in Realm.");
+            isSaved.set(true);
+        }, error -> {
+            Log.e("Realm", "Error saving user in Realm", error);
+            isSaved.set(false);
+        });
+        return isSaved.get();
     }
 }
