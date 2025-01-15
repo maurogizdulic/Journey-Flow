@@ -89,4 +89,23 @@ public class SettingsQuery extends ProfileFragmentQuery {
             });
         }
     }
+
+    public void changeUsername(String newUsername) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        long userID = sharedPreferences.getLong("id", 123456789);
+
+        try (Realm realm = initializeRealm()) {
+            realm.executeTransaction(realm1 -> {
+                User user = realm1.where(User.class).equalTo("id", userID).findFirst();
+                if (user != null) {
+                    // Update the password
+                    user.setUsername(newUsername);
+                    // Password updated in the database
+                } else {
+                    // Handle user not found
+                    Log.d("User not found", "User not found");
+                }
+            });
+        }
+    }
 }

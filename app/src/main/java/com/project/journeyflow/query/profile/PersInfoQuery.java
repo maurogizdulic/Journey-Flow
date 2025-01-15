@@ -65,7 +65,7 @@ public class PersInfoQuery extends ProfileFragmentQuery {
         return fetchUserData();
     }
 
-    public void updatePersonalInformation(String firstName, String lastName, String username, String gender, String weight, String height, Date dateOfBirth) {
+    public void updatePersonalInformation(String firstName, String lastName, String gender, String weight, String height, Date dateOfBirth) {
         if (weight.length() > 3) {
             weight = weight.substring(0, weight.length() - 3);
         }
@@ -85,7 +85,6 @@ public class PersInfoQuery extends ProfileFragmentQuery {
             if(user != null) {
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
-                user.setUsername(username);
                 user.setGender(gender);
                 user.setWeight(Double.parseDouble(finalWeight));
                 user.setHeight(Double.parseDouble(finalHeight));

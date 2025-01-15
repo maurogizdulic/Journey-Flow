@@ -277,7 +277,10 @@ public class PersonalInformationActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    long userID = addDataToDB(textInputFirstName.getText().toString(), textInputLastName.getText().toString(), textInputUsername.getText().toString(), selectedGender, weightSpinner.getSelectedItem().toString(), heightSpinner.getSelectedItem().toString(), birthDate, email, password);
+                    Random random = new Random();
+                    int randomNumber = 1000 + random.nextInt(9000);
+
+                    long userID = addDataToDB(textInputFirstName.getText().toString(), textInputLastName.getText().toString(), textInputUsername.getText().toString() + "-" + randomNumber, selectedGender, weightSpinner.getSelectedItem().toString(), heightSpinner.getSelectedItem().toString(), birthDate, email, password);
 
                     SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -288,7 +291,7 @@ public class PersonalInformationActivity extends AppCompatActivity {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                     Map<String, Object> user = new HashMap<>();
-                    user.put("username", textInputUsername.getText().toString());
+                    user.put("username", textInputUsername.getText().toString()+ "-" + randomNumber);
 
                     db.collection("user").document(String.valueOf(userID))
                             .set(user)

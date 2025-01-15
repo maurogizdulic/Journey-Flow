@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,6 +33,8 @@ import io.realm.RealmList;
 public class PublicListFragment extends Fragment {
 
     private ItemAdapterPublic adapter;
+    private FloatingActionButton fabFilterPublic;
+    private TextView textViewMessage;
 
     @Nullable
     @Override
@@ -38,15 +42,18 @@ public class PublicListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_public_list, container, false);
 
+        fabFilterPublic = view.findViewById(R.id.fabPublicFilter);
+        textViewMessage = view.findViewById(R.id.textViewPublicMessage);
+
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewPublic);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        showPublicJourneys(recyclerView);
+        showPublicJourneys(recyclerView, fabFilterPublic);
 
         return view;
     }
 
-    public void showPublicJourneys(RecyclerView recyclerView) {
+    public void showPublicJourneys(RecyclerView recyclerView, FloatingActionButton fabFilterPublic) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("journeys").get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -139,6 +146,19 @@ public class PublicListFragment extends Fragment {
 
             adapter = new ItemAdapterPublic(trackingDataList, getParentFragmentManager());
             recyclerView.setAdapter(adapter);
+
+            if (adapter.getItemCount() == 0) {
+                fabFilterPublic.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+
+                textViewMessage.setVisibility(View.VISIBLE);
+            }
+            else {
+                fabFilterPublic.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+
+                textViewMessage.setVisibility(View.GONE);
+            }
         }).addOnFailureListener(e -> {
             Toast.makeText(getContext(), "Failed to fetch public journeys", Toast.LENGTH_LONG).show();
         });

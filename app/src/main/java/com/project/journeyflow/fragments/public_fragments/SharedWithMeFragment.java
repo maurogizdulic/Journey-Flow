@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,12 +33,15 @@ import io.realm.RealmList;
 public class SharedWithMeFragment extends Fragment {
 
     private ItemAdapterPublic adapter;
+    private TextView textViewMessage;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shared_with_me, container, false);
+
+        textViewMessage = view.findViewById(R.id.textViewSharedWithMeMessage);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewSharedWithMe);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -152,6 +156,19 @@ public class SharedWithMeFragment extends Fragment {
 
             adapter = new ItemAdapterPublic(trackingDataList, getParentFragmentManager());
             recyclerView.setAdapter(adapter);
+
+            if (adapter.getItemCount() == 0) {
+
+                recyclerView.setVisibility(View.GONE);
+
+                textViewMessage.setVisibility(View.VISIBLE);
+            }
+            else {
+
+                recyclerView.setVisibility(View.VISIBLE);
+
+                textViewMessage.setVisibility(View.GONE);
+            }
         }).addOnFailureListener(e -> {
             Toast.makeText(getContext(), "Failed to fetch public journeys", Toast.LENGTH_LONG).show();
         });

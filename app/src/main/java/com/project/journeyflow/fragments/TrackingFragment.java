@@ -84,6 +84,8 @@ public class TrackingFragment extends Fragment {
         textViewSpeed = view.findViewById(R.id.textViewSpeed);
         textViewTrackingTitle = view.findViewById(R.id.textViewJourney);
 
+        currentLocation = new GeoPoint(45.328979, 14.457664);
+
         // Initialize MapView
         map = view.findViewById(R.id.osmMapView);
         map.setTileSource(TileSourceFactory.MAPNIK);
@@ -92,6 +94,8 @@ public class TrackingFragment extends Fragment {
         map.setUseDataConnection(true);
         map.setVerticalMapRepetitionEnabled(false);
         map.setHorizontalMapRepetitionEnabled(false);
+        map.getController().animateTo(currentLocation);
+        map.setZoomLevel(10);
 
         // Setup Location Overlay
         myLocationNewOverlay = new MyLocationNewOverlay(map);
@@ -281,7 +285,7 @@ public class TrackingFragment extends Fragment {
         // Setup location overlay
         myLocationNewOverlay.enableMyLocation();
         map.getOverlays().add(myLocationNewOverlay);
-        map.getController().setZoom(19.0);
+        //map.getController().setZoom(10.0);
 
         //startGPSListening();
         Log.d("TRACKING", "onResume CALLED");
@@ -357,6 +361,7 @@ public class TrackingFragment extends Fragment {
             public void onLocationChanged(@NonNull Location location) {
                 currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
                 map.getController().animateTo(currentLocation);
+                map.getController().setZoom(19.0);
                 myLocationNewOverlay.enableFollowLocation();
             }
 

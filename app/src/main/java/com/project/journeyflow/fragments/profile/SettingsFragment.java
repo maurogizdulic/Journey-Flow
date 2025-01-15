@@ -24,8 +24,14 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.WriteBatch;
 import com.project.journeyflow.R;
 import com.project.journeyflow.query.LogInSignUpQuery;
 import com.project.journeyflow.query.ProfileFragmentQuery;
@@ -33,11 +39,14 @@ import com.project.journeyflow.query.profile.SettingsQuery;
 import com.project.journeyflow.input_validation.InputCorrectness;
 import com.project.journeyflow.signup.NavigationActivity;
 
+import java.util.List;
+
 public class SettingsFragment extends Fragment {
 
     private TextView textViewName, textViewUsername;
     private ImageView imageViewProfile;
     private ConstraintLayout constraintLayoutChangePassword, constraintLayoutChangeEmail, constraintLayoutLogOut, constraintLayoutDeleteAcc;
+    private FloatingActionButton fabChangeUsername;
 
     @Nullable
     @Override
@@ -50,6 +59,8 @@ public class SettingsFragment extends Fragment {
         initializeViews(view);
 
         buttonClicks(query, logInSignUpQuery);
+
+        //changeUsername(query, fabChangeUsername);
 
         return view;
     }
@@ -71,6 +82,7 @@ public class SettingsFragment extends Fragment {
         imageViewProfile = view.findViewById(R.id.imageViewProfileFragment);
         textViewName = view.findViewById(R.id.textViewProfileName);
         textViewUsername = view.findViewById(R.id.textViewProfileUsername);
+        fabChangeUsername = view.findViewById(R.id.fabChangeUsername);
     }
 
     private void buttonClicks(SettingsQuery query, LogInSignUpQuery logInSignUpQuery) {
@@ -89,6 +101,16 @@ public class SettingsFragment extends Fragment {
 
         constraintLayoutDeleteAcc.setOnClickListener(view -> {
             showDialogForDeleteAcc(query);
+        });
+
+
+        fabChangeUsername.setOnClickListener(view -> {
+            if (!isInternetAvailable(requireActivity())) {
+                dialogInternetConnection(requireActivity(), "No Internet Connection", "Username is public. You need to turn on the internet to update username. Please connect to the internet to continue.");
+            }
+            else {
+                showDialogForChangeUsername(query, logInSignUpQuery);
+            }
         });
     }
 
@@ -317,6 +339,105 @@ public class SettingsFragment extends Fragment {
         // Show the dialog
         dialog.show();
     }
+
+    private void showDialogForChangeUsername(SettingsQuery query, LogInSignUpQuery query2) {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_change_username, null);
+
+        // Find the EditTexts and Button in the custom layout
+        EditText editTextCurrentPassword = dialogView.findViewById(R.id.editTextCurrentPasswordUsername);
+        EditText editTextNewUsername = dialogView.findViewById(R.id.editTextNewUsername);
+        Button buttonChangeUsername = dialogView.findViewById(R.id.buttonChangeUsername);
+
+        // Build the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        buttonChangeUsername.setOnClickListener(view -> {
+
+            if (!isInternetAvailable(requireActivity())) {
+                dialogInternetConnection(requireActivity(), "No Internet Connection", "Username is public. You need to turn on the internet to update username. Please connect to the internet to continue.");
+            }
+            else {
+
+                if (query2.currentPasswordExists(editTextCurrentPassword.getText().toString())){
+                    if (editTextNewUsername.getText().toString().trim().isEmpty()) {
+                        editTextNewUsername.setError("Email is required!");
+                    }
+                    else {
+                        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("AppPreferences", MODE_PRIVATE);
+                        long userID = sharedPreferences.getLong("id", 123456789);
+
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        DocumentReference docRef = db.collection("user").document(String.valueOf(userID));
+
+                        docRef.get().addOnSuccessListener(documentSnapshot -> {
+                            String oldUsername = documentSnapshot.getString("username");
+
+                            docRef.update("username", editTextNewUsername.getText().toString())
+                                    .addOnSuccessListener(aVoid -> {
+                                        Log.d("Firebase", "Username updated successfully");
+                                        CollectionReference journeysCollection = db.collection("journeys");
+
+                                        journeysCollection.get()
+                                                .addOnCompleteListener(task -> {
+                                                    if (task.isSuccessful()) {
+                                                        WriteBatch batch = db.batch(); // Use batch for efficient updates
+
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            // Update ownerUsername
+                                                            if (document.getString("ownerUsername").equals(oldUsername)) {
+                                                                batch.update(document.getReference(), "ownerUsername", editTextNewUsername.getText().toString());
+                                                            }
+
+                                                            // Update sharedTo list (replace targetValue with newUsername)
+                                                            List<String> sharedToList = (List<String>) document.get("sharedTo");
+                                                            if (sharedToList != null && sharedToList.contains(oldUsername)) {
+                                                                sharedToList.replaceAll(item -> item.equals(oldUsername) ? editTextNewUsername.getText().toString() : item);
+                                                                batch.update(document.getReference(), "sharedTo", sharedToList);
+                                                            }
+                                                        }
+
+                                                        // Commit the batch
+                                                        batch.commit().addOnSuccessListener(bVoid -> {
+                                                            Log.d("Firebase", "All updates successful");
+                                                            Toast.makeText(requireActivity(), "All updates successful", Toast.LENGTH_LONG).show();
+                                                            dialog.dismiss();
+                                                        }).addOnFailureListener(e -> {
+                                                            Log.e("Firebase", "Batch update failed: " + e.getMessage());
+                                                            Toast.makeText(requireActivity(), "Error with update in Firebase", Toast.LENGTH_LONG).show();
+                                                            dialog.dismiss();
+                                                        });
+                                                    } else {
+                                                        Log.e("Firebase", "Error querying documents: " + task.getException().getMessage());
+                                                        Toast.makeText(requireActivity(), "Error with update in Firebase", Toast.LENGTH_LONG).show();
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.e("Firebase", "Failed to update username: " + e.getMessage());
+                                        Toast.makeText(requireActivity(), "Error with update in Firebase", Toast.LENGTH_LONG).show();
+                                        dialog.dismiss();
+                                    });
+
+                        });
+
+                        query.changeUsername(editTextNewUsername.getText().toString());
+                    }
+                }
+                else {
+                    editTextCurrentPassword.setText("");
+                    Toast.makeText(getActivity(), "Incorrect current password!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        dialog.show();
+    }
+
 
     private void dialogInternetConnection(Context context, String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

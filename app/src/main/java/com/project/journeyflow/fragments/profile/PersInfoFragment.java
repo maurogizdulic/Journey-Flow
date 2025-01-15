@@ -1,13 +1,11 @@
 package com.project.journeyflow.fragments.profile;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.MODE_PRIVATE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -150,7 +148,11 @@ public class PersInfoFragment extends Fragment {
 
     private void setUsername(TextInputEditText textInputUsername, String value){
         textInputUsername.setText(value);
+        textInputUsername.setFocusable(false);
+        textInputUsername.setClickable(false);
     }
+
+
 
     private void showProfilePic(ImageButton profileImageButton, PersInfoQuery query) {
         query.displayProfilePicture(profileImageButton);
@@ -285,11 +287,13 @@ public class PersInfoFragment extends Fragment {
                 textInputLastName.setError("Last name is required!");
                 correctData = false;
             }
-
+/*
             if(textInputUsername.getText().toString().isEmpty()){
                 textInputUsername.setError("Username is required!");
                 correctData = false;
             }
+
+ */
 
             if(textInputFirstName.getText().toString().length() <= 1){
                 textInputFirstName.setError("First name must be min length 2!");
@@ -332,7 +336,7 @@ public class PersInfoFragment extends Fragment {
             }
 
             if (correctData){
-                query.updatePersonalInformation(textInputFirstName.getText().toString(), textInputLastName.getText().toString(), textInputUsername.getText().toString(), selectedGender, weightSpinner.getSelectedItem().toString(), heightSpinner.getSelectedItem().toString(), birthDate);
+                query.updatePersonalInformation(textInputFirstName.getText().toString(), textInputLastName.getText().toString(), selectedGender, weightSpinner.getSelectedItem().toString(), heightSpinner.getSelectedItem().toString(), birthDate);
 
                 Toast.makeText(requireActivity(), "Profile successfully updated!", Toast.LENGTH_SHORT).show();
                 ProfileFragment profileFragment = new ProfileFragment();

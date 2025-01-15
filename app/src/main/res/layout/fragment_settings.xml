@@ -236,4 +236,17 @@
 
     </LinearLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabChangeUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/people"
+        android:backgroundTint="@color/dark_green"
+        android:tint="@color/green"
+        />
+
 </RelativeLayout>
