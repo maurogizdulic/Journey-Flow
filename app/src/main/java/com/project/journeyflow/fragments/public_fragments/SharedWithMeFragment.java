@@ -136,8 +136,10 @@ public class SharedWithMeFragment extends Fragment {
                     }
 
                     trackingData.setUserID((Long) document.get("ownerId"));
+                    trackingData.setUsername(document.getString("ownerUsername"));
                     trackingData.setDurationInSeconds((Long) document.get("durationInSeconds"));
                     trackingData.setTotalDistance((Double) document.get("totalDistance"));
+
 
                     List<Double> longitude = (List<Double>) document.get("gpsCoordinatesLongitude");
                     List<Double> latitude = (List<Double>) document.get("gpsCoordinatesLatitude");
