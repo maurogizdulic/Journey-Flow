@@ -67,9 +67,16 @@ public class ItemDetailQuery extends ProfileFragmentQuery {
 
     public boolean isOwner(TrackingData trackingData) {
         User user = fetchUserData();
-        long userID = trackingData.getUserID();
 
-        return user.getId() == userID;
+
+        if (trackingData == null) {
+            return false;
+        }
+        else {
+            long userID = trackingData.getUserID();
+            return user.getId() == userID;
+        }
+
     }
 
     public void setAsPublic(TrackingData trackingData) {
