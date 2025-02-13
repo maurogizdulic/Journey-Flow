@@ -110,9 +110,6 @@ public class StatisticsFragment extends Fragment {
     // Helper method to generate bar entries for each chart
     private List<BarEntry> createBarEntries(float[] values) {
 
-        //statisticsQuery = new StatisticsQuery(requireContext());
-        //User user = statisticsQuery.getUserData();
-
         List<BarEntry> entries = new ArrayList<>();
         for (int i = 0; i < values.length; i++) {
             entries.add(new BarEntry(i, values[i]));

@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
         LocationViewModel locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
         locationBroadcastReceiver = new LocationBroadcastReceiver(locationViewModel);
 
-        //locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
-
         // Check signup status
         SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
         boolean isSignedUp = sharedPreferences.getBoolean("isSignedUp", false);

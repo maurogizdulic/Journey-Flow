@@ -28,7 +28,6 @@ public class Chart {
         }
 
         LineDataSet dataSet = new LineDataSet(entries, "Distance in km");
-        //dataSet.setColor(Color.BLUE);
         dataSet.setValueTextColor(Color.BLACK);
 
         LineData lineData = new LineData(dataSet);
@@ -110,7 +109,6 @@ public class Chart {
         chart.setData(lineData);
 
         chart.getXAxis().setTextSize(12f); // Adjust text size
-        //chart.getXAxis().setValueFormatter(new DateFormatter(yAxisList));
         chart.getXAxis().setLabelRotationAngle(-45);
         chart.getXAxis().setGranularity(1f); // Ensure one label per point
         chart.getXAxis().setGranularityEnabled(true);

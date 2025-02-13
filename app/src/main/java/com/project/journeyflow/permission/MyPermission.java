@@ -38,17 +38,4 @@ public class MyPermission {
             return true;
         }
     }
-
-    public void checkWriteExternalStoragePermission() {
-        if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted, request it
-            ActivityCompat.requestPermissions((Activity) context,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE);
-        } else {
-            // Permission is already granted, proceed to get the location
-
-        }
-    }
 }

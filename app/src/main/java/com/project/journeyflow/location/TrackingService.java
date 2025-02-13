@@ -79,7 +79,6 @@ public class TrackingService extends Service {
         dateList = new ArrayList<>();
 
         createLocationCallback();
-        //startForeground(NOTIFICATION_ID, createNotification());
 
         // CREATING NOTIFICATION
         NotificationChannel channel = new NotificationChannel(
@@ -118,7 +117,6 @@ public class TrackingService extends Service {
                         accuracyList.add(location.getAccuracy());
                         dateList.add(new Date());
                         Log.d("MEASURED NEW DATE LIST", String.valueOf(dateList));
-                        //Log.d("POINT LIST VALUES", String.valueOf(trackingData.getPointList().size()));
                         // Here send to Tracking fragment
                         broadcastLocation(geoPointList, altitudeList, speedList, accuracyList, traveledDistance, traveledDistanceList);
                     }
@@ -231,14 +229,6 @@ public class TrackingService extends Service {
         float[] result = new float[1];
         Location.distanceBetween(start.getLatitude(), start.getLongitude(), end.getLatitude(), end.getLongitude(), result);
 
-        // If calculated distance is less than 6m then it is considered a GPS error and return 0m
-       /* if (result[0] <= 0.5) {
-            Log.d("MEASURED DISTANCE", "LESS THAN 2m");
-            return 0;
-        }
-        else {
-            return result[0];
-        }*/
         return result[0];
     }
 

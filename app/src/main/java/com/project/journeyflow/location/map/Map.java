@@ -1,7 +1,5 @@
 package com.project.journeyflow.location.map;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -21,7 +19,6 @@ import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Map {
 

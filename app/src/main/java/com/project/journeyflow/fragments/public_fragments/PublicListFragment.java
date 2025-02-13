@@ -325,10 +325,6 @@ public class PublicListFragment extends Fragment {
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 db.collection("journeys")
-                        //.whereGreaterThanOrEqualTo("totalDistance", minDistance)
-                        //.whereLessThanOrEqualTo("totalDistance", maxDistance)
-                        //.whereGreaterThanOrEqualTo("durationInSeconds", minDuration)
-                        //.whereLessThanOrEqualTo("durationInSeconds", maxDuration)
                         .get()
                         .addOnSuccessListener(queryDocumentSnapshots -> {
                             if (queryDocumentSnapshots != null) {

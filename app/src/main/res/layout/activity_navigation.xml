@@ -7,19 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/green_background"
     tools:context=".signup.NavigationActivity">
-<!--
-    <Button
-        android:id="@+id/skipButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SKIP INTRODUCTION"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:cornerRadius = "15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/slideViewPager"/> -->
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/slideViewPager"
         android:layout_width="match_parent"

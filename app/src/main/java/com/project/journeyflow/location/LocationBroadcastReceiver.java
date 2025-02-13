@@ -11,7 +11,11 @@ import java.util.List;
 
 public class LocationBroadcastReceiver extends BroadcastReceiver {
 
-    private final LocationViewModel locationViewModel;
+    private LocationViewModel locationViewModel;
+
+    // Prazan konstruktor potreban za refleksiju
+    public LocationBroadcastReceiver() {
+    }
 
     public LocationBroadcastReceiver(LocationViewModel viewModel) {
         this.locationViewModel = viewModel;

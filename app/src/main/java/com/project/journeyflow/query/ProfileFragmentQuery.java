@@ -53,11 +53,6 @@ public class ProfileFragmentQuery extends Query{
                         Toast.makeText(context, "Image resize problem", Toast.LENGTH_LONG).show();
                     }
 
-                    /*
-                    Bitmap bitmap = BitmapFactory.decodeFile(profileImage.getAbsolutePath());
-                    imageView.setImageBitmap(bitmap);
-
-                     */
                 } else {
                     // Handle case where the image does not exist
                     Log.e("FileCheck", "File does not exist: " + profileImage.getAbsolutePath());

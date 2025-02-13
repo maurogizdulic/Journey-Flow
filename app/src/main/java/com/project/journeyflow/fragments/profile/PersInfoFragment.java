@@ -41,12 +41,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.project.journeyflow.MainActivity;
 import com.project.journeyflow.R;
 import com.project.journeyflow.database.User;
 import com.project.journeyflow.fragments.ProfileFragment;
 import com.project.journeyflow.query.profile.PersInfoQuery;
-import com.project.journeyflow.signup.PersonalInformationActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -287,13 +285,6 @@ public class PersInfoFragment extends Fragment {
                 textInputLastName.setError("Last name is required!");
                 correctData = false;
             }
-/*
-            if(textInputUsername.getText().toString().isEmpty()){
-                textInputUsername.setError("Username is required!");
-                correctData = false;
-            }
-
- */
 
             if(textInputFirstName.getText().toString().length() <= 1){
                 textInputFirstName.setError("First name must be min length 2!");

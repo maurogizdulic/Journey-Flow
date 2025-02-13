@@ -56,7 +56,6 @@ public class SharedWithMeFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("journeys").get().addOnSuccessListener(queryDocumentSnapshots -> {
-            //List<TrackingData> trackingDataList = new ArrayList<>();
             RealmList<TrackingData> trackingDataList = new RealmList<>();
 
             for (DocumentSnapshot document : queryDocumentSnapshots) {

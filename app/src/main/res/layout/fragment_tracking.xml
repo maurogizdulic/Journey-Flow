@@ -20,17 +20,7 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/navigation_icon"
         />
-<!--
-    <Button
-        android:id="@+id/buttonMapSettings"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="right | bottom"
-        android:layout_marginBottom="310dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/settings_icon"
-        />
--->
+
     <FrameLayout
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"

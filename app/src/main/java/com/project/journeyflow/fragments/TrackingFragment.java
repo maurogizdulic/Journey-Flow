@@ -170,55 +170,9 @@ public class TrackingFragment extends Fragment {
             }
         });
 
-        /*
-        buttonMapSettings.setOnClickListener(view1 -> {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-
-            // Inflate custom layout if you have one
-            LayoutInflater dialogInflater = getLayoutInflater();
-            View dialogView = dialogInflater.inflate(R.layout.dialog_map_settings, null);
-
-
-         */
-            /*
-            MaterialSwitch switchZoomButtons = dialogView.findViewById(R.id.switch1);
-            MaterialSwitch switch2 = dialogView.findViewById(R.id.switch2);
-            MaterialSwitch switch3 = dialogView.findViewById(R.id.switch3);
-            MaterialSwitch switchMultiTouchControls = dialogView.findViewById(R.id.switch4);
-
-             */
-
-        /*
-            builder.setView(dialogView)
-                    .setTitle("Choose Options")
-                    .setPositiveButton("Update", (dialog, which) -> {
-                        // Handle OK click
-
-                    })
-                    .setNegativeButton("Cancel", null);
-
-            // Create the dialog
-            AlertDialog dialog = builder.create();
-
-            // Apply the custom background with rounded corners
-            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.dialog_background);
-
-            // Show the dialog
-            dialog.show();
-        });
-
-         */
-
         buttonCurrentLocation.setOnClickListener(view1 -> {
             if (gps.isProviderEnabled()){
                 map.getController().animateTo(currentLocation);
-                /*
-                myLocationNewOverlay.enableMyLocation();
-                map.getOverlays().add(myLocationNewOverlay);
-                map.getController().setZoom(19.0);
-
-                 */
             }
             else {
                 Toast.makeText(getActivity(), "GPS doesn't find current location! Check if you have turned on the location in the settings!", Toast.LENGTH_LONG).show();
@@ -285,9 +239,7 @@ public class TrackingFragment extends Fragment {
         // Setup location overlay
         myLocationNewOverlay.enableMyLocation();
         map.getOverlays().add(myLocationNewOverlay);
-        //map.getController().setZoom(10.0);
 
-        //startGPSListening();
         Log.d("TRACKING", "onResume CALLED");
     }
 
@@ -343,17 +295,6 @@ public class TrackingFragment extends Fragment {
     }
 
     private void startGPSListening(){
-        // Check for location permissions
-        /*
-        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            return;
-        }
-
-         */
 
         // Start listening for GPS updates using the GPS class
         gps.startListening(new LocationListener() {

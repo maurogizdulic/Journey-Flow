@@ -24,7 +24,6 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -59,8 +58,6 @@ public class SettingsFragment extends Fragment {
         initializeViews(view);
 
         buttonClicks(query, logInSignUpQuery);
-
-        //changeUsername(query, fabChangeUsername);
 
         return view;
     }
